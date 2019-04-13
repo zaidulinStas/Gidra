@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{49F3EF53-5534-4D59-ACF3-D2C50D83CCE8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GidraSIM.Core.Model</RootNamespace>
+    <AssemblyName>GidraSIM.Core.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accident.cs" />
+    <Compile Include="AccidentsCollector.cs" />
+    <Compile Include="EnumExtension.cs" />
+    <Compile Include="HierarchyId.cs" />
+    <Compile Include="IAccidentsCollector.cs" />
+    <Compile Include="Procedures\AndBlock.cs" />
+    <Compile Include="Procedures\AbstractBlock.cs" />
+    <Compile Include="Procedures\Assembling.cs" />
+    <Compile Include="ConnectionManager.cs" />
+    <Compile Include="IBlock.cs" />
+    <Compile Include="IConnectionManager.cs" />
+    <Compile Include="IProcedure.cs" />
+    <Compile Include="IResource.cs" />
+    <Compile Include="ITokensCollector.cs" />
+    <Compile Include="ModelingTime.cs" />
+    <Compile Include="Procedures\ArrangementProcedure.cs" />
+    <Compile Include="Procedures\ClientCoordinationPrrocedure.cs" />
+    <Compile Include="Procedures\DocumentationCoordinationProcedure.cs" />
+    <Compile Include="Procedures\DuplicateOutputsBlock.cs" />
+    <Compile Include="Procedures\ElectricalSchemeSimulation.cs" />
+    <Compile Include="Procedures\FixedTimeBlock.cs" />
+    <Compile Include="Procedures\FormingDocumentationProcedure.cs" />
+    <Compile Include="Procedures\Geometry2D.cs" />
+    <Compile Include="Procedures\KDT.cs" />
+    <Compile Include="Procedures\KinematicСalculations.cs" />
+    <Compile Include="Procedures\PaperworkProcedure.cs" />
+    <Compile Include="Procedures\AbstractProcedure.cs" />
+    <Compile Include="Procedures\QualityCheckProcedure.cs" />
+    <Compile Include="Procedures\SampleTestingProcedure.cs" />
+    <Compile Include="Procedures\SchemaCreationProcedure.cs" />
+    <Compile Include="Procedures\StrengthСalculations.cs" />
+    <Compile Include="Procedures\TracingProcedure.cs" />
+    <Compile Include="Process.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\CadResource.cs" />
+    <Compile Include="Resources\CPU.cs" />
+    <Compile Include="Resources\GPU.cs" />
+    <Compile Include="Resources\InformationSupport.cs" />
+    <Compile Include="Resources\InputDevices.cs" />
+    <Compile Include="Resources\MethodolgicalSupportResource.cs" />
+    <Compile Include="Resources\AbstractResource.cs" />
+    <Compile Include="Resources\Monitor.cs" />
+    <Compile Include="Resources\Printer.cs" />
+    <Compile Include="Resources\Qualification.cs" />
+    <Compile Include="Resources\Ram.cs" />
+    <Compile Include="Resources\Software.cs" />
+    <Compile Include="Resources\StorageDevice.cs" />
+    <Compile Include="Resources\TechincalSupportResource.cs" />
+    <Compile Include="Resources\TechnicalSupport.cs" />
+    <Compile Include="Resources\Worker.cs" />
+    <Compile Include="Resources\WorkerResource.cs" />
+    <Compile Include="ThePrice.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="TokensCollector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
