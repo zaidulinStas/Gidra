@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace GidraSIM.Core.Model
 {
-    public class HierarchyId
+    /// <summary>
+    /// Интерфейс процедуры
+    /// </summary>
+    interface IProcedure
     {
-        //TODO:
     }
 }
