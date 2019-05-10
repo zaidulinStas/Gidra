@@ -9,7 +9,14 @@ namespace GidraSIM.Core.Model
     /// <summary>
     /// Интерфейс процедуры
     /// </summary>
-    interface IProcedure
+    public interface IProcedure
     {
+        string Name { get; }
+
+        IList<Connection> Inputs { get; }
+
+        IList<Connection> Outputs { get; }
+
+        void Update(double curTime);
     }
 }
