@@ -59,7 +59,7 @@
     <Compile Include="FormingDocumentationProcedureTests.cs" />
     <Compile Include="DocumentationCoordinationProcedureTests.cs" />
     <Compile Include="ClientCoordinationPrrocedureTests.cs" />
-    <Compile Include="AndBlockTests.cs" />
+    <Compile Include="ProcedureTests.cs" />
     <Compile Include="DuplicateOutputsBlockTests.cs" />
     <Compile Include="ProcessTests.cs" />
     <Compile Include="SampleTestingProcedureTests.cs" />

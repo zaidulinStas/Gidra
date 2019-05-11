@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseProcedure.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="IProcedure.cs" />
     <Compile Include="Procedure.cs" />
+    <Compile Include="Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Token.cs" />
