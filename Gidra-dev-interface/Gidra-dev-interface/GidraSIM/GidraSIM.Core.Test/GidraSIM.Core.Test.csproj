@@ -51,21 +51,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompareTest\ProcedureCompareTest.cs" />
-    <Compile Include="CompareTest\ResourceCompareTest.cs" />
-    <Compile Include="ElectricalSchemeSimulationTest.cs" />
-    <Compile Include="PaperworkProcedureTest.cs" />
-    <Compile Include="ArrangementProcedureTests.cs" />
-    <Compile Include="FormingDocumentationProcedureTests.cs" />
-    <Compile Include="DocumentationCoordinationProcedureTests.cs" />
-    <Compile Include="ClientCoordinationPrrocedureTests.cs" />
     <Compile Include="ProcedureTests.cs" />
-    <Compile Include="DuplicateOutputsBlockTests.cs" />
-    <Compile Include="ProcessTests.cs" />
-    <Compile Include="SampleTestingProcedureTests.cs" />
-    <Compile Include="TracingProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchemaCreationProcedureTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -76,9 +63,7 @@
       <Name>GidraSIM.Core.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Procedures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -14,7 +14,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Очередь токенов
         /// </summary>
-        public Queue<Token> Tokens { get; set; }
+        public Queue<Token> Tokens { get; } = new Queue<Token>();
 
         /// <summary>
         /// Начало соединения

@@ -100,7 +100,7 @@ namespace GidraSIM.Core.Model
 
             foreach (var input in Inputs)
             {
-                input.Tokens.Peek();
+                input.Tokens.Dequeue();
             }
 
             foreach (var output in Outputs)

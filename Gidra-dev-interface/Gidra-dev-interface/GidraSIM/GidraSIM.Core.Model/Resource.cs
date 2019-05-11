@@ -14,12 +14,12 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Название ресурса
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Параметры ресурса
         /// </summary>
-        public Dictionary<string, double> Parameters { get; } = new Dictionary<string, double>();
+        public Dictionary<string, double> Parameters { get; set; } = new Dictionary<string, double>();
 
         /// <summary>
         /// Максимальное число одновременного использования ресурса
@@ -29,7 +29,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Текущее количество использований ресурса
         /// </summary>
-        public int CurUsageCount { get; set; }
+        public int CurUsageCount { get; private set; }
 
         /// <summary>
         /// Свободен ли ресурс?

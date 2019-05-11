@@ -14,7 +14,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Список процедур
         /// </summary>
-        public IList<IProcedure> Procedures { get; } = new List<IProcedure>();
+        public IList<IProcedure> Procedures { get; set; } = new List<IProcedure>();
 
         /// <summary>
         /// Начальная процедура
@@ -62,7 +62,7 @@ namespace GidraSIM.Core.Model
         {
             foreach (var output in EndProcedure.Outputs)
             {
-                output.Tokens.Peek();
+                output.Tokens.Dequeue();
             }
 
             return true;
