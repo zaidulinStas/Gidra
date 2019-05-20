@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GidraSIM.Core.Model", "GidraSIM.Core.Model\GidraSIM.Core.Model.csproj", "{49F3EF53-5534-4D59-ACF3-D2C50D83CCE8}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GidraSIM.DataLayer.MSSQL", "GidraSIM.DataLayer.MSSQL\GidraSIM.DataLayer.MSSQL.csproj", "{5F345990-2F35-45EA-B531-938ED93E4C01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GidraSim.BaseRedactor", "GidraSim.BaseRedactor\GidraSim.BaseRedactor.csproj", "{FB91C2D2-D751-4266-BD16-A959704A8D4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GidraSIM.NewDataBase", "GidraSIM.NewDataBase\GidraSIM.NewDataBase.csproj", "{E80F6EEB-CF08-4677-823F-5BCE901E7905}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,14 @@ Global
 		{FB91C2D2-D751-4266-BD16-A959704A8D4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB91C2D2-D751-4266-BD16-A959704A8D4B}.Release|x86.ActiveCfg = Release|Any CPU
 		{FB91C2D2-D751-4266-BD16-A959704A8D4B}.Release|x86.Build.0 = Release|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Debug|x86.Build.0 = Debug|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Release|x86.ActiveCfg = Release|Any CPU
+		{E80F6EEB-CF08-4677-823F-5BCE901E7905}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
