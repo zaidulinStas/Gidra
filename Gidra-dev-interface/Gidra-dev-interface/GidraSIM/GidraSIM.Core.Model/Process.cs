@@ -1,173 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GidraSIM.Core.Model
 {
     /// <summary>
-    /// блок, имеющию внутри другие блоки
+    /// Класс процесса
     /// </summary>
-    [DataContract(IsReference =true)]
-    public class Process: AbstractBlock
-    {        
-        [DataMember(EmitDefaultValue = false)]
-        public IConnectionManager Connections
-        {
-            get;
-            /*protected*/ set;
-        }
-
-        public ITokensCollector Collector
-        {
-            get => collector;
-        }
-
-        [DataMember(EmitDefaultValue = false)]
-        public IBlock StartBlock
-        {
-            get;
-            set;
-        }
-
-        [DataMember(EmitDefaultValue = false)]
-        public IBlock EndBlock
-        {
-            get;
-            set;
-        }
-
-        public Process():base(1,1)
-        {
-            Blocks = new List<IBlock>();
-            Connections = new ConnectionManager();
-            Resources = new List<IResource>();
-        }
-
-        [DataMember(EmitDefaultValue = false)]
-        public List<IBlock> Blocks
-        {
-            get;
-            protected set;
-        }
-
-        [DataMember(EmitDefaultValue = false)]
-        public List<IResource> Resources
-        {
-            get;
-            protected set;
-        }
+    public class Process : BaseProcedure
+    {
+        /// <summary>
+        /// Список процедур
+        /// </summary>
+        public IList<IProcedure> Procedures { get; set; } = new List<IProcedure>();
 
         /// <summary>
-        /// индикатор токена на 0 выходе последнего блока
+        /// Начальная процедура
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public bool EndBlockHasOutputToken
-        {
-            get;
-            /*private*/ set;
-        }
+        public IProcedure StartProcedure { get; set; }
 
         /// <summary>
-        /// осуществляет обработку и пееремещеник блоков внутри себя
+        /// Конечная процедура
         /// </summary>
-        /// <param name="globalTime"></param>
-        public override void Update(ModelingTime modelingTime)
-        {
-            //костыль для работы блоков параллельности и и
-            if (modelingTime.Now != 0)
-            {
-                //апдейт блоков пост-фактум
-                for (int i = 0; i < Blocks.Count; i++)
-                {
-                    Blocks[i].ClearOutputs();
-                }
-            }
+        public IProcedure EndProcedure { get; set; }
 
-
-            EndBlockHasOutputToken = false;
-            //апдейт блоков
-            for (int i = 0; i < Blocks.Count; i++)
-            {
-                Blocks[i].Update(modelingTime);
-            }
-            //перемещение токенов
-            Connections.MoveTokens();
-
-            if(EndBlock.GetOutputToken(0) != null)
-            {
-                EndBlockHasOutputToken = true;
-            }     
-        }
 
         /// <summary>
-        /// очистить всё содержимое процесса
+        /// Функция, вызывающаяся при начале моделирования 
         /// </summary>
-        public void ClearProcess()
+        protected override bool OnStartModeling()
         {
-            //по идее на обычные блоки нельзя ссылаться из других процессов, поэтому чистим и соединения ресурсов
-            foreach(var block in Blocks)
+            var newToken = new Token();
+
+            foreach (var input in StartProcedure.Inputs)
             {
-                if (block is IProcedure)
-                    (block as IProcedure).ClearResources();
-                block.CleaInputs();
-                block.ClearOutputs();
-            }
-            Connections.GetAllConnections().Clear();
-            StartBlock = null;
-            EndBlock = null;
-            EndBlockHasOutputToken = false;
-            Blocks.Clear();
-            Resources.Clear();
-        }
-
-        public override void AddToken(Token token, int inputNumber)
-        {
-            if (inputNumber != 0)
-                throw new ArgumentOutOfRangeException("Процесс содержит только один вход!");
-            StartBlock.AddToken(token, 0);
-        }
-
-        public override Token GetOutputToken(int port)
-        {
-            if (port != 0)
-                throw new ArgumentOutOfRangeException("Процесс содержит только один выход!");
-            return EndBlock.GetOutputToken(0);
-        }
-
-
-        public override bool Equals(object obj)
-        {
-            if(!base.Equals(obj))
-                return false;
-
-            Process temp = obj as Process;
-
-            if (temp.Blocks.Count != this.Blocks.Count)
-                return false;
-            if (temp.EndBlockHasOutputToken != this.EndBlockHasOutputToken)
-                return false;
-            if (temp.Resources.Count != this.Resources.Count)
-                return false;
-
-            if (/*(temp.Connections != this.Connections)&&*/(!Equals(temp.Connections, this.Connections)))
-                return false;
-            if (/*(temp.EndBlock != this.EndBlock) && */(!Equals(temp.EndBlock, this.EndBlock)))
-                return false;
-            if (/*(temp.StartBlock != this.StartBlock) && */(!Equals(temp.StartBlock, this.StartBlock)))
-                return false;
-
-            for (int i = 0; i < temp.Resources.Count; i++)
-            {
-                if (/*temp.Resources[i] != this.Resources[i] && */!Equals(temp.Resources[i], this.Resources[i]))
-                    return false;
+                input.Tokens.Enqueue(newToken);
             }
 
             return true;
         }
 
-        public override int GetHashCode()
+        /// <summary>
+        /// Обновление моделирования процедуры
+        /// </summary>
+        protected override bool OnUpdateModeling(double curTime)
         {
-            return base.GetHashCode();
+            foreach (var procedure in Procedures)
+            {
+                procedure.Update(curTime);
+            }
+
+            return !EndProcedure.Outputs.Any(x => x.Tokens.Any());
+        }
+
+        /// <summary>
+        /// Функция, вызывающаяся при окончании моделирования 
+        /// </summary>
+        protected override bool OnEndModeling()
+        {
+            foreach (var output in EndProcedure.Outputs)
+            {
+                output.Tokens.Dequeue();
+            }
+
+            return true;
         }
     }
 }

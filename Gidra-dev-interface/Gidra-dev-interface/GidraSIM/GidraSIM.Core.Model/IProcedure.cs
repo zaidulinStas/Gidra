@@ -1,8 +1,22 @@
-﻿namespace GidraSIM.Core.Model
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GidraSIM.Core.Model
 {
-    public interface IProcedure:IBlock
+    /// <summary>
+    /// Интерфейс процедуры
+    /// </summary>
+    public interface IProcedure
     {
-        void AddResorce(IResource resource);
-        void ClearResources();
+        string Name { get; }
+
+        IList<Connection> Inputs { get; }
+
+        IList<Connection> Outputs { get; }
+
+        void Update(double curTime);
     }
 }
