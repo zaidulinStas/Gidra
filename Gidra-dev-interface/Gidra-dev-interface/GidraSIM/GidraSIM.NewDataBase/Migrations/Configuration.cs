@@ -1,9 +1,6 @@
 namespace GidraSIM.NewDataBase.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<GidraSIM.NewDataBase.GidraDbContext>
     {
@@ -14,10 +11,14 @@ namespace GidraSIM.NewDataBase.Migrations
 
         protected override void Seed(GidraSIM.NewDataBase.GidraDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            context.Processes.AddOrUpdate(x => x.Id,
+                new Process() { Id = 1, Name = "Трассировка" });
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            context.Resources.AddOrUpdate(x => x.Id,
+                new Resource() { Id = 1, Name = "Компьютер" });
+
+            context.Properties.AddOrUpdate(x => x.Id,
+                new Property() { Id = 1, Name = "Имя свойства", Value = 5.5 });
         }
     }
 }
