@@ -2,12 +2,12 @@
 
 namespace GidraSIM.NewDataBase
 {
-    class Process
+    public class Process
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<Property> properties { get; set; }
-        public List<Resource> resources { get; set; }
+        public List<Property> Properties { get; set; }
+        public List<Resource> Resources { get; set; }
     }
 }
