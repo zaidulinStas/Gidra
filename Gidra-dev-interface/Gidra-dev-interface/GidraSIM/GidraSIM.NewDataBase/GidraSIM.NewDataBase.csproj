@@ -50,15 +50,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GidraDbContext.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Migrations\201905200742355_Initial.cs" />
     <Compile Include="Migrations\201905200742355_Initial.Designer.cs">
       <DependentUpon>201905200742355_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Process.cs" />
+    <Compile Include="ProcessRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />
+    <Compile Include="PropertyRepository.cs" />
     <Compile Include="Resource.cs" />
+    <Compile Include="ResourceRepository.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
