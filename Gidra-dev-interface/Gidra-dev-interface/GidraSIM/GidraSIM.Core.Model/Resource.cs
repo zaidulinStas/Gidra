@@ -24,7 +24,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Максимальное число одновременного использования ресурса
         /// </summary>
-        public int MaxUsageCount { get; set; } = int.MaxValue;
+        public int MaxUsageCount { get; set; } = 1;
 
         /// <summary>
         /// Текущее количество использований ресурса
