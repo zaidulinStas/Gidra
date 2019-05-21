@@ -1,5 +1,6 @@
 ﻿using GidraSIM.ServiceLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,8 +12,25 @@ namespace GidraSIM.Core.Model.Tests
         [TestMethod]
         public void DatabaseTest()
         {
-            var ef = new ProcedureService("asdsad");
+            var ef = new ProcedureService(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GidraDataBase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             var items = ef.GetAll();
+            try
+            {
+                ef.Create(new Procedure
+                {
+                    Name = "Трассировка",
+                    ProgressFunction = "sadasds",
+                    Parameters = new Dictionary<string, double>()
+                    {
+                        { "Производительность", 100 },
+                        { "Стоимость", 100 },
+                    }
+                });
+            }
+            catch (Exception err)
+            {
+                int x = 0;
+            }
         }
 
         [TestMethod]

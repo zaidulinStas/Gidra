@@ -25,7 +25,9 @@ namespace GidraSIM.ServiceLayer
 
         public List<Core.Model.Procedure> GetAll()
         {
-            return _db.Procedures.Select(InverseMap).ToList();
+            return _db.Procedures
+                .Include("Parameters") 
+                .Select(InverseMap).ToList();
         }
 
         public void Remove(Core.Model.Procedure entity)

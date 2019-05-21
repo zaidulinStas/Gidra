@@ -10,7 +10,7 @@ namespace GidraSIM.DataLayer.Models
 {
     public class Procedure
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Index(IsUnique = true)]
         public string Name { get; set; }

@@ -9,8 +9,7 @@ namespace GidraSIM.DataLayer.Models
 {
     public class Parameter
     {
-        [Required]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string Key { get; set; }
