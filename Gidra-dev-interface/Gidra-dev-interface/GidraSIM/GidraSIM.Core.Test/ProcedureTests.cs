@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using GidraSIM.ServiceLayer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,13 @@ namespace GidraSIM.Core.Model.Tests
     [TestClass]
     public class ProcedureTests
     {
+        [TestMethod]
+        public void DatabaseTest()
+        {
+            var ef = new ProcedureService("asdsad");
+            var items = ef.GetAll();
+        }
+
         [TestMethod]
         public void ProcedureWithResources()
         {

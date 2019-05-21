@@ -10,8 +10,8 @@ namespace GidraSIM.DataLayer
 {
     public class ApplicationDbContext : DbContext
     {
-        private DbSet<Procedure> Procedures { get; set; }
-        private DbSet<Resource> Resources { get; set; }
+        public DbSet<Procedure> Procedures { get; set; }
+        public DbSet<Resource> Resources { get; set; }
 
         public ApplicationDbContext() : base("DefaultConnection")
         {

@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E01D09EC-4365-469E-A351-F48E9340B0C2}</ProjectGuid>
+    <ProjectGuid>{69B2F717-CAF5-4DEE-9A5B-36DB80AFC24E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GidraSIM.DataLayer</RootNamespace>
-    <AssemblyName>GidraSIM.DataLayer</AssemblyName>
+    <RootNamespace>GidraSIM.ServiceLayer</RootNamespace>
+    <AssemblyName>GidraSIM.ServiceLayer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,31 +48,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="Migrations\201905210729525_initial.cs" />
-    <Compile Include="Migrations\201905210729525_initial.Designer.cs">
-      <DependentUpon>201905210729525_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Parameter.cs" />
-    <Compile Include="Models\Procedure.cs" />
-    <Compile Include="Models\Resource.cs" />
+    <Compile Include="CRUDService.cs" />
+    <Compile Include="ProcedureService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GidraSim.Model\GidraSim.Model.csproj">
-      <Project>{4f0b5a8c-ef53-4a1e-b52b-86fbd78ecf8b}</Project>
-      <Name>GidraSim.Model</Name>
+    <ProjectReference Include="..\GidraSIM.Core.Model\GidraSIM.Core.Model.csproj">
+      <Project>{49f3ef53-5534-4d59-acf3-d2c50d83cce8}</Project>
+      <Name>GidraSIM.Core.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GidraSIM.DataLayer\GidraSIM.DataLayer.csproj">
+      <Project>{e01d09ec-4365-469e-a351-f48e9340b0c2}</Project>
+      <Name>GidraSIM.DataLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905210729525_initial.resx">
-      <DependentUpon>201905210729525_initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
