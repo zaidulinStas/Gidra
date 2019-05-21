@@ -13,9 +13,19 @@ namespace GidraSIM.DataLayer
         private DbSet<Procedure> Procedures { get; set; }
         private DbSet<Resource> Resources { get; set; }
 
-        public ApplicationDbContext(string connectionString) : base(connectionString)
+        public ApplicationDbContext() : base("DefaultConnection")
         {
 
+        }
+
+        public ApplicationDbContext(string nameOrconnectionString) : base(nameOrconnectionString)
+        {
+
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
