@@ -17,6 +17,11 @@ namespace GidraSIM.Core.Model
         public IList<IProcedure> Procedures { get; set; } = new List<IProcedure>();
 
         /// <summary>
+        /// Ресурсы процедуры, включая все вложенные
+        /// </summary>
+        public override IList<Resource> AllResources => Procedures.SelectMany(x => x.AllResources).ToList();
+
+        /// <summary>
         /// Начальная процедура
         /// </summary>
         public IProcedure StartProcedure { get; set; }

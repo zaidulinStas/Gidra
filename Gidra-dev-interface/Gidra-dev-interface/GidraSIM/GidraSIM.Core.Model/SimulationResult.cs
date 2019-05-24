@@ -20,5 +20,10 @@ namespace GidraSIM.Core.Model
         /// Закончилось ли моделирование успешно?
         /// </summary>
         public bool IsSuccess { get { return ModelingTime.HasValue; } }
+
+        /// <summary>
+        /// Итоговая стоимость ресурсов
+        /// </summary>
+        public double TotalPrice { get; set; }
     }
 }

@@ -24,6 +24,11 @@ namespace GidraSIM.Core.Model
         public IList<Connection> Outputs { get; set; } = new List<Connection>();
 
         /// <summary>
+        /// Ресурсы процедуры, включая все вложенные
+        /// </summary>
+        public abstract IList<Resource> AllResources { get; }
+
+        /// <summary>
         /// Параметры процедуры
         /// </summary>
         public Dictionary<string, double> Parameters { get; set; } = new Dictionary<string, double>();

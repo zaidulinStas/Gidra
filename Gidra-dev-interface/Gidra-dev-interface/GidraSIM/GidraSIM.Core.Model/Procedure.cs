@@ -21,6 +21,11 @@ namespace GidraSIM.Core.Model
         public IList<Resource> Resources { get; set; } = new List<Resource>();
 
         /// <summary>
+        /// Ресурсы процедуры, включая все вложенные
+        /// </summary>
+        public override IList<Resource> AllResources => Resources;
+
+        /// <summary>
         /// Функция зависимости времени выполнения. Вместо [x] податвляется текущее время выполнения процедуры. 
         /// Если значение функции больше 1.0, то процедурf считается выполненной
         /// </summary>

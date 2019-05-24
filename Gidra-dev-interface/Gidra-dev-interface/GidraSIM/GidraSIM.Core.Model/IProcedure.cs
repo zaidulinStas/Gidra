@@ -17,6 +17,8 @@ namespace GidraSIM.Core.Model
 
         IList<Connection> Outputs { get; }
 
+        IList<Resource> AllResources { get; }
+
         void Update(double curTime);
     }
 }

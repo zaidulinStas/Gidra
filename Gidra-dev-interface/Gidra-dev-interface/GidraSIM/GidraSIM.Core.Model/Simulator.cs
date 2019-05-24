@@ -69,7 +69,13 @@ namespace GidraSIM.Core.Model
         
             return new SimulationResult
             {
-                ModelingTime = modelingTime
+                ModelingTime = modelingTime,
+                TotalPrice = activeProcedures
+                    .SelectMany(x => x.AllResources
+                        .SelectMany(res => res.Parameters)
+                        .Where(param => param.Key == "Стоимость")
+                        .Select(param => param.Value))
+                    .Sum()
             };
         }
     }
