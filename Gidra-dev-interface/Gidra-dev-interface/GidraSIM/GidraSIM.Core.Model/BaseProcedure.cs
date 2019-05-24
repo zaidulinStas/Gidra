@@ -14,12 +14,12 @@ namespace GidraSIM.Core.Model
         public string Name { get; set; }
 
         /// <summary>
-        /// Список входных соединений
+        /// Список входящих соединений
         /// </summary>
         public IList<Connection> Inputs { get; set; } = new List<Connection>();
 
         /// <summary>
-        /// Список выходных соединений
+        /// Список выходящих соединений
         /// </summary>
         public IList<Connection> Outputs { get; set; } = new List<Connection>();
 
@@ -118,6 +118,24 @@ namespace GidraSIM.Core.Model
         /// </summary>
         protected virtual bool OnEndModeling()
         {
+            return true;
+        }
+
+        /// <summary>
+        /// Функция для соединения двух процедур
+        /// </summary>
+        public bool Connect(BaseProcedure another)
+        {
+            if (Outputs.Any(x => x.End == another))
+            {
+                return false;
+            }
+
+            var newConnection = new Connection() { Begin = this, End = another };
+
+            Outputs.Add(newConnection);
+            another.Inputs.Add(newConnection);
+
             return true;
         }
     }

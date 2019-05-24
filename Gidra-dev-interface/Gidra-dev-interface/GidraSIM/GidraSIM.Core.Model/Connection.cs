@@ -19,11 +19,11 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Начало соединения
         /// </summary>
-        public Procedure Begin { get; set; }
+        public BaseProcedure Begin { get; set; }
 
         /// <summary>
         /// Конец соединения
         /// </summary>
-        public Procedure End { get; set; }
+        public BaseProcedure End { get; set; }
     }
 }
