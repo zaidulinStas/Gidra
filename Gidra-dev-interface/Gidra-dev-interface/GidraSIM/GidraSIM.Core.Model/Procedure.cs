@@ -52,7 +52,7 @@ namespace GidraSIM.Core.Model
         {
             var variables = Parameters
                 .Select(x => new { Key=$"[{x.Key}]", x.Value })
-                .Concat(Resources.SelectMany(res => res.Parameters.Select(x => new { Key = $"[{res.Name}.{x.Key}]", x.Value })))
+                .Concat(Resources.SelectMany(res => res.Parameters.Select(x => new { Key = $"[{res.Type}.{x.Key}]", x.Value })))
                 .Concat(new[] { new { Key = "[x]", Value = curTime - StartTime.Value } });
 
             var expression = ProgressFunction;

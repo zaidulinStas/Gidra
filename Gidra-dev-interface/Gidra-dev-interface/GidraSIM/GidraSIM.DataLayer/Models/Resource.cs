@@ -16,6 +16,9 @@ namespace GidraSIM.DataLayer.Models
         [Index(IsUnique = true)]
         public string Name { get; set; }
 
+        [Required]
+        public string Type { get; set; }
+
         public List<Parameter> Parameters { get; set; }
     }
 }

@@ -44,6 +44,7 @@ namespace GidraSIM.ServiceLayer
             var mappedEntity = _Map(entity);
 
             resource.Parameters = mappedEntity.Parameters;
+            resource.Type = mappedEntity.Type;
 
             _db.SaveChanges();
         }
@@ -53,6 +54,7 @@ namespace GidraSIM.ServiceLayer
             return new Core.Model.Resource
             {
                 Name = procedure.Name,
+                Type = procedure.Type,
                 Parameters = procedure.Parameters.ToDictionary(x => x.Key, x => x.Value)
             };
         }
@@ -62,6 +64,7 @@ namespace GidraSIM.ServiceLayer
             return new Resource
             {
                 Name = procedure.Name,
+                Type = procedure.Type,
                 Parameters = procedure.Parameters.Select(x => new Parameter
                 {
                     Key = x.Key,

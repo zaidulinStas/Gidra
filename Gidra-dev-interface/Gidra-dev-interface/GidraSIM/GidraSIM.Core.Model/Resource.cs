@@ -17,6 +17,11 @@ namespace GidraSIM.Core.Model
         public string Name { get; set; }
 
         /// <summary>
+        /// Тип ресурса
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
         /// Параметры ресурса
         /// </summary>
         public Dictionary<string, double> Parameters { get; set; } = new Dictionary<string, double>();
