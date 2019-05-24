@@ -34,11 +34,12 @@ namespace GidraSIM.Core.Model.Tests
         }
 
         [TestMethod]
-        public void ProcedureWithResources()
+        public void SimulatorTest()
         {
             var computerResource = new Resource
             {
                 Name = "Компьютер",
+                Type = "Компьютер",
                 MaxUsageCount = 1,
                 Parameters = new Dictionary<string, double>
                 {
@@ -66,7 +67,8 @@ namespace GidraSIM.Core.Model.Tests
                     computerResource,
                     new Resource
                     {
-                        Name = "Человек",
+                        Name = "Вася",
+                        Type = "Человек",
                         MaxUsageCount = 1,
                         Parameters = new Dictionary<string, double>
                         {
@@ -84,7 +86,7 @@ namespace GidraSIM.Core.Model.Tests
                     { "Объем данных", 10 },
                     { "Сложность расчётов", 10 }
                 },
-                ProgressFunction ="[x]/" +
+                ProgressFunction = "[x]/" +
                 "(10*[Объем данных]" + //100
                 "+20*[Сложность расчётов]" + //200
                 "-4*[Принтер.Скорость печати]" +//-40
@@ -97,7 +99,8 @@ namespace GidraSIM.Core.Model.Tests
                     computerResource,
                     new Resource
                     {
-                        Name = "Принтер",
+                        Name = "Canon 12SX",
+                        Type = "Принтер",
                         MaxUsageCount = 1,
                         Parameters = new Dictionary<string, double>
                         {
@@ -108,42 +111,17 @@ namespace GidraSIM.Core.Model.Tests
                 }
             };
 
-            var connections = new List<Connection>
+            tracingProcedure.Connect(processingResultsProcedure);
+
+            var simulator = new Simulator();
+
+            var results = simulator.Simulate(new SimulationOptions
             {
-                new Connection
-                {
-                    Begin = tracingProcedure,
-                    End = processingResultsProcedure
-                }
-            };
+                Procedures = new List<Procedure> { tracingProcedure, processingResultsProcedure }
+            });
 
-            tracingProcedure.Inputs = new List<Connection> { new Connection { End = tracingProcedure } };
-            tracingProcedure.Outputs = connections;
-
-            processingResultsProcedure.Inputs= connections;
-            processingResultsProcedure.Outputs = new List<Connection> { new Connection { Begin = processingResultsProcedure } };
-
-            tracingProcedure.Inputs[0].Tokens.Enqueue(new Token());
-
-            const int maxTime = 200000;
-            double resultModelingTime = 0;
-            for (int time = 0; time < maxTime; time++)
-            {
-                tracingProcedure.Update(time);
-                processingResultsProcedure.Update(time);
-
-                if (processingResultsProcedure.Outputs[0].Tokens.Any())
-                {
-                    resultModelingTime = time;
-                    break;
-                }
-            }
-
-            Assert.AreEqual(1052, resultModelingTime, 200);
-            Assert.AreEqual(0, tracingProcedure.Inputs[0].Tokens.Count);
-            Assert.AreEqual(0, tracingProcedure.Outputs[0].Tokens.Count);
-            Assert.AreEqual(0, processingResultsProcedure.Inputs[0].Tokens.Count);
-            Assert.AreEqual(1, processingResultsProcedure.Outputs[0].Tokens.Count);
+            Assert.IsTrue(results.IsSuccess);
+            Assert.AreEqual(1052, results.ModelingTime.Value, 200);
         }
     }
 }

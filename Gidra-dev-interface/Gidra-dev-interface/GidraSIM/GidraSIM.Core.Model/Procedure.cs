@@ -78,7 +78,7 @@ namespace GidraSIM.Core.Model
                 }
             }
 
-            return Convert.ToDouble(new Expression(expression).calculate(), null) > 1.0;
+            return Convert.ToDouble(new Expression(expression).calculate(), null) >= 1.0;
         }
 
         /// <summary>

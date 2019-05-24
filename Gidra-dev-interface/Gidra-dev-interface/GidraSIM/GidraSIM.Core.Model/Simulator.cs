@@ -13,13 +13,14 @@ namespace GidraSIM.Core.Model
     {
         public Procedure StartProcedure { get; private set; } = new Procedure()
         {
+            Inputs = new[] { new Connection() },
             ProgressFunction = "1",
         };
 
         public Procedure EndProcedure { get; private set; } = new Procedure()
         {
             ProgressFunction = "1",
-            Outputs = new[] { new Connection() }
+            Outputs = new [] { new Connection() }
         };
 
         public SimulationResult Simulate(SimulationOptions options)
@@ -31,13 +32,17 @@ namespace GidraSIM.Core.Model
 
             foreach (var procedure in options.Procedures.Where(x => !x.Outputs.Any()))
             {
-                EndProcedure.Connect(procedure);
+                procedure.Connect(EndProcedure);
             }
+
+            StartProcedure.Inputs[0].Tokens.Enqueue(options.StartToken);
+
+            var activeProcedures = options.Procedures.Concat(new[] { StartProcedure, EndProcedure }).ToList();
 
             double? modelingTime = null;
             for (int time = 0; time < options.MaxTime; time++)
             {
-                options.Procedures.ForEach(x => x.Update(time));
+                activeProcedures.ForEach(x => x.Update(time));
 
                 if (EndProcedure.Outputs[0].Tokens.Any())
                 {
@@ -46,6 +51,11 @@ namespace GidraSIM.Core.Model
                 }
             }
 
+            foreach (var procedure in activeProcedures)
+            {
+                procedure.Flush();
+            }
+        
             return new SimulationResult
             {
                 ModelingTime = modelingTime

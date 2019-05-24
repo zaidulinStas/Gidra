@@ -36,7 +36,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Активность процедуры
         /// </summary>
-        public bool IsActive => Inputs.All(x => x.Tokens.Any());
+        public bool IsActive => Inputs.All(x => x.Tokens.Any()) && Inputs.Any();
 
 
         /// <summary>
@@ -137,6 +137,17 @@ namespace GidraSIM.Core.Model
             another.Inputs.Add(newConnection);
 
             return true;
+        }
+
+        /// <summary>
+        /// Функция, очищающая все токены из соединений процедуры 
+        /// </summary>
+        public void Flush()
+        {
+            foreach (var resource in Inputs.Concat(Outputs))
+            {
+                resource.Tokens.Clear();
+            }
         }
     }
 }

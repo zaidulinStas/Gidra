@@ -13,5 +13,7 @@ namespace GidraSIM.Core.Model
         public double SimulationStep { get; set; } = 1.0;
 
         public List<Procedure> Procedures { get; set; } = new List<Procedure>();
+
+        public Token StartToken { get; set; } = new Token();
     }
 }
