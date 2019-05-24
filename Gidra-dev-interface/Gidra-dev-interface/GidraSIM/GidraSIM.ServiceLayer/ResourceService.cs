@@ -9,62 +9,59 @@ using System.Threading.Tasks;
 
 namespace GidraSIM.ServiceLayer
 {
-    public class ProcedureService
+    public class ResourceService
     {
         private readonly ApplicationDbContext _db;
 
-        public ProcedureService(string connectionString)
+        public ResourceService(string connectionString)
         {
             _db = new ApplicationDbContext(connectionString);
         }
 
-        public void Create(Core.Model.Procedure entity)
+        public void Create(Core.Model.Resource entity)
         {
-            _db.Procedures.Add(_Map(entity));
+            _db.Resources.Add(_Map(entity));
             _db.SaveChanges();
         }
 
-        public List<Core.Model.Procedure> GetAll()
+        public List<Core.Model.Resource> GetAll()
         {
-            return _db.Procedures
+            return _db.Resources
                 .Include("Parameters")
                 .Select(_InverseMap)
                 .ToList();
         }
 
-        public void Remove(Core.Model.Procedure entity)
+        public void Remove(Core.Model.Resource entity)
         {
-            var procedure = _db.Procedures.First(x => x.Name == entity.Name);
-            _db.Procedures.Remove(procedure);
+            var resource = _db.Resources.First(x => x.Name == entity.Name);
+            _db.Resources.Remove(resource);
         }
 
-        public void Update(Core.Model.Procedure entity)
+        public void Update(Core.Model.Resource entity)
         {
-            var procedure = _db.Procedures.First(x => x.Name == entity.Name);
+            var resource = _db.Resources.First(x => x.Name == entity.Name);
             var mappedEntity = _Map(entity);
 
-            procedure.Parameters = mappedEntity.Parameters;
-            procedure.ProgressFunction = mappedEntity.ProgressFunction;
+            resource.Parameters = mappedEntity.Parameters;
 
             _db.SaveChanges();
         }
 
-        private Core.Model.Procedure _InverseMap(Procedure procedure)
+        private Core.Model.Resource _InverseMap(Resource procedure)
         {
-            return new Core.Model.Procedure
+            return new Core.Model.Resource
             {
                 Name = procedure.Name,
-                ProgressFunction = procedure.ProgressFunction,
                 Parameters = procedure.Parameters.ToDictionary(x => x.Key, x => x.Value)
             };
         }
 
-        private Procedure _Map(Core.Model.Procedure procedure)
+        private Resource _Map(Core.Model.Resource procedure)
         {
-            return new Procedure
+            return new Resource
             {
                 Name = procedure.Name,
-                ProgressFunction = procedure.ProgressFunction,
                 Parameters = procedure.Parameters.Select(x => new Parameter
                 {
                     Key = x.Key,
@@ -74,3 +71,4 @@ namespace GidraSIM.ServiceLayer
         }
     }
 }
+
