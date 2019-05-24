@@ -25,5 +25,10 @@ namespace GidraSIM.Core.Model
         /// Итоговая стоимость ресурсов
         /// </summary>
         public double TotalPrice { get; set; }
+
+        /// <summary>
+        /// Логи процесса моделирования
+        /// </summary>
+        public List<SimulationLog> Logs { get; set; }
     }
 }

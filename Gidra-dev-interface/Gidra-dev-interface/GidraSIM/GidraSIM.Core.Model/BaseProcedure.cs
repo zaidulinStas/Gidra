@@ -47,28 +47,28 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Обновление 
         /// </summary>
-        public void Update(double curTime)
+        public ProcedureSimulationResult Update(double curTime)
         {
             if (!IsActive)
             {
-                return;
+                return null;
             }
 
             if (!StartTime.HasValue)
             {
                 if (!StartModeling(curTime))
                 {
-                    return;
+                    return null;
                 }
             }
 
 
             if (!OnUpdateModeling(curTime))
             {
-                return;
+                return null;
             }
 
-            EndModeling(curTime);
+            return EndModeling(curTime);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Конец моделирования процедуры
         /// </summary>
-        private void EndModeling(double curTime)
+        private ProcedureSimulationResult EndModeling(double curTime)
         {
             var newToken = new Token();
 
@@ -115,7 +115,15 @@ namespace GidraSIM.Core.Model
 
             OnEndModeling();
 
+            var result = new ProcedureSimulationResult
+            {
+                StartTime = StartTime.Value,
+                EndTime = curTime,
+            };
+
             StartTime = null;
+
+            return result;
         }
 
         /// <summary>

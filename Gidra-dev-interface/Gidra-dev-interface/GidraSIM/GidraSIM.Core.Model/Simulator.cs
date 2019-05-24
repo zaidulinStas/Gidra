@@ -50,10 +50,19 @@ namespace GidraSIM.Core.Model
                 .Concat(new[] { StartProcedure, EndProcedure })
                 .ToList();
 
+            var logs = new List<SimulationLog>();
+
             double? modelingTime = null;
             for (double time = 0; time < options.MaxTime; time += options.SimulationStep)
             {
-                activeProcedures.ForEach(x => x.Update(time));
+                var finishedProcedures = activeProcedures
+                    .Select(x => new { Procedure = x, Result = x.Update(time) })
+                    .Where(x => x.Result != null)
+                    .ToList();
+
+                logs.AddRange(finishedProcedures.Select(
+                    x => new SimulationLog { Procedure = x.Procedure, SimulationResult = x.Result })
+                );
 
                 if (EndProcedure.Outputs[0].Tokens.Any())
                 {
@@ -75,7 +84,8 @@ namespace GidraSIM.Core.Model
                         .SelectMany(res => res.Parameters)
                         .Where(param => param.Key == "Стоимость")
                         .Select(param => param.Value))
-                    .Sum()
+                    .Sum(),
+                Logs = logs
             };
         }
     }

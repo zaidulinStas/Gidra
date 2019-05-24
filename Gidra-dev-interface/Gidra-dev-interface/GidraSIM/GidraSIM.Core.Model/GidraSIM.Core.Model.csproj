@@ -50,9 +50,11 @@
     <Compile Include="Connection.cs" />
     <Compile Include="IProcedure.cs" />
     <Compile Include="Procedure.cs" />
+    <Compile Include="ProcedureSimulationResult.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
+    <Compile Include="SimulationLog.cs" />
     <Compile Include="SimulationOptions.cs" />
     <Compile Include="SimulationResult.cs" />
     <Compile Include="Simulator.cs" />

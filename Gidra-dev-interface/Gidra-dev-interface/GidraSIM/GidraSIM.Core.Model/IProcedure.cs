@@ -19,6 +19,6 @@ namespace GidraSIM.Core.Model
 
         IList<Resource> AllResources { get; }
 
-        void Update(double curTime);
+        ProcedureSimulationResult Update(double curTime);
     }
 }
