@@ -11,18 +11,27 @@ namespace GidraSIM.Core.Model
     /// </summary>
     public class Simulator
     {
+        /// <summary>
+        /// Начальная процедура 
+        /// </summary>
         public Procedure StartProcedure { get; private set; } = new Procedure()
         {
             Inputs = new[] { new Connection() },
             ProgressFunction = "1",
         };
 
+        /// <summary>
+        /// Конечная процедура 
+        /// </summary>
         public Procedure EndProcedure { get; private set; } = new Procedure()
         {
             ProgressFunction = "1",
             Outputs = new [] { new Connection() }
         };
 
+        /// <summary>
+        /// Метод выполняет процесс моделирования 
+        /// </summary>
         public SimulationResult Simulate(SimulationOptions options)
         {
             foreach (var procedure in options.Procedures.Where(x => !x.Inputs.Any()))
@@ -37,10 +46,12 @@ namespace GidraSIM.Core.Model
 
             StartProcedure.Inputs[0].Tokens.Enqueue(options.StartToken);
 
-            var activeProcedures = options.Procedures.Concat(new[] { StartProcedure, EndProcedure }).ToList();
+            var activeProcedures = options.Procedures
+                .Concat(new[] { StartProcedure, EndProcedure })
+                .ToList();
 
             double? modelingTime = null;
-            for (int time = 0; time < options.MaxTime; time++)
+            for (double time = 0; time < options.MaxTime; time += options.SimulationStep)
             {
                 activeProcedures.ForEach(x => x.Update(time));
 
