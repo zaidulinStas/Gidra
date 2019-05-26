@@ -68,10 +68,29 @@ namespace GidraSIM.GUI
             {
                 var procedure = dialog.SelectedBlock;
 
-                workArea.Children.Add(new ProcedureWPF(procedurePosition,procedure));
+                var newElement = new ProcedureWPF(procedurePosition, procedure);
+
+                newElement.MouseLeftButtonDown += ProcedureParameters_Edit;
+
+                workArea.Children.Add(newElement);
             }
 
             //workArea.Children.Add(new ProcedureWPF(procedurePosition, "Фикс. процедура (10)", 1, 1));
+        }
+
+        private void ProcedureParameters_Edit(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var dialog = new ParametersDialog(new string[] { "param1", "param2", "param3" });
+            if (dialog.ShowDialog() == true)
+            {
+                var parameters = dialog.parameters;
+
+                MessageBox.Show($"Yeah! {parameters.Count}");
+
+                //procedure.Param1 = param1;
+            }
+
         }
 
 
