@@ -27,26 +27,28 @@ namespace GidraSIM.GUI
             InitializeComponent();
         }
 
-        public ParametersDialog(string[] paramsNames)
+        public ParametersDialog(Dictionary<string, string> paramsPairs)
         {
             InitializeComponent();
 
             parameters = new Dictionary<string, string>();
             textBoxes = new List<TextBox>();
 
-            foreach (var paramsName in paramsNames)
+            foreach (var paramsPair in paramsPairs)
             {
                 var textBox = new TextBox();
-                textBox.Text = "";
-                textBox.Name = paramsName;
+                textBox.Name = paramsPair.Key;
+                textBox.Text = string.IsNullOrEmpty(paramsPair.Value) ? "0" : paramsPair.Value;
                 textBox.Width = 200;
-                textBox.Margin = new Thickness(0, 0, 0, 8);
+                textBox.Margin = new Thickness(5, 0, 0, 4);
                 textBoxes.Add(textBox);
 
                 var label = new Label();
-                label.Content = paramsName;
-                label.Margin = new Thickness(0, 0, 5, 8);
-
+                label.Content = paramsPair.Key;
+                label.Width = 200;
+                label.Margin = new Thickness(0, 0, 0, 2);
+                label.FontWeight = FontWeights.Bold;
+               
                 wrapPanel.Children.Add(label);
                 wrapPanel.Children.Add(textBox);
             }

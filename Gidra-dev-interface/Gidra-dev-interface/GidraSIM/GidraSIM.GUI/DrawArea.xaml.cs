@@ -81,7 +81,13 @@ namespace GidraSIM.GUI
         private void ProcedureParameters_Edit(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            var dialog = new ParametersDialog(new string[] { "param1", "param2", "param3" });
+            var paramsPairs = new Dictionary<string, string>()
+            {
+                { "param1", "45" },
+                { "param2", "" },
+                { "param3", "66" }
+            };
+            var dialog = new ParametersDialog(paramsPairs);
             if (dialog.ShowDialog() == true)
             {
                 var parameters = dialog.parameters;
