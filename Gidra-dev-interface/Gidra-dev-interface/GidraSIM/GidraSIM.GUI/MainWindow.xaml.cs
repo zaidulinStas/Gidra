@@ -282,7 +282,20 @@ namespace GidraSIM.GUI
 
                     var results = simulator.Simulate(simOptions);
 
-                    int r = 5;
+                    var successString = results.IsSuccess ? "успешно" : "неудачно";
+                    string resultMsg = $"Моделирование завершено {successString}";
+
+                    if (results.IsSuccess)
+                    {
+                        resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
+
+                        foreach (var log in results.Logs)
+                        {
+                            resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
+                        }
+                    }
+
+                    MessageBox.Show(resultMsg);
                 }
 
                 ////запихиваем содержимое главной области рисования в процесс
