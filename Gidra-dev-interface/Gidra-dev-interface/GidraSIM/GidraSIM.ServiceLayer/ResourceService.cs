@@ -49,23 +49,25 @@ namespace GidraSIM.ServiceLayer
             _db.SaveChanges();
         }
 
-        private Core.Model.Resource _InverseMap(Resource procedure)
+        private Core.Model.Resource _InverseMap(Resource resource)
         {
             return new Core.Model.Resource
             {
-                Name = procedure.Name,
-                Type = procedure.Type,
-                Parameters = procedure.Parameters.ToDictionary(x => x.Key, x => x.Value)
+                Name = resource.Name,
+                Type = resource.Type,
+                Cost = resource.Cost,
+                Parameters = resource.Parameters.ToDictionary(x => x.Key, x => x.Value)
             };
         }
 
-        private Resource _Map(Core.Model.Resource procedure)
+        private Resource _Map(Core.Model.Resource resource)
         {
             return new Resource
             {
-                Name = procedure.Name,
-                Type = procedure.Type,
-                Parameters = procedure.Parameters.Select(x => new Parameter
+                Name = resource.Name,
+                Type = resource.Type,
+                Cost = resource.Cost,
+                Parameters = resource.Parameters.Select(x => new Parameter
                 {
                     Key = x.Key,
                     Value = x.Value
