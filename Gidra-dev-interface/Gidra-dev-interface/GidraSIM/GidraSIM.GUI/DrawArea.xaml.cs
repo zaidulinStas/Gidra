@@ -56,26 +56,75 @@ namespace GidraSIM.GUI
         private void Canvas_Procedure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Вычисление координат
-            Point cursorPoint = e.GetPosition(workArea);
-            Point procedurePosition = (Point)(cursorPoint - new Point(ProcedureWPF.DEFAULT_WIDTH / 2, ProcedureWPF.DEFAULT_HEIGHT / 2));
+            var cursorPoint = e.GetPosition(workArea);
+            var procedurePosition = (Point)(cursorPoint - new Point(ProcedureWPF.DEFAULT_WIDTH / 2, ProcedureWPF.DEFAULT_HEIGHT / 2));
 
             // Добавление
-            // TODO: Ввод имени процедуры и связь с моделью
-            //workArea.Children.Add(new ProcedureWPF(procedurePosition, "Процедура", rand.Next(1, 11), rand.Next(1, 11)));
+            var dialog = new ProcedureSelectionDialog();
 
-            ProcedureSelectionDialog dialog = new ProcedureSelectionDialog();
             if(dialog.ShowDialog() == true)
             {
                 var procedure = dialog.SelectedBlock;
 
-                workArea.Children.Add(new ProcedureWPF(procedurePosition,procedure));
-            }
+                var newElement = new ProcedureWPF(procedurePosition, procedure);
 
-            //workArea.Children.Add(new ProcedureWPF(procedurePosition, "Фикс. процедура (10)", 1, 1));
+                newElement.MouseRightButtonDown += ProcedureParameters_Edit;
+
+                workArea.Children.Add(newElement);
+            }
         }
 
+        private void ProcedureParameters_Edit(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var paramsPairs = (sender as ProcedureWPF).BlockModel.Parameters;
+            var dialog = new ParametersDialog(paramsPairs);
+            if (dialog.ShowDialog() == true)
+            {
+                var parameters = dialog.parameters;
 
-        private static Random rand = new Random();
+                (sender as ProcedureWPF).BlockModel.Parameters = parameters;
+            }
+        }
+
+        /// <summary>
+        /// добавление ресурсов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Canvas_Resource_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Вычисление координат
+            var cursorPoint = e.GetPosition(workArea);
+            var resourcePosition = (Point)(cursorPoint - new Point(ResourceWPF.DEFAULT_WIDTH / 2, ResourceWPF.DEFAULT_HEIGHT / 2));
+
+            // Добавление
+            var dialog = new ResourceSelectionDialog();
+
+            if (dialog.ShowDialog() == true)
+            {
+                var resource = dialog.SelectedResource;
+
+                var newElement = new ResourceWPF(resourcePosition, resource);
+
+                newElement.MouseRightButtonDown += ResourceParameters_Edit;
+
+                workArea.Children.Add(newElement);
+            }
+        }
+
+        private void ResourceParameters_Edit(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var paramsPairs = (sender as ResourceWPF).ResourceModel.Parameters;
+            var dialog = new ParametersDialog(paramsPairs);
+            if (dialog.ShowDialog() == true)
+            {
+                var parameters = dialog.parameters;
+
+                (sender as ResourceWPF).ResourceModel.Parameters = parameters;
+            }
+        }
 
         /// <summary>
         /// добавление подпроцессов
@@ -96,33 +145,6 @@ namespace GidraSIM.GUI
             //    var process = dialog.SelectedProcess;
             //    workArea.Children.Add(process);
             //}
-            ////workArea.Children.Add(new SubProcessWPF(subProcessPosition, "Подпроцесс", rand.Next(1, 11), rand.Next(1, 11)));
-        }
-
-        /// <summary>
-        /// добавление ресурсов
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Canvas_Resource_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            // Вычисление координат
-            Point cursorPoint = e.GetPosition(workArea);
-            Point resourcePosition = (Point)(cursorPoint - new Point(ResourceWPF.DEFAULT_WIDTH / 2, ResourceWPF.DEFAULT_HEIGHT / 2));
-
-            // Добавление
-            // TODO: Ввод имени процедуры и связь с моделью
-            //workArea.Children.Add(new ResourceWPF(resourcePosition, "Ресурс"));
-            ResourceSelectionDialog dialog = new ResourceSelectionDialog();
-
-            if (dialog.ShowDialog() == true)
-            {
-                var resources = dialog.SelectedResource;
-
-                // Проходим по выбранным ресурсам
-                foreach(var resource in resources)
-                workArea.Children.Add(new ResourceWPF(new Point(resourcePosition.X += ResourceWPF.DEFAULT_WIDTH, resourcePosition.Y), resource));
-            }
         }
 
         /// <summary>

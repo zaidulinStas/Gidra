@@ -11,8 +11,8 @@ namespace GidraSIM.GUI.Core.BlocksWPF
     {
         public const int POINT_MARGIN = 7;
 
-        public int InputCount { get; set; }
-        public int OutputCount { get; set; }
+        public int InputCount { get; set; } = 3;
+        public int OutputCount { get; set; } = 3;
 
         //Входы
         private List<ProcConnectionWPF> inputs;

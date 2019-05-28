@@ -18,7 +18,6 @@
         </Grid.RowDefinitions>
         <ListView  Grid.Row="0" x:Name="listView1" Margin="10,10,10,0" DisplayMemberPath="Name" ItemsSource="{Binding Blocks}" />
 
-
         <Button Grid.Row="3" x:Name="button" Content="OK" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="75" TabIndex="0" Click="button_Click"/>
     </Grid>
 </Window>
