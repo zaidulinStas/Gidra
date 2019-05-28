@@ -29,8 +29,8 @@ namespace GidraSIM.GUI.Core.BlocksWPF
 
         public ProcedureWPF(Point position, BaseProcedure block) : base(position, block.Name)
         {
-            this.InputCount = block.Inputs.Count;
-            this.OutputCount = block.Outputs.Count;
+            //this.InputCount = block.InputQuantity;
+            //this.OutputCount = block.OutputQuantity;
             this.BlockModel = block;
 
             this.outputs = new List<ProcConnectionWPF>();
@@ -38,14 +38,14 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             this.resputs = new List<ResConnectionWPF>();
 
             // проверка корректности inputCount и outputCount (TODO: переписать через исключения)
-            if (this.InputCount < 1)
-                throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
-            if (this.OutputCount < 1)
-                throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
-            if (this.InputCount > 10)
-                throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
-            if (this.OutputCount > 10)
-                throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
+            //if (this.InputCount < 1)
+            //    throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
+            //if (this.OutputCount < 1)
+            //    throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
+            //if (this.InputCount > 10)
+            //    throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
+            //if (this.OutputCount > 10)
+            //    throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
 
             // перерасчёт высоты блока
             int maxCount = Math.Max(this.InputCount, this.OutputCount);

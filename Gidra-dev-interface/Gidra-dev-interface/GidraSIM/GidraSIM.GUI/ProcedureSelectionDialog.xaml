@@ -9,10 +9,10 @@
         SizeToContent="WidthAndHeight">
        
     <Window.Resources>
-        <!--DataTemplate  DataType="{x:Type cr:FixedTimeBlock}">
+        <!--<DataTemplate  DataType="{x:Type cr:BaseProcedure}">
             <StackPanel Margin="10,10,10,0">
                 <TextBlock Text="Время исполнения" />
-                <TextBox Text="{Binding Path=FixedTime}" />
+                <TextBox Text="{Binding Path=Name}" />
             </StackPanel>
         </DataTemplate>
 
@@ -62,12 +62,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="listBox1"  DisplayMemberPath="Description" Margin="10,10,10,0" ItemsSource="{Binding Blocks}" Grid.Row="0"/>
-        <StackPanel  Grid.Row="1" Margin="10,10,10,0">
+        <ListBox x:Name="listBox1"  DisplayMemberPath="Name" Margin="10,10,10,0" ItemsSource="{Binding Blocks}" Grid.Row="0"/>
+        <!--<StackPanel  Grid.Row="1" Margin="10,10,10,0">
             <TextBlock Text="Название" MinWidth="100" />
             <TextBox Text="{Binding  ElementName=listBox1, Path=SelectedItem.Description}" />
-        </StackPanel>
-        <ContentControl Grid.Row="2" Content="{Binding ElementName=listBox1, Path=SelectedItem}" />
+        </StackPanel>-->
         <Button x:Name="button" Grid.Row="3" Content="OK" HorizontalAlignment="Center" Margin="0,0,0,0"  VerticalAlignment="Center" Width="75" TabIndex="0" Click="button_Click"/>
     </Grid>
 </Window>
