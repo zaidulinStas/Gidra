@@ -10,6 +10,7 @@ namespace GidraSIM.DataLayer.Models
 {
     public class Resource
     {
+        [Required]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
@@ -18,6 +19,9 @@ namespace GidraSIM.DataLayer.Models
 
         [Required]
         public string Type { get; set; }
+
+        [Required]
+        public double Cost { get; set; }
 
         public List<Parameter> Parameters { get; set; }
     }
