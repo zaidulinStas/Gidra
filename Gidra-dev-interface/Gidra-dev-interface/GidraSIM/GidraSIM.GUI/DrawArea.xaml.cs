@@ -25,7 +25,7 @@ namespace GidraSIM.GUI
             set => isHaveStartAndEnd = value;
         }
 
-        public List<Process> Processes { get; set; }
+        public List<Simulator> Simulators { get; set; }
 
         private bool AllChildrenIsSelectable
         {
@@ -84,19 +84,19 @@ namespace GidraSIM.GUI
         /// <param name="e"></param>
         private void Canvas_SubProcess_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Вычисление координат
-            Point cursorPoint = e.GetPosition(workArea);
-            Point subProcessPosition = (Point)(cursorPoint - new Point(SubProcessWPF.DEFAULT_WIDTH / 2, SubProcessWPF.DEFAULT_HEIGHT / 2));
+            //// Вычисление координат
+            //Point cursorPoint = e.GetPosition(workArea);
+            //Point subProcessPosition = (Point)(cursorPoint - new Point(SubProcessWPF.DEFAULT_WIDTH / 2, SubProcessWPF.DEFAULT_HEIGHT / 2));
 
-            // Добавление
-            // TODO: Ввод имени подпроцесса и связь с моделью
-            SubProcessSelectionDialog dialog = new SubProcessSelectionDialog(subProcessPosition, Processes);
-            if (dialog.ShowDialog() == true)
-            {
-                var process = dialog.SelectedProcess;
-                workArea.Children.Add(process);
-            }
-            //workArea.Children.Add(new SubProcessWPF(subProcessPosition, "Подпроцесс", rand.Next(1, 11), rand.Next(1, 11)));
+            //// Добавление
+            //// TODO: Ввод имени подпроцесса и связь с моделью
+            //SubProcessSelectionDialog dialog = new SubProcessSelectionDialog(subProcessPosition, Simulators);
+            //if (dialog.ShowDialog() == true)
+            //{
+            //    var process = dialog.SelectedProcess;
+            //    workArea.Children.Add(process);
+            //}
+            ////workArea.Children.Add(new SubProcessWPF(subProcessPosition, "Подпроцесс", rand.Next(1, 11), rand.Next(1, 11)));
         }
 
         /// <summary>

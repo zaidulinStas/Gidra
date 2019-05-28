@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
-using GidraSIM.Core.Model.Resources;
 using System.Windows.Media;
+using GidraSIM.Core.Model;
 
 namespace GidraSIM.GUI.Core.BlocksWPF
 {
@@ -16,11 +16,11 @@ namespace GidraSIM.GUI.Core.BlocksWPF
         // Соединения с процедурами
         private List<ResConnectionWPF> resPuts;
 
-        public AbstractResource ResourceModel { get; private set; }
+        public Resource ResourceModel { get; private set; }
 
         public Brush Foreground { get; set; }
 
-        public ResourceWPF(Point position, AbstractResource resource) : base(position, resource.Description)
+        public ResourceWPF(Point position, Resource resource) : base(position, resource.Name)
         {
             this.resPuts = new List<ResConnectionWPF>();
             this.ResourceModel = resource;

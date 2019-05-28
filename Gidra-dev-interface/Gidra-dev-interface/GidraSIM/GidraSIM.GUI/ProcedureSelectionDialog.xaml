@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GidraSIM.GUI"
-        xmlns:cr="clr-namespace:GidraSIM.Core.Model.Procedures;assembly=GidraSIM.Core.Model"
+        xmlns:cr="clr-namespace:GidraSIM.Core.Model;assembly=GidraSIM.Core.Model"
         mc:Ignorable="d" Height="268.908" Width="300" Title="Выберите тип процедуры" 
         SizeToContent="WidthAndHeight">
        
     <Window.Resources>
-        <DataTemplate  DataType="{x:Type cr:FixedTimeBlock}">
+        <!--DataTemplate  DataType="{x:Type cr:FixedTimeBlock}">
             <StackPanel Margin="10,10,10,0">
                 <TextBlock Text="Время исполнения" />
                 <TextBox Text="{Binding Path=FixedTime}" />
@@ -50,7 +50,7 @@
         <DataTemplate  DataType="{x:Type cr:SampleTestingProcedure}" />
         <DataTemplate  DataType="{x:Type cr:SchemaCreationProcedure}" />
         <DataTemplate  DataType="{x:Type cr:StrengthСalculations}" />
-        <DataTemplate  DataType="{x:Type cr:TracingProcedure}" />
+        <DataTemplate  DataType="{x:Type cr:TracingProcedure}" />-->  
 
 
     </Window.Resources>

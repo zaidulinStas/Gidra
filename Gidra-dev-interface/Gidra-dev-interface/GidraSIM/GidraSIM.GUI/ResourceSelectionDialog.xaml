@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:GidraSIM.GUI"
-        xmlns:cr="clr-namespace:GidraSIM.Core.Model.Resources;assembly=GidraSIM.Core.Model"
+        xmlns:cr="clr-namespace:GidraSIM.Core.Model;assembly=GidraSIM.Core.Model"
         mc:Ignorable="d"
         Title="Выберите тип ресурса" Height="300" Width="300"
         SizeToContent="WidthAndHeight">
@@ -27,17 +27,17 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>-->
 
-        <DataTemplate  DataType="{x:Type cr:CadResource}">
+        <!--<DataTemplate  DataType="{x:Type cr:CadResource}">
             <StackPanel Margin="10,10,10,0">
-                <!--<TextBlock Text="CAD" />-->
+                --><!--<TextBlock Text="CAD" />-->
                 <!--<Separator />-->
                 <!--<TextBlock Text="Название" MinWidth="100" />
-                <TextBox Text="{Binding Path=Description}" />-->
+                <TextBox Text="{Binding Path=Description}" />--><!--
                 <TextBlock Text="Количество" />
                 <TextBox Text="{Binding Path=Count}" />
             </StackPanel>
         </DataTemplate>
-        <!--<DataTemplate  DataType="{x:Type cr:TechincalSupportResource}">
+        --><!--<DataTemplate  DataType="{x:Type cr:TechincalSupportResource}">
             <StackPanel Margin="10,10,10,0">
                 <TextBlock Text="Технологическая поддержка" />
                 <TextBox Text="{Binding Path=Description}" />
@@ -54,15 +54,15 @@
                 <TextBlock Text="Метода" />
                 <TextBox Text="{Binding Path=Description}" />
             </StackPanel>
-        </DataTemplate>-->
+        </DataTemplate>--><!--
         <DataTemplate DataType="{x:Type cr:WorkerResource}">
             <StackPanel Margin="10,10,10,0">
-                <!--<TextBlock Text="Работник" />
+                --><!--<TextBlock Text="Работник" />
                 <Separator />-->
                 <!--<TextBlock Text="Имя" />
                 <TextBox Text="{Binding Path=Name}"/>
                 <TextBlock Text="Должность" />-->
-                <!--<TextBox Text="{Binding Path=Position}"/>-->
+                <!--<TextBox Text="{Binding Path=Position}"/>--><!--
                 <TextBlock Text="Квалификация" />
                 <ComboBox  ItemsSource="{Binding Source={local:Enumeration {x:Type cr:Qualification}} }" 
                             DisplayMemberPath="Description" 
@@ -74,16 +74,16 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type cr:MethodolgicalSupportResource}">
             <StackPanel Margin="10,10,10,0">
-                <!--<TextBlock Text="Методологическая поддержка" />
+                --><!--<TextBlock Text="Методологическая поддержка" />
                 <Separator/>-->
                 <!--<TextBlock Text="Название" />
-                <TextBox Text="{Binding Path=Description}"/>-->
+                <TextBox Text="{Binding Path=Description}"/>--><!--
             </StackPanel>
         </DataTemplate>
         <DataTemplate DataType="{x:Type cr:TechincalSupportResource}">
             <StackPanel Margin="10,10,10,0">
-                <!--<TextBlock Text="Рабочая станция" />
-                <Separator />-->
+                --><!--<TextBlock Text="Рабочая станция" />
+                <Separator />--><!--
                 <TextBlock Text="Количество" />
                 <TextBox Text="{Binding Path=Count}" />
                 <TextBlock Text="Частота" />
@@ -93,7 +93,7 @@
                 <TextBlock Text="Видеопамять" />
                 <TextBox Text="{Binding Path=Vram}" />
             </StackPanel>
-        </DataTemplate>
+        </DataTemplate>-->
 
 
     </Window.Resources>

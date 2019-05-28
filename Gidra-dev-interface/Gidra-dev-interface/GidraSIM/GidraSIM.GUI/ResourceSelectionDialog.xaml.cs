@@ -1,4 +1,4 @@
-﻿using GidraSIM.Core.Model.Resources;
+﻿using GidraSIM.Core.Model;
 using System.Collections.Generic;
 using System.Windows;
 
@@ -12,20 +12,48 @@ namespace GidraSIM.GUI
         public ResourceSelectionDialog()
         {
             InitializeComponent();
-            listView1.Items.Add(new CadResource());
-            listView1.Items.Add(new WorkerResource());
-            listView1.Items.Add(new TechincalSupportResource());
-            listView1.Items.Add(new MethodolgicalSupportResource());
+            listView1.Items.Add(new Resource
+            {
+                Name = "Компьютер",
+                Type = "Компьютер",
+                MaxUsageCount = 1,
+                Parameters = new Dictionary<string, double>
+                {
+                    { "Тактовая частота", 1900 },
+                    { "Надёжность", 10 },
+                }
+            });
+            listView1.Items.Add(new Resource
+            {
+                Name = "Вася",
+                Type = "Человек",
+                MaxUsageCount = 1,
+                Parameters = new Dictionary<string, double>
+                        {
+                            { "Профессионализм", 10 },
+                        }
+            });
+            listView1.Items.Add(new Resource
+            {
+                Name = "Canon 12SX",
+                Type = "Принтер",
+                MaxUsageCount = 1,
+                Parameters = new Dictionary<string, double>
+                        {
+                            { "Скорость печати", 10 },
+                            { "Надёжность", 10 },
+                        }
+            });
             listView1.SelectedIndex = 0;
-            SelectedResource = new List<AbstractResource>();
+            SelectedResource = new List<Resource>();
             this.button.Focus();
         }
 
-        public List<AbstractResource> SelectedResource { get; private set; }
+        public List<Resource> SelectedResource { get; private set; }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            foreach (AbstractResource item in listView1.SelectedItems) SelectedResource.Add(item);
+            foreach (Resource item in listView1.SelectedItems) SelectedResource.Add(item);
             //listBox1.Items.Remove(listBox1.SelectedItem);
             this.DialogResult = true;
         }

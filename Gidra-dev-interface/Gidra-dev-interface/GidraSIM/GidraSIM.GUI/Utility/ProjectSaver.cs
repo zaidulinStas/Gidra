@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using GidraSIM.Core.Model;
-using GidraSIM.Core.Model.Procedures;
-using GidraSIM.Core.Model.Resources;
 using GidraSIM.GUI.Core.BlocksWPF;
 using System.Runtime.Serialization;
 using System.IO;
@@ -24,37 +22,37 @@ namespace GidraSIM.GUI.Utility
         private SaveProject project;
         public ProjectSaver()
         {
-            types = new Type[]
-            {
-                typeof(CadResource),
-                typeof(WorkerResource),
-                typeof(TechincalSupportResource),
-                typeof(MethodolgicalSupportResource),
-                typeof(AccidentsCollector),
-                typeof(Accident),
-                typeof(TokensCollector),
-                typeof(ConnectionManager),
-                typeof(AndBlock),
-                typeof(DuplicateOutputsBlock),
-                typeof(ArrangementProcedure),
-                typeof(Assembling),
-                typeof(ClientCoordinationPrrocedure),
-                typeof(DocumentationCoordinationProcedure),
-                typeof(ElectricalSchemeSimulation),
-                typeof(FixedTimeBlock),
-                typeof(FormingDocumentationProcedure),
-                typeof(Geometry2D),
-                typeof(KDT),
-                typeof(KinematicСalculations),
-                typeof(PaperworkProcedure),
-                typeof(QualityCheckProcedure),
-                typeof(SampleTestingProcedure),
-                typeof(SchemaCreationProcedure),
-                typeof(StrengthСalculations),
-                typeof(TracingProcedure),
-                typeof(Process)
-            };
-            processSaved = new Dictionary<Process, Guid>();
+            //types = new Type[]
+            //{
+            //    typeof(CadResource),
+            //    typeof(WorkerResource),
+            //    typeof(TechincalSupportResource),
+            //    typeof(MethodolgicalSupportResource),
+            //    typeof(AccidentsCollector),
+            //    typeof(Accident),
+            //    typeof(TokensCollector),
+            //    typeof(ConnectionManager),
+            //    typeof(AndBlock),
+            //    typeof(DuplicateOutputsBlock),
+            //    typeof(ArrangementProcedure),
+            //    typeof(Assembling),
+            //    typeof(ClientCoordinationPrrocedure),
+            //    typeof(DocumentationCoordinationProcedure),
+            //    typeof(ElectricalSchemeSimulation),
+            //    typeof(FixedTimeBlock),
+            //    typeof(FormingDocumentationProcedure),
+            //    typeof(Geometry2D),
+            //    typeof(KDT),
+            //    typeof(KinematicСalculations),
+            //    typeof(PaperworkProcedure),
+            //    typeof(QualityCheckProcedure),
+            //    typeof(SampleTestingProcedure),
+            //    typeof(SchemaCreationProcedure),
+            //    typeof(StrengthСalculations),
+            //    typeof(TracingProcedure),
+            //    typeof(Process)
+            //};
+            //processSaved = new Dictionary<Process, Guid>();
         }
 
         // Если кто-то будет смотреть или редактировать этот код
@@ -77,7 +75,7 @@ namespace GidraSIM.GUI.Utility
 
                 if (!(processSaved.ContainsKey(item.Header as Process)))
                 {
-                    String name = (item.Header as Process).Description;
+                    String name = (item.Header as Process).Name;
 
                     var drawArea = item.Content as DrawArea; // Достаём область рисования 
                     var savedProc = SaveProcessExecute(drawArea.Children, name);
@@ -123,53 +121,53 @@ namespace GidraSIM.GUI.Utility
             int num = 0;
 
             // Очищаем информацию
-            testTabControl.Items.Clear();
-            drawAreas.Clear();
-            processes.Clear();
+            //testTabControl.Items.Clear();
+            //drawAreas.Clear();
+            //processes.Clear();
 
-            List<TabItem> tabitems = new List<TabItem>();
+            //List<TabItem> tabitems = new List<TabItem>();
 
-            // Проходим по каждому процессу
-            for (int i = 0; i < temp.ProcessList.Count; i++)
-            {         
-                // Создаём процесс
-                Process process = new Process() { Description = temp[i].ProcessName };
-                processes.Add(process); // Добавляем в список процессов
+            //// Проходим по каждому процессу
+            //for (int i = 0; i < temp.ProcessList.Count; i++)
+            //{         
+            //    // Создаём процесс
+            //    Process process = new Process() { Name = temp[i].ProcessName };
+            //    processes.Add(process); // Добавляем в список процессов
 
-                var tabItem = new TabItem() { Header = process };
-                testTabControl.SelectedItem = tabItem;
+            //    var tabItem = new TabItem() { Header = process };
+            //    testTabControl.SelectedItem = tabItem;
 
-                // Создаём область рисования
-                var drawArea = new DrawArea()
-                {
-                    Processes = processes
-                };
-                drawAreas.Add(drawArea);
-                tabItem.Content = drawArea;
+            //    // Создаём область рисования
+            //    var drawArea = new DrawArea()
+            //    {
+            //        Processes = processes
+            //    };
+            //    drawAreas.Add(drawArea);
+            //    tabItem.Content = drawArea;
 
-                LoadProcess(temp[i], drawArea);
-                processWorked.Add(temp[i].ProcessId, process);
+            //    LoadProcess(temp[i], drawArea);
+            //    processWorked.Add(temp[i].ProcessId, process);
 
-                if (temp.MainProcessID == temp[i].ProcessId)
-                {
-                    mainprocess = process;
-                    num = i;
+            //    if (temp.MainProcessID == temp[i].ProcessId)
+            //    {
+            //        mainprocess = process;
+            //        num = i;
 
-                }
+            //    }
 
-                //testTabControl.Items.Add(tabItem);
-                tabitems.Add(tabItem);
+            //    //testTabControl.Items.Add(tabItem);
+            //    tabitems.Add(tabItem);
                               
-            }
+            //}
 
-            // А теперь добавляем, чтобы было в нормальном порядке
-            tabitems.Reverse();
+            //// А теперь добавляем, чтобы было в нормальном порядке
+            //tabitems.Reverse();
 
-            foreach (var ch in tabitems)
-            {
-                testTabControl.Items.Add(ch);
-            }
-            //testTabControl.ItemsSource = tabitems;
+            //foreach (var ch in tabitems)
+            //{
+            //    testTabControl.Items.Add(ch);
+            //}
+            ////testTabControl.ItemsSource = tabitems;
 
             return num;
         }
@@ -358,7 +356,7 @@ namespace GidraSIM.GUI.Utility
                         if (!processSaved.ContainsKey(info as Process))
                         {
                             // Если не сохранён, быстро сохраняем, передавая родительский блок
-                            SaveProcess childProc = ExtrSaveProcess((info as Process).Description);
+                            SaveProcess childProc = ExtrSaveProcess((info as Process).Name);
                             childId = childProc.ProcessId;
                             processSaved.Add(info as Process, childId);
                             project.ProcessList.Add(childProc);
@@ -421,7 +419,7 @@ namespace GidraSIM.GUI.Utility
         {
             foreach (TabItem tab in tempTabControl.Items)
             {
-                if ((tab.Header as Process).Description == name) return SaveProcessExecute((tab.Content as DrawArea).Children, name);
+                if ((tab.Header as Process).Name == name) return SaveProcessExecute((tab.Content as DrawArea).Children, name);
             }
 
             return null;
@@ -594,7 +592,7 @@ namespace GidraSIM.GUI.Utility
         [DataMember(EmitDefaultValue = false)] public Point Position { get; set; }
 
         // "Содержимое" блока
-        [DataMember(Name = "Content")] public IBlock Model { get; set; }  
+        [DataMember(Name = "Content")] public BaseProcedure Model { get; set; }  
 
         /// <summary>
         /// Переводит блок WPF в форму для сохранения
@@ -634,7 +632,7 @@ namespace GidraSIM.GUI.Utility
 
         [DataMember(EmitDefaultValue = false)] public Point Position { get; set; }
 
-        [DataMember(Name = "Content")] public AbstractResource Model { get; set; }
+        [DataMember(Name = "Content")] public Resource Model { get; set; }
 
         public static SaveResource ToSave(ResourceWPF resource)
         {
