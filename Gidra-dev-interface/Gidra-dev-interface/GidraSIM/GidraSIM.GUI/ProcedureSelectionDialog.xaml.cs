@@ -47,11 +47,11 @@ namespace GidraSIM.GUI
             listBox1.SelectedIndex = 0;
         }
 
-        public BaseProcedure SelectedBlock { get; private set; }
+        public Procedure SelectedBlock { get; private set; }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedBlock = listBox1.SelectedItem as BaseProcedure;
+            SelectedBlock = listBox1.SelectedItem as Procedure;
             listBox1.Items.Remove(listBox1.SelectedItem);
             this.DialogResult = true;
         }

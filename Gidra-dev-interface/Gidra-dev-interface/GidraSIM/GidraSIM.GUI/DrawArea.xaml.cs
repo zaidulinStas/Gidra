@@ -25,7 +25,7 @@ namespace GidraSIM.GUI
             set => isHaveStartAndEnd = value;
         }
 
-        public List<Simulator> Simulators { get; set; }
+        public List<SimulationOptions> Processes { get; set; }
 
         private bool AllChildrenIsSelectable
         {

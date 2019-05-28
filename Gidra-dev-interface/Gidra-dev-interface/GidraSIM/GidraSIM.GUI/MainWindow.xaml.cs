@@ -24,11 +24,11 @@ namespace GidraSIM.GUI
         private string savePath = "";
 
         //переменная для именования процессов (симуляторов)
-        int simulatorNamesCounter = 1;
-        Simulator mainSimulator = new Simulator();
-        int mainSimulatorNumber;
+        int processNamesCounter = 1;
+        SimulationOptions mainProcess = new SimulationOptions();
+        int mainProcessNumber;
 
-        List<Simulator> simulators = new List<Simulator>();
+        List<SimulationOptions> processes = new List<SimulationOptions>();
         List<DrawArea> drawAreas = new List<DrawArea>();
 
         /// <summary>
@@ -256,71 +256,71 @@ namespace GidraSIM.GUI
 
         private void StartModeling_Executed(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                ViewModelConverter converter = new ViewModelConverter();
 
-            //try
-            //{
-            //    ViewModelConverter converter = new ViewModelConverter();
+                //запихиваем содержимое области рисования в процесс
+                foreach (var item in testTabControl.Items)
+                {
+                    var tab = item as TabItem;
+                    var drawArea = tab.Content as DrawArea;
+                    var simOptions = tab.Header as SimulationOptions;
+                    converter.Map(drawArea.Children, simOptions);
+                }
 
-            //    //запихиваем содержимое области рисования в процесс
-            //    foreach (var item in testTabControl.Items)
-            //    {
-            //        var tab = item as TabItem;
-            //        var drawArea = tab.Content as DrawArea;
-            //        converter.Map(drawArea.Children, tab.Header as Process);
-            //    }
+                ////запихиваем содержимое главной области рисования в процесс
+                //converter.Map(drawAreas[0].Children, mainProcess);
 
-            //    ////запихиваем содержимое главной области рисования в процесс
-            //    //converter.Map(drawAreas[0].Children, mainProcess);
+                //добавляем на стартовый блок токен
+                //mainProcess.AddToken(new Token(0, complexity), 0);
+                //double i = 0;
+                //ModelingTime modelingTime = new ModelingTime() { Delta = this.dt, Now = 0 };
+                //for (modelingTime.Now = 0; modelingTime.Now < maxTime; modelingTime.Now += modelingTime.Delta)
+                //{
+                //    mainProcess.Update(modelingTime);
+                //    //на конечном блоке на выходе появился токен
+                //    if (mainProcess.EndBlockHasOutputToken)
+                //    {
+                //        break;
+                //    }
+                //}
 
-            //    //добавляем на стартовый блок токен
-            //    mainProcess.AddToken(new Token(0, complexity), 0);
-            //    //double i = 0;
-            //    ModelingTime modelingTime = new ModelingTime() { Delta = this.dt, Now = 0 };
-            //    for (modelingTime.Now = 0; modelingTime.Now < maxTime; modelingTime.Now += modelingTime.Delta)
-            //    {
-            //        mainProcess.Update(modelingTime);
-            //        //на конечном блоке на выходе появился токен
-            //        if (mainProcess.EndBlockHasOutputToken)
-            //        {
-            //            break;
-            //        }
-            //    }
+                //TokenViewer show = new TokenViewer(mainProcess.TokenCollector as TokensCollector);
+                //show.Show();
 
-            //    //TokenViewer show = new TokenViewer(mainProcess.TokenCollector as TokensCollector);
-            //    //show.Show();
+                //Statictics();
 
-            //    //Statictics();
+                //TODO сделать DataBinding
+                listBox1.Items.Clear();
 
-            //    //TODO сделать DataBinding
-            //    listBox1.Items.Clear();
+                //добавляем ещё инцидентры в историю
+                //AccidentsCollector collector = AccidentsCollector.GetInstance();
+                //collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
 
-            //    //добавляем ещё инцидентры в историю
-            //    AccidentsCollector collector = AccidentsCollector.GetInstance();
-            //    collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
-
-            //    ResultWindow resultWindow = new ResultWindow(mainProcess.Collector.GetHistory(), collector.GetHistory(),  this.complexity);
-            //    resultWindow.ShowDialog();
-            //    mainProcess.Collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
+                //ResultWindow resultWindow = new ResultWindow(mainProcess.Collector.GetHistory(), collector.GetHistory(), this.complexity);
+                //resultWindow.ShowDialog();
+                //mainProcess.Collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
 
 
 
-            //    mainProcess.Collector.GetHistory().Clear();
-            //    collector.GetHistory().Clear();
+                //mainProcess.Collector.GetHistory().Clear();
+                //collector.GetHistory().Clear();
 
-            //    //выводим число токенов и время затраченное(в заголовке)
-            //    //MessageBox.Show("Время, затраченное на имитацию " + modelingTime.Now.ToString(), "Имитация закончена");
-            //}
-            //catch (NotImplementedException ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //finally
-            //{
-            //    foreach (var process in processes)
-            //    {
-            //        process.ClearProcess();
-            //    }
-            //}
+                //выводим число токенов и время затраченное(в заголовке)
+                //MessageBox.Show("Время, затраченное на имитацию " + modelingTime.Now.ToString(), "Имитация закончена");
+            }
+            catch (NotImplementedException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                foreach (var process in processes)
+                {
+                    //process = new SimulationOptions();
+                }
+            }
         }
 
 
@@ -598,23 +598,23 @@ namespace GidraSIM.GUI
             // Устанавливаем дефолтные значения
             testTabControl.Items.Clear();
             drawAreas.Clear();
-            simulators.Clear();
+            processes.Clear();
 
-            mainSimulator = new Simulator();
-            mainSimulatorNumber = 0;
-            simulatorNamesCounter = 1;
+            mainProcess = new SimulationOptions();
+            mainProcessNumber = 0;
+            processNamesCounter = 1;
 
             // Создаём процесс
             //Process process = new Process() { Description = mainProcess.Description };
-            simulators.Add(mainSimulator); // Добавляем в список процессов
+            processes.Add(mainProcess); // Добавляем в список процессов
 
-            var tabItem = new TabItem() { Header = mainSimulator };
+            var tabItem = new TabItem() { Header = mainProcess };
             testTabControl.SelectedItem = tabItem;
 
             // Создаём область рисования
             var drawArea = new DrawArea()
             {
-                Simulators = simulators
+                Processes = processes
             };
 
             drawAreas.Add(drawArea);

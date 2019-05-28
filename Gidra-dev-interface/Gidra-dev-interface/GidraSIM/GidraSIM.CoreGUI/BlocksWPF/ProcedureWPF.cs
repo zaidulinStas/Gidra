@@ -23,11 +23,11 @@ namespace GidraSIM.GUI.Core.BlocksWPF
         // Соединения с ресурсами
         private List<ResConnectionWPF> resputs;
 
-        public BaseProcedure BlockModel {  get; private set; }
+        public Procedure BlockModel {  get; private set; }
 
         // константы для определения высоты блока
 
-        public ProcedureWPF(Point position, BaseProcedure block) : base(position, block.Name)
+        public ProcedureWPF(Point position, Procedure block) : base(position, block.Name)
         {
             //this.InputCount = block.InputQuantity;
             //this.OutputCount = block.OutputQuantity;

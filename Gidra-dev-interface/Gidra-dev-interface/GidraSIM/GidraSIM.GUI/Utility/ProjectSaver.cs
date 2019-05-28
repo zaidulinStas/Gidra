@@ -348,26 +348,26 @@ namespace GidraSIM.GUI.Utility
                     Guid childId = new Guid();
 
                     // Проверяем, не является ли содержимое подпроцессом
-                    if (IsProcess)
-                    {
-                        // Если является
+                    //if (IsProcess)
+                    //{
+                    //    // Если является
 
-                        // Проверяем, сохранен ли он
-                        if (!processSaved.ContainsKey(info as Process))
-                        {
-                            // Если не сохранён, быстро сохраняем, передавая родительский блок
-                            SaveProcess childProc = ExtrSaveProcess((info as Process).Name);
-                            childId = childProc.ProcessId;
-                            processSaved.Add(info as Process, childId);
-                            project.ProcessList.Add(childProc);
-                            //processSaved.Add(info as Process, childId);
-                        }
-                        else // Сохранён
-                        {
-                            // Находим процесс
-                            childId = processSaved[info as Process]; // Достаём его ID
-                        }
-                    }
+                    //    // Проверяем, сохранен ли он
+                    //    if (!processSaved.ContainsKey(info as Process))
+                    //    {
+                    //        // Если не сохранён, быстро сохраняем, передавая родительский блок
+                    //        SaveProcess childProc = ExtrSaveProcess((info as Process).Name);
+                    //        childId = childProc.ProcessId;
+                    //        processSaved.Add(info as Process, childId);
+                    //        project.ProcessList.Add(childProc);
+                    //        //processSaved.Add(info as Process, childId);
+                    //    }
+                    //    else // Сохранён
+                    //    {
+                    //        // Находим процесс
+                    //        childId = processSaved[info as Process]; // Достаём его ID
+                    //    }
+                    //}
 
                     temp = SaveProcedure.ToSave(Block as ProcedureWPF, IsProcess, childId);
                     procedures.Add(Block as ProcedureWPF, temp.Id);
@@ -479,19 +479,19 @@ namespace GidraSIM.GUI.Utility
             }
             else
             {
-                ProcedureWPF curProc;
+                ProcedureWPF curProc = null;
                 if (Block.IsProcess)
                 {
                     Block.Model = processWorked[Block.ChildBlockID];
-                    curProc = new SubProcessWPF(Block.Position, Block.Model as Process);
+                    //curProc = new SubProcessWPF(Block.Position, Block.Model as Process);
                 }
                 else
                 {
-                    curProc = SaveProcedure.ToNormal(Block);
+                    //curProc = SaveProcedure.ToNormal(Block);
 
                 }
 
-                worksavelist.Add(Block.Id, curProc);
+                //worksavelist.Add(Block.Id, curProc);
 
                 return curProc;
             }
@@ -616,10 +616,10 @@ namespace GidraSIM.GUI.Utility
         /// </summary>
         /// <param name="procedure"></param>
         /// <returns></returns>
-        public static ProcedureWPF ToNormal(SaveProcedure procedure)
-        {
-            return new ProcedureWPF(procedure.Position, procedure.Model);
-        }
+        //public static ProcedureWPF ToNormal(SaveProcedure procedure)
+        //{
+        //    return new ProcedureWPF(procedure.Position, procedure.Model);
+        //}
     }
 
     /// <summary>
