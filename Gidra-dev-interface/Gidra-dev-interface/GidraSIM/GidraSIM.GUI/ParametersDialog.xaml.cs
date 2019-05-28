@@ -27,12 +27,14 @@ namespace GidraSIM.GUI
             InitializeComponent();
         }
 
-        public ParametersDialog(Dictionary<string, double> paramsPairs)
+        public ParametersDialog(Dictionary<string, double> paramsPairs, string title)
         {
             InitializeComponent();
 
             parameters = new Dictionary<string, double>();
             textBoxes = new Dictionary<string, TextBox>();
+
+            titleBlock.Text = title;
 
             foreach (var paramsPair in paramsPairs)
             {

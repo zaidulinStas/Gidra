@@ -77,13 +77,14 @@ namespace GidraSIM.GUI
         private void ProcedureParameters_Edit(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            var paramsPairs = (sender as ProcedureWPF).BlockModel.Parameters;
-            var dialog = new ParametersDialog(paramsPairs);
+            var procedure = (sender as ProcedureWPF).BlockModel;
+            var paramsPairs = procedure.Parameters;
+            var dialog = new ParametersDialog(paramsPairs, $"Процедура: {procedure.Name}");
             if (dialog.ShowDialog() == true)
             {
                 var parameters = dialog.parameters;
 
-                (sender as ProcedureWPF).BlockModel.Parameters = parameters;
+                procedure.Parameters = parameters;
             }
         }
 
@@ -116,13 +117,14 @@ namespace GidraSIM.GUI
         private void ResourceParameters_Edit(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            var paramsPairs = (sender as ResourceWPF).ResourceModel.Parameters;
-            var dialog = new ParametersDialog(paramsPairs);
+            var resource = (sender as ResourceWPF).ResourceModel;
+            var paramsPairs = resource.Parameters;
+            var dialog = new ParametersDialog(paramsPairs, $"Ресурс: {resource.Name}");
             if (dialog.ShowDialog() == true)
             {
                 var parameters = dialog.parameters;
 
-                (sender as ResourceWPF).ResourceModel.Parameters = parameters;
+                resource.Parameters = parameters;
             }
         }
 
