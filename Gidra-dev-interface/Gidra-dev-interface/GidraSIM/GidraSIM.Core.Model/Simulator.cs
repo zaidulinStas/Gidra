@@ -75,16 +75,17 @@ namespace GidraSIM.Core.Model
             {
                 procedure.Flush();
             }
-        
+
             return new SimulationResult
             {
                 ModelingTime = modelingTime,
-                TotalPrice = activeProcedures
-                    .SelectMany(x => x.AllResources
-                        .SelectMany(res => res.Parameters)
-                        .Where(param => param.Key == "Стоимость")
-                        .Select(param => param.Value))
-                    .Sum(),
+                TotalPrice = activeProcedures.Sum(p => p.AllResources.Sum(r => r.Cost)),
+                //TotalPrice = activeProcedures
+                //    .SelectMany(x => x.AllResources
+                //        .SelectMany(res => res.Parameters)
+                //        .Where(param => param.Key == "Стоимость")
+                //        .Select(param => param.Value))
+                //    .Sum(),
                 Logs = logs
             };
         }
