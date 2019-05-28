@@ -79,12 +79,14 @@ namespace GidraSIM.GUI
             e.Handled = true;
             var procedure = (sender as ProcedureWPF).BlockModel;
             var paramsPairs = procedure.Parameters;
-            var dialog = new ParametersDialog(paramsPairs, $"Процедура: {procedure.Name}");
+            var dialog = new ParametersDialog(paramsPairs, procedure.ProgressFunction, $"Процедура: {procedure.Name}");
             if (dialog.ShowDialog() == true)
             {
                 var parameters = dialog.parameters;
+                var progressFunction = dialog.progressFunction;
 
                 procedure.Parameters = parameters;
+                procedure.ProgressFunction = progressFunction;
             }
         }
 
@@ -119,7 +121,7 @@ namespace GidraSIM.GUI
             e.Handled = true;
             var resource = (sender as ResourceWPF).ResourceModel;
             var paramsPairs = resource.Parameters;
-            var dialog = new ParametersDialog(paramsPairs, $"Ресурс: {resource.Name}");
+            var dialog = new ParametersDialog(paramsPairs, null, $"Ресурс: {resource.Name}");
             if (dialog.ShowDialog() == true)
             {
                 var parameters = dialog.parameters;

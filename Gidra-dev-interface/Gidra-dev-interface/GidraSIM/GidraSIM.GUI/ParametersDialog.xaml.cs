@@ -21,20 +21,43 @@ namespace GidraSIM.GUI
     {
         public Dictionary<string, double> parameters;
         private Dictionary<string, TextBox> textBoxes;
+        public string progressFunction;
+        TextBox functionBox;
 
         public ParametersDialog()
         {
             InitializeComponent();
         }
 
-        public ParametersDialog(Dictionary<string, double> paramsPairs, string title)
+        public ParametersDialog(Dictionary<string, double> paramsPairs, string _progressFunction, string title)
         {
             InitializeComponent();
 
             parameters = new Dictionary<string, double>();
             textBoxes = new Dictionary<string, TextBox>();
+            progressFunction = _progressFunction;
 
             titleBlock.Text = title;
+
+            functionBox = new TextBox
+            {
+                Name = "functionBox",
+                Text = _progressFunction,
+                Width = 200,
+                Margin = new Thickness(5, 0, 0, 4)
+            };
+
+            if (_progressFunction != null)
+            {
+                wrapPanel.Children.Add(new Label
+                {
+                    Content = "Функция",
+                    Width = 200,
+                    Margin = new Thickness(0, 0, 0, 2),
+                    FontWeight = FontWeights.Bold
+                });
+                wrapPanel.Children.Add(functionBox);
+            }
 
             foreach (var paramsPair in paramsPairs)
             {
@@ -49,7 +72,7 @@ namespace GidraSIM.GUI
                 label.Width = 200;
                 label.Margin = new Thickness(0, 0, 0, 2);
                 label.FontWeight = FontWeights.Bold;
-               
+
                 wrapPanel.Children.Add(label);
                 wrapPanel.Children.Add(textBox);
             }
@@ -61,6 +84,7 @@ namespace GidraSIM.GUI
             {
                 parameters.Add(textBox.Key, Double.Parse(textBox.Value.Text));
             }
+            progressFunction = functionBox.Text;
             this.DialogResult = true;
         }
     }
