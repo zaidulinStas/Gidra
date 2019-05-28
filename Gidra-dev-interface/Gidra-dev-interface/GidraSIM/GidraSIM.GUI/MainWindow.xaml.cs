@@ -259,6 +259,7 @@ namespace GidraSIM.GUI
             try
             {
                 ViewModelConverter converter = new ViewModelConverter();
+                var simOptionsList = new List<SimulationOptions>();
 
                 //запихиваем содержимое области рисования в процесс
                 foreach (var item in testTabControl.Items)
@@ -267,6 +268,21 @@ namespace GidraSIM.GUI
                     var drawArea = tab.Content as DrawArea;
                     var simOptions = tab.Header as SimulationOptions;
                     converter.Map(drawArea.Children, simOptions);
+                    simOptionsList.Add(simOptions);
+                }
+
+                foreach (var simOptions in simOptionsList)
+                {
+                    for (var i = 0; i < simOptions.Procedures.Count - 1; i++)
+                    {
+                        simOptions.Procedures[i].Connect(simOptions.Procedures[i + 1]);
+                    }
+
+                    var simulator = new Simulator();
+
+                    var results = simulator.Simulate(simOptions);
+
+                    int r = 5;
                 }
 
                 ////запихиваем содержимое главной области рисования в процесс
