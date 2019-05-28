@@ -289,7 +289,7 @@ namespace GidraSIM.GUI
                     {
                         resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
 
-                        foreach (var log in results.Logs)
+                        foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
                         {
                             resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
                         }
