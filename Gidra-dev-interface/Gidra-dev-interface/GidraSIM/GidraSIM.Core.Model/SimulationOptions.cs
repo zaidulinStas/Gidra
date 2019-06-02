@@ -19,7 +19,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Шаг моделирования
         /// </summary>
-        public double SimulationStep { get; set; } = 1.0;
+        public double SimulationStep { get; set; } = 10.0;
 
         /// <summary>
         /// Список процедур

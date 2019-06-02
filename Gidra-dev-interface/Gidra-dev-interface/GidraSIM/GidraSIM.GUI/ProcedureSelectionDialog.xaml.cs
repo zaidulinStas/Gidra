@@ -56,6 +56,7 @@ namespace GidraSIM.GUI
                 Parameters = new Dictionary<string, double>
                 {
                     { "Число элементов", 10 },
+                    { "Сложность связей", 40 },
                 },
                 ProgressFunction = "[x]/([Число элементов]*200 + [Сложность связей]*200-[Компьютер.Частота процессора]/2000*10-[Компьютер.RAM]*10)"
             });
@@ -65,6 +66,7 @@ namespace GidraSIM.GUI
                 Parameters = new Dictionary<string, double>
                 {
                     { "Число элементов", 10 },
+                    { "Сложность связей", 40 },
                 },
                 ProgressFunction = "[x]/([Число элементов]*200 + [Сложность связей]*200-[Компьютер.Частота процессора]/2000*100-[Компьютер.RAM]*10)"
             });
@@ -75,7 +77,7 @@ namespace GidraSIM.GUI
                 {
                     { "Объем данных", 100 },
                 },
-                ProgressFunction = "[x]/([x] + [Объем данных]*100 - [Проектировщик.Опыт работы]*2",
+                ProgressFunction = "[x]/([Объем данных]*100 - [Нормоконтролер.Опыт работы]*2)",
             });
             listBox1.Items.Add(new Procedure()
             {
@@ -84,7 +86,7 @@ namespace GidraSIM.GUI
                 {
                     { "Объем данных", 100 },
                 },
-                ProgressFunction = "[x]/([x] + [Объем данных]*100 - [Принтер.Скорость печати]*10",
+                ProgressFunction = "[x]/([Объем данных]*100 - [Принтер.Скорость печати]*10)",
             });
 
 
