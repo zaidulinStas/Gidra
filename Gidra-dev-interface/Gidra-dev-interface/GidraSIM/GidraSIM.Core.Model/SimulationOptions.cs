@@ -14,7 +14,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Максимальное время моделирования
         /// </summary>
-        public double MaxTime { get; set; } = 200000;
+        public double MaxTime { get; set; } = 2000;
 
         /// <summary>
         /// Шаг моделирования

@@ -13,26 +13,31 @@ namespace GidraSIM.GUI.Utility
 
         }
 
-        public void Map(UIElementCollection uIElementCollection, Process process)
+        public void Map(UIElementCollection uIElementCollection, SimulationOptions simOptions)
         {
-            Dictionary<ProcedureWPF, IBlock> procedures = new Dictionary<ProcedureWPF, IBlock>();
-            Dictionary<ResourceWPF, IResource> resources = new Dictionary<ResourceWPF, IResource>();
+            Dictionary<ProcedureWPF, Procedure> procedures = new Dictionary<ProcedureWPF, Procedure>();
+            Dictionary<ResourceWPF, Resource> resources = new Dictionary<ResourceWPF, Resource>();
+
+            var resultProcedures = new List<Procedure>();
+
             foreach (var element in uIElementCollection)
             {
                 //смотрим все соединения процедур
-                if(element is ProcConnectionWPF)
+                if (element is ProcConnectionWPF)
                 {
                     var connection = (element as ProcConnectionWPF);
-                    //TODO типа можно здесь всё обработать
 
-                    if(connection.StartBlock is StartBlockWPF && connection.EndBlock is EndBlockWPF)
+                    //TODO типа можно здесь всё обработать
+                    // Комментарий от 28.05.19: facepalm
+                    if (connection.StartBlock is StartBlockWPF && connection.EndBlock is EndBlockWPF)
                     {
                         throw new Exception("Нельзя просто соединить начало с концом!");
                     }
+
                     //обработка стартового блока
-                    if(connection.StartBlock  is StartBlockWPF)
+                    if (connection.StartBlock is StartBlockWPF)
                     {
-                        IBlock block;
+                        Procedure block;
 
                         //если в первый раз встерчаем блок
                         if (!(procedures.ContainsKey(connection.EndBlock as ProcedureWPF)))
@@ -44,58 +49,58 @@ namespace GidraSIM.GUI.Utility
                             procedures.Add(connection.EndBlock as ProcedureWPF, block);
 
                             //добавляем его в список всех блоков процесса
-                            process.Blocks.Add(block);
+                            resultProcedures.Add(block);
                         }
                         //иначе просто берём из базы
                         else
                             block = procedures[connection.EndBlock as ProcedureWPF];
 
-                        process.StartBlock = block;
+                        //process.StartBlock = block;
                         //соединение будет когда-то потом
                     }
                     //обработка конечного блока
-                    else if(connection.EndBlock is EndBlockWPF)
+                    else if (connection.EndBlock is EndBlockWPF)
                     {
-                        IBlock block = null;
+                        Procedure block = null;
 
                         //если в первый раз такое встречаем
                         if (!(procedures.ContainsKey(connection.StartBlock as ProcedureWPF)))
                         {
                             block = (connection.StartBlock as ProcedureWPF).BlockModel;
                             procedures.Add(connection.StartBlock as ProcedureWPF, block);
-                            process.Blocks.Add(block);
+                            resultProcedures.Add(block);
                         }
                         else
                         {
                             block = procedures[connection.StartBlock as ProcedureWPF];
                         }
-                        process.EndBlock = block;
+                        //process.EndBlock = block;
                         //соединение будет когда-то потом
                     }
                     //обработка всех остальных блоков
-                    else 
+                    else
                     {
-                        IBlock block = null;
+                        Procedure block = null;
 
                         //если в первый раз такое встречаем
                         if (!(procedures.ContainsKey(connection.StartBlock as ProcedureWPF)))
                         {
                             block = (connection.StartBlock as ProcedureWPF).BlockModel;
                             procedures.Add(connection.StartBlock as ProcedureWPF, block);
-                            process.Blocks.Add(block);
+                            resultProcedures.Add(block);
                         }
                         //если в первый раз такое встречаем
                         if (!(procedures.ContainsKey(connection.EndBlock as ProcedureWPF)))
                         {
                             block = (connection.EndBlock as ProcedureWPF).BlockModel;
                             procedures.Add(connection.EndBlock as ProcedureWPF, block);
-                            process.Blocks.Add(block);
+                            resultProcedures.Add(block);
                         }
-                        
+
 
                         //к счастью там только один вход и выход
-                        process.Connections.Connect(procedures[connection.StartBlock as ProcedureWPF], connection.StartPort,
-                            procedures[connection.EndBlock as ProcedureWPF], connection.EndPort);
+                        //process.Connections.Connect(procedures[connection.StartBlock as ProcedureWPF], connection.StartPort,
+                        //    procedures[connection.EndBlock as ProcedureWPF], connection.EndPort);
 
                     }
                 }
@@ -116,39 +121,40 @@ namespace GidraSIM.GUI.Utility
                         procedure = connection.EndBlock as ProcedureWPF;
                         resourceWPF = connection.StartBlock as ResourceWPF;
                     }
-                    IBlock block = null;
+                    Procedure block = null;
 
                     //если в первый раз такое встречаем
                     if (!(procedures.ContainsKey(procedure)))
                     {
                         block = procedure.BlockModel;
                         procedures.Add(procedure, block);
-                        process.Blocks.Add(block);
+                        resultProcedures.Add(block);
                     }
                     else
                         block = procedures[procedure];
 
-                    IResource resource = null; ;
+                    Resource resource = null; ;
                     //если в первый раз такое встречаем
                     if (!(resources.ContainsKey(resourceWPF)))
                     {
-                        resource = this.ConvertWpfResourcekToModel(resourceWPF);
+                        resource = this.ConvertWpfResourceToModel(resourceWPF);
                         resources.Add(resourceWPF, resource);
-                        process.Resources.Add(resource);
+                        //process.Resources.Add(resource); // WTF???
                     }
                     else
                         resource = resources[resourceWPF];
 
-                    if (block is IProcedure)
-                        (block as IProcedure).AddResorce(resource);
+                    if (block is Procedure)
+                        (block as Procedure).Resources.Add(resource);
                     else
-                        throw new ArgumentException("Ресурсы поддерживает только блоки типа IProcedure");
+                        throw new ArgumentException("Ресурсы поддерживает только блоки типа Procedure");
                 }
-                
             }
+
+            simOptions.Procedures = resultProcedures;
         }
 
-        private IResource ConvertWpfResourcekToModel(ResourceWPF resourceWPF)
+        private Resource ConvertWpfResourceToModel(ResourceWPF resourceWPF)
         {
             if (resourceWPF == null)
                 throw new ArgumentNullException();

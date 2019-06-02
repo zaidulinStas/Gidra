@@ -25,7 +25,7 @@ namespace GidraSIM.GUI
             set => isHaveStartAndEnd = value;
         }
 
-        public List<Process> Processes { get; set; }
+        public List<SimulationOptions> Processes { get; set; }
 
         private bool AllChildrenIsSelectable
         {
@@ -56,47 +56,38 @@ namespace GidraSIM.GUI
         private void Canvas_Procedure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Вычисление координат
-            Point cursorPoint = e.GetPosition(workArea);
-            Point procedurePosition = (Point)(cursorPoint - new Point(ProcedureWPF.DEFAULT_WIDTH / 2, ProcedureWPF.DEFAULT_HEIGHT / 2));
+            var cursorPoint = e.GetPosition(workArea);
+            var procedurePosition = (Point)(cursorPoint - new Point(ProcedureWPF.DEFAULT_WIDTH / 2, ProcedureWPF.DEFAULT_HEIGHT / 2));
 
             // Добавление
-            // TODO: Ввод имени процедуры и связь с моделью
-            //workArea.Children.Add(new ProcedureWPF(procedurePosition, "Процедура", rand.Next(1, 11), rand.Next(1, 11)));
+            var dialog = new ProcedureSelectionDialog();
 
-            ProcedureSelectionDialog dialog = new ProcedureSelectionDialog();
             if(dialog.ShowDialog() == true)
             {
                 var procedure = dialog.SelectedBlock;
 
-                workArea.Children.Add(new ProcedureWPF(procedurePosition,procedure));
-            }
+                var newElement = new ProcedureWPF(procedurePosition, procedure);
 
-            //workArea.Children.Add(new ProcedureWPF(procedurePosition, "Фикс. процедура (10)", 1, 1));
+                newElement.MouseRightButtonDown += ProcedureParameters_Edit;
+
+                workArea.Children.Add(newElement);
+            }
         }
 
-
-        private static Random rand = new Random();
-
-        /// <summary>
-        /// добавление подпроцессов
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Canvas_SubProcess_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ProcedureParameters_Edit(object sender, MouseButtonEventArgs e)
         {
-            // Вычисление координат
-            Point cursorPoint = e.GetPosition(workArea);
-            Point subProcessPosition = (Point)(cursorPoint - new Point(SubProcessWPF.DEFAULT_WIDTH / 2, SubProcessWPF.DEFAULT_HEIGHT / 2));
-
-            // Добавление
-            // TODO: Ввод имени подпроцесса и связь с моделью
-            SubProcessSelectionDialog dialog = new SubProcessSelectionDialog(subProcessPosition, Processes);
+            e.Handled = true;
+            var procedure = (sender as ProcedureWPF).BlockModel;
+            var paramsPairs = procedure.Parameters;
+            var dialog = new ParametersDialog(paramsPairs, procedure.ProgressFunction, $"Процедура: {procedure.Name}");
             if (dialog.ShowDialog() == true)
             {
-                var process = dialog.SelectedProcess;
-                workArea.Children.Add(process);
+                var parameters = dialog.parameters;
+                var progressFunction = dialog.progressFunction;
+
+                procedure.Parameters = parameters;
+                procedure.ProgressFunction = progressFunction;
             }
-            //workArea.Children.Add(new SubProcessWPF(subProcessPosition, "Подпроцесс", rand.Next(1, 11), rand.Next(1, 11)));
         }
 
         /// <summary>
@@ -107,22 +98,57 @@ namespace GidraSIM.GUI
         private void Canvas_Resource_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Вычисление координат
-            Point cursorPoint = e.GetPosition(workArea);
-            Point resourcePosition = (Point)(cursorPoint - new Point(ResourceWPF.DEFAULT_WIDTH / 2, ResourceWPF.DEFAULT_HEIGHT / 2));
+            var cursorPoint = e.GetPosition(workArea);
+            var resourcePosition = (Point)(cursorPoint - new Point(ResourceWPF.DEFAULT_WIDTH / 2, ResourceWPF.DEFAULT_HEIGHT / 2));
 
             // Добавление
-            // TODO: Ввод имени процедуры и связь с моделью
-            //workArea.Children.Add(new ResourceWPF(resourcePosition, "Ресурс"));
-            ResourceSelectionDialog dialog = new ResourceSelectionDialog();
+            var dialog = new ResourceSelectionDialog();
 
             if (dialog.ShowDialog() == true)
             {
-                var resources = dialog.SelectedResource;
+                var resource = dialog.SelectedResource;
 
-                // Проходим по выбранным ресурсам
-                foreach(var resource in resources)
-                workArea.Children.Add(new ResourceWPF(new Point(resourcePosition.X += ResourceWPF.DEFAULT_WIDTH, resourcePosition.Y), resource));
+                var newElement = new ResourceWPF(resourcePosition, resource);
+
+                newElement.MouseRightButtonDown += ResourceParameters_Edit;
+
+                workArea.Children.Add(newElement);
             }
+        }
+
+        private void ResourceParameters_Edit(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var resource = (sender as ResourceWPF).ResourceModel;
+            var paramsPairs = resource.Parameters;
+            var dialog = new ParametersDialog(paramsPairs, null, $"Ресурс: {resource.Name}");
+            if (dialog.ShowDialog() == true)
+            {
+                var parameters = dialog.parameters;
+
+                resource.Parameters = parameters;
+            }
+        }
+
+        /// <summary>
+        /// добавление подпроцессов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Canvas_SubProcess_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //// Вычисление координат
+            //Point cursorPoint = e.GetPosition(workArea);
+            //Point subProcessPosition = (Point)(cursorPoint - new Point(SubProcessWPF.DEFAULT_WIDTH / 2, SubProcessWPF.DEFAULT_HEIGHT / 2));
+
+            //// Добавление
+            //// TODO: Ввод имени подпроцесса и связь с моделью
+            //SubProcessSelectionDialog dialog = new SubProcessSelectionDialog(subProcessPosition, Simulators);
+            //if (dialog.ShowDialog() == true)
+            //{
+            //    var process = dialog.SelectedProcess;
+            //    workArea.Children.Add(process);
+            //}
         }
 
         /// <summary>

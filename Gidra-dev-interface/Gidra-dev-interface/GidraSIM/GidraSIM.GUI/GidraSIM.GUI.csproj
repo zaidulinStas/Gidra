@@ -92,6 +92,9 @@
       <DependentUpon>Images.resx</DependentUpon>
     </Compile>
     <Compile Include="MainWindowCommands.cs" />
+    <Compile Include="ParametersDialog.xaml.cs">
+      <DependentUpon>ParametersDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResultWindow.xaml.cs">
       <DependentUpon>ResultWindow.xaml</DependentUpon>
     </Compile>
@@ -139,6 +142,10 @@
     <Page Include="dark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ParametersDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ResultWindow.xaml">
       <SubType>Designer</SubType>
