@@ -11,8 +11,8 @@ namespace GidraSIM.GUI.Core.BlocksWPF
     {
         public const int POINT_MARGIN = 7;
 
-        public int InputCount { get; set; }
-        public int OutputCount { get; set; }
+        public int InputCount { get; set; } = 3;
+        public int OutputCount { get; set; } = 3;
 
         //Входы
         private List<ProcConnectionWPF> inputs;
@@ -23,14 +23,14 @@ namespace GidraSIM.GUI.Core.BlocksWPF
         // Соединения с ресурсами
         private List<ResConnectionWPF> resputs;
 
-        public IBlock BlockModel {  get; private set; }
+        public Procedure BlockModel {  get; private set; }
 
         // константы для определения высоты блока
 
-        public ProcedureWPF(Point position,IBlock block) : base(position, block.Description)
+        public ProcedureWPF(Point position, Procedure block) : base(position, block.Name)
         {
-            this.InputCount = block.InputQuantity;
-            this.OutputCount = block.OutputQuantity;
+            //this.InputCount = block.InputQuantity;
+            //this.OutputCount = block.OutputQuantity;
             this.BlockModel = block;
 
             this.outputs = new List<ProcConnectionWPF>();
@@ -38,14 +38,14 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             this.resputs = new List<ResConnectionWPF>();
 
             // проверка корректности inputCount и outputCount (TODO: переписать через исключения)
-            if (this.InputCount < 1)
-                throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
-            if (this.OutputCount < 1)
-                throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
-            if (this.InputCount > 10)
-                throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
-            if (this.OutputCount > 10)
-                throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
+            //if (this.InputCount < 1)
+            //    throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
+            //if (this.OutputCount < 1)
+            //    throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
+            //if (this.InputCount > 10)
+            //    throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
+            //if (this.OutputCount > 10)
+            //    throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
 
             // перерасчёт высоты блока
             int maxCount = Math.Max(this.InputCount, this.OutputCount);

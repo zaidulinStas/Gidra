@@ -9,7 +9,7 @@ namespace GidraSIM.GUI.Utility
         /// преобразование из графики в процесс
         /// </summary>
         /// <param name="uIElementCollection">набор WPF-блоков</param>
-        /// <param name="process">пустой процесс для отображения</param>
-        void Map(UIElementCollection uIElementCollection, Process process);
+        /// <param name="simulator">пустой симулятор для отображения</param>
+        void Map(UIElementCollection uIElementCollection, SimulationOptions simOptions);
     }
 }

@@ -11,9 +11,6 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
-using GidraSIM.Core.Model.Resources;
-using GidraSIM.Core.Model.Procedures;
-
 namespace GidraSIM.GUI
 {
     public enum Theme { Classic, Dark }
@@ -26,12 +23,12 @@ namespace GidraSIM.GUI
         private Theme theme;
         private string savePath = "";
 
-        //переменная для именования процессов
+        //переменная для именования процессов (симуляторов)
         int processNamesCounter = 1;
-        Process mainProcess = new Process() { Description = "Процесс 1" };
+        SimulationOptions mainProcess = new SimulationOptions();
         int mainProcessNumber;
 
-        List<Process> processes = new List<Process>();
+        List<SimulationOptions> processes = new List<SimulationOptions>();
         List<DrawArea> drawAreas = new List<DrawArea>();
 
         /// <summary>
@@ -259,35 +256,64 @@ namespace GidraSIM.GUI
 
         private void StartModeling_Executed(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 ViewModelConverter converter = new ViewModelConverter();
+                var simOptionsList = new List<SimulationOptions>();
 
                 //запихиваем содержимое области рисования в процесс
                 foreach (var item in testTabControl.Items)
                 {
                     var tab = item as TabItem;
                     var drawArea = tab.Content as DrawArea;
-                    converter.Map(drawArea.Children, tab.Header as Process);
+                    var simOptions = tab.Header as SimulationOptions;
+                    converter.Map(drawArea.Children, simOptions);
+                    simOptionsList.Add(simOptions);
+                }
+
+                foreach (var simOptions in simOptionsList)
+                {
+                    for (var i = 0; i < simOptions.Procedures.Count - 1; i++)
+                    {
+                        simOptions.Procedures[i].Connect(simOptions.Procedures[i + 1]);
+                    }
+
+                    var simulator = new Simulator();
+
+                    var results = simulator.Simulate(simOptions);
+
+                    var successString = results.IsSuccess ? "успешно" : "неудачно";
+                    string resultMsg = $"Моделирование завершено {successString}";
+
+                    if (results.IsSuccess)
+                    {
+                        resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
+
+                        foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
+                        {
+                            resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
+                        }
+                    }
+
+                    MessageBox.Show(resultMsg);
                 }
 
                 ////запихиваем содержимое главной области рисования в процесс
                 //converter.Map(drawAreas[0].Children, mainProcess);
 
                 //добавляем на стартовый блок токен
-                mainProcess.AddToken(new Token(0, complexity), 0);
+                //mainProcess.AddToken(new Token(0, complexity), 0);
                 //double i = 0;
-                ModelingTime modelingTime = new ModelingTime() { Delta = this.dt, Now = 0 };
-                for (modelingTime.Now = 0; modelingTime.Now < maxTime; modelingTime.Now += modelingTime.Delta)
-                {
-                    mainProcess.Update(modelingTime);
-                    //на конечном блоке на выходе появился токен
-                    if (mainProcess.EndBlockHasOutputToken)
-                    {
-                        break;
-                    }
-                }
+                //ModelingTime modelingTime = new ModelingTime() { Delta = this.dt, Now = 0 };
+                //for (modelingTime.Now = 0; modelingTime.Now < maxTime; modelingTime.Now += modelingTime.Delta)
+                //{
+                //    mainProcess.Update(modelingTime);
+                //    //на конечном блоке на выходе появился токен
+                //    if (mainProcess.EndBlockHasOutputToken)
+                //    {
+                //        break;
+                //    }
+                //}
 
                 //TokenViewer show = new TokenViewer(mainProcess.TokenCollector as TokensCollector);
                 //show.Show();
@@ -298,17 +324,17 @@ namespace GidraSIM.GUI
                 listBox1.Items.Clear();
 
                 //добавляем ещё инцидентры в историю
-                AccidentsCollector collector = AccidentsCollector.GetInstance();
-                collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
+                //AccidentsCollector collector = AccidentsCollector.GetInstance();
+                //collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
 
-                ResultWindow resultWindow = new ResultWindow(mainProcess.Collector.GetHistory(), collector.GetHistory(),  this.complexity);
-                resultWindow.ShowDialog();
-                mainProcess.Collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
+                //ResultWindow resultWindow = new ResultWindow(mainProcess.Collector.GetHistory(), collector.GetHistory(), this.complexity);
+                //resultWindow.ShowDialog();
+                //mainProcess.Collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
 
 
 
-                mainProcess.Collector.GetHistory().Clear();
-                collector.GetHistory().Clear();
+                //mainProcess.Collector.GetHistory().Clear();
+                //collector.GetHistory().Clear();
 
                 //выводим число токенов и время затраченное(в заголовке)
                 //MessageBox.Show("Время, затраченное на имитацию " + modelingTime.Now.ToString(), "Имитация закончена");
@@ -321,7 +347,7 @@ namespace GidraSIM.GUI
             {
                 foreach (var process in processes)
                 {
-                    process.ClearProcess();
+                    //process = new SimulationOptions();
                 }
             }
         }
@@ -329,28 +355,28 @@ namespace GidraSIM.GUI
 
         private void CreateProcessButton_Click(object sender, RoutedEventArgs e)
         {
-            //создаём новый процесс
-            var process = new Process() { Description = "Процесс " + (++this.processNamesCounter) };
-            //добавляем в список всех процессов
-            processes.Add(process);
-            //надеюсь, что заголовок будет содержать название
-            var tabItem = new TabItem() { Header = process };
-            //переключаемся на новую вкладку, чтобы не было проблем с добавлением
-            testTabControl.SelectedItem = tabItem;
-            //теперь создаём область рисования
-            var drawArea = new DrawArea();
-            //добавляем ссылку на все ресурсы
-            drawArea.Processes = processes;
-            drawArea.Mode = drawAreas.First().Mode;
-            //добавляем в список
-            drawAreas.Add(drawArea);
-            //добавляем на вкладку
-            tabItem.Content = drawArea;
-            //и добавляем вкладку
-            testTabControl.Items.Add(tabItem);
+            ////создаём новый процесс
+            //var process = new Process() { Description = "Процесс " + (++this.processNamesCounter) };
+            ////добавляем в список всех процессов
+            //processes.Add(process);
+            ////надеюсь, что заголовок будет содержать название
+            //var tabItem = new TabItem() { Header = process };
+            ////переключаемся на новую вкладку, чтобы не было проблем с добавлением
+            //testTabControl.SelectedItem = tabItem;
+            ////теперь создаём область рисования
+            //var drawArea = new DrawArea();
+            ////добавляем ссылку на все ресурсы
+            //drawArea.Processes = processes;
+            //drawArea.Mode = drawAreas.First().Mode;
+            ////добавляем в список
+            //drawAreas.Add(drawArea);
+            ////добавляем на вкладку
+            //tabItem.Content = drawArea;
+            ////и добавляем вкладку
+            //testTabControl.Items.Add(tabItem);
 
-            //применение темы для новой вкладки
-            SetTheme();
+            ////применение темы для новой вкладки
+            //SetTheme();
         }
 
         private void testTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -402,72 +428,72 @@ namespace GidraSIM.GUI
 
         private void Save()
         {
-            try
-            {
-                if (savePath.Count() != 0)
-                {
-                    var saver = new ProjectSaver();
-                    saver.SaveProjectExecute(testTabControl, savePath, mainProcessNumber);
-                }
-                else SaveAs();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //try
+            //{
+            //    if (savePath.Count() != 0)
+            //    {
+            //        var saver = new ProjectSaver();
+            //        saver.SaveProjectExecute(testTabControl, savePath, mainProcessNumber);
+            //    }
+            //    else SaveAs();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void SaveAs()
         {
-            try
-            {
+            //try
+            //{
 
-                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog
-                {
-                    FileName = "Project",
-                    DefaultExt = ".xml",
-                    Filter = "(XMl documents .xml)|*.xml"
-                };
+            //    Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog
+            //    {
+            //        FileName = "Project",
+            //        DefaultExt = ".xml",
+            //        Filter = "(XMl documents .xml)|*.xml"
+            //    };
 
-                if ((bool)dlg.ShowDialog())
-                {
-                    var saver = new ProjectSaver();
-                    saver.SaveProjectExecute(testTabControl, dlg.FileName, mainProcessNumber);
-                    savePath = dlg.FileName;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //    if ((bool)dlg.ShowDialog())
+            //    {
+            //        var saver = new ProjectSaver();
+            //        saver.SaveProjectExecute(testTabControl, dlg.FileName, mainProcessNumber);
+            //        savePath = dlg.FileName;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void Open()
         {
-            try
-            {
-                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
-                {
-                    FileName = "Project",
-                    DefaultExt = ".xml",
-                    Filter = "(XML documents .xml)|*.xml"
-                };
+            //try
+            //{
+            //    Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
+            //    {
+            //        FileName = "Project",
+            //        DefaultExt = ".xml",
+            //        Filter = "(XML documents .xml)|*.xml"
+            //    };
 
-                if (dlg.ShowDialog() == true)
-                {
-                    this.savePath = dlg.FileName;
+            //    if (dlg.ShowDialog() == true)
+            //    {
+            //        this.savePath = dlg.FileName;
 
-                    ProjectSaver saver = new ProjectSaver();
-                    mainProcessNumber = saver.LoadProjectExecute(dlg.FileName, testTabControl, drawAreas, processes, out mainProcess);
-                    processNamesCounter = testTabControl.Items.Count;
-                    SetTheme();
-                }
+            //        ProjectSaver saver = new ProjectSaver();
+            //        mainProcessNumber = saver.LoadProjectExecute(dlg.FileName, testTabControl, drawAreas, processes, out mainProcess);
+            //        processNamesCounter = testTabControl.Items.Count;
+            //        SetTheme();
+            //    }
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void ClassicThemeMenuItem_Click(object sender, RoutedEventArgs e)
@@ -555,40 +581,40 @@ namespace GidraSIM.GUI
 
         private void Statictics()
         {
-            using (FileStream stream = new FileStream($"tokens-log-{System.DateTime.Now.ToString("dd.MM.yyyy hh-mm-ss")}.xml", FileMode.Create))
-            {
-                Type[] types = new Type[]
-                {
-                typeof(AndBlock),
-                typeof(DuplicateOutputsBlock),
-                typeof(CadResource),
-                typeof(WorkerResource),
-                typeof(TechincalSupportResource),
-                typeof(MethodolgicalSupportResource),
-                typeof(TokensCollector),
-                typeof(ConnectionManager),
-                typeof(ArrangementProcedure),
-                typeof(Assembling),
-                typeof(ClientCoordinationPrrocedure),
-                typeof(DocumentationCoordinationProcedure),
-                typeof(ElectricalSchemeSimulation),
-                typeof(FixedTimeBlock),
-                typeof(FormingDocumentationProcedure),
-                typeof(Geometry2D),
-                typeof(KDT),
-                typeof(KinematicСalculations),
-                typeof(PaperworkProcedure),
-                typeof(QualityCheckProcedure),
-                typeof(SampleTestingProcedure),
-                typeof(SchemaCreationProcedure),
-                typeof(StrengthСalculations),
-                typeof(TracingProcedure),
-                typeof(Process)
-                };
+            //using (FileStream stream = new FileStream($"tokens-log-{System.DateTime.Now.ToString("dd.MM.yyyy hh-mm-ss")}.xml", FileMode.Create))
+            //{
+            //    Type[] types = new Type[]
+            //    {
+            //    typeof(AndBlock),
+            //    typeof(DuplicateOutputsBlock),
+            //    typeof(CadResource),
+            //    typeof(WorkerResource),
+            //    typeof(TechincalSupportResource),
+            //    typeof(MethodolgicalSupportResource),
+            //    typeof(TokensCollector),
+            //    typeof(ConnectionManager),
+            //    typeof(ArrangementProcedure),
+            //    typeof(Assembling),
+            //    typeof(ClientCoordinationPrrocedure),
+            //    typeof(DocumentationCoordinationProcedure),
+            //    typeof(ElectricalSchemeSimulation),
+            //    typeof(FixedTimeBlock),
+            //    typeof(FormingDocumentationProcedure),
+            //    typeof(Geometry2D),
+            //    typeof(KDT),
+            //    typeof(KinematicСalculations),
+            //    typeof(PaperworkProcedure),
+            //    typeof(QualityCheckProcedure),
+            //    typeof(SampleTestingProcedure),
+            //    typeof(SchemaCreationProcedure),
+            //    typeof(StrengthСalculations),
+            //    typeof(TracingProcedure),
+            //    typeof(Process)
+            //    };
 
-                System.Runtime.Serialization.DataContractSerializer ser = new System.Runtime.Serialization.DataContractSerializer(typeof(TokensCollector), types);
-                ser.WriteObject(stream, TokensCollector.GetInstance());
-            }
+            //    System.Runtime.Serialization.DataContractSerializer ser = new System.Runtime.Serialization.DataContractSerializer(typeof(TokensCollector), types);
+            //    ser.WriteObject(stream, TokensCollector.GetInstance());
+            //}
         }
 
         private void NewProjectItemMenu_Click(object sender, RoutedEventArgs e)
@@ -603,7 +629,7 @@ namespace GidraSIM.GUI
             drawAreas.Clear();
             processes.Clear();
 
-            mainProcess = new Process() { Description = "Процесс 1" };
+            mainProcess = new SimulationOptions();
             mainProcessNumber = 0;
             processNamesCounter = 1;
 
@@ -647,15 +673,15 @@ namespace GidraSIM.GUI
 
         private void TokenViewerItemMenu_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                TokenViewer viewer = new TokenViewer();
-                viewer.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //try
+            //{
+            //    TokenViewer viewer = new TokenViewer();
+            //    viewer.ShowDialog();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)

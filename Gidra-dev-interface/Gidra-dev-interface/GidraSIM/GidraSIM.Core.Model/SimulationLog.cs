@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace GidraSIM.Core.Model
 {
-    public class Token
+    public class SimulationLog
     {
+        public Procedure Procedure { get; set; }
 
+        public ProcedureSimulationResult SimulationResult { get; set; }
     }
 }

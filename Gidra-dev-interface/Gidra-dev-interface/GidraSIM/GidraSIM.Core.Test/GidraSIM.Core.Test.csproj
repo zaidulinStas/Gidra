@@ -41,6 +41,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -48,26 +54,15 @@
       <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompareTest\ProcedureCompareTest.cs" />
-    <Compile Include="CompareTest\ResourceCompareTest.cs" />
-    <Compile Include="ElectricalSchemeSimulationTest.cs" />
-    <Compile Include="PaperworkProcedureTest.cs" />
-    <Compile Include="ArrangementProcedureTests.cs" />
-    <Compile Include="FormingDocumentationProcedureTests.cs" />
-    <Compile Include="DocumentationCoordinationProcedureTests.cs" />
-    <Compile Include="ClientCoordinationPrrocedureTests.cs" />
-    <Compile Include="AndBlockTests.cs" />
-    <Compile Include="DuplicateOutputsBlockTests.cs" />
-    <Compile Include="ProcessTests.cs" />
-    <Compile Include="SampleTestingProcedureTests.cs" />
-    <Compile Include="TracingProcedureTests.cs" />
+    <Compile Include="ProcedureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchemaCreationProcedureTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -75,10 +70,12 @@
       <Project>{49f3ef53-5534-4d59-acf3-d2c50d83cce8}</Project>
       <Name>GidraSIM.Core.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GidraSIM.ServiceLayer\GidraSIM.ServiceLayer.csproj">
+      <Project>{69b2f717-caf5-4dee-9a5b-36db80afc24e}</Project>
+      <Name>GidraSIM.ServiceLayer</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Procedures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
