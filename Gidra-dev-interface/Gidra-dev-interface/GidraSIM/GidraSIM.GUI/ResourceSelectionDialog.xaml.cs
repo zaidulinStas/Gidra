@@ -17,33 +17,61 @@ namespace GidraSIM.GUI
                 Name = "Компьютер",
                 Type = "Компьютер",
                 MaxUsageCount = 1,
+                Cost = 50000,
                 Parameters = new Dictionary<string, double>
                 {
-                    { "Тактовая частота", 1900 },
-                    { "Надёжность", 10 },
+                    { "Частота процессора", 2100 },
+                    { "RAM", 8 },
                 }
             });
             listView1.Items.Add(new Resource
             {
-                Name = "Вася",
-                Type = "Человек",
+                Name = "Canon mg2540s",
+                Type = "Принтер",
                 MaxUsageCount = 1,
+                Cost = 6000,
                 Parameters = new Dictionary<string, double>
                         {
-                            { "Профессионализм", 10 },
+                            { "Скорость печати", 10 },
                         }
             });
             listView1.Items.Add(new Resource
             {
-                Name = "Canon 12SX",
-                Type = "Принтер",
+                Name = "Allergo Cadence",
+                Type = "САПР",
                 MaxUsageCount = 1,
+                Cost = 500000,
                 Parameters = new Dictionary<string, double>
                         {
-                            { "Скорость печати", 10 },
-                            { "Надёжность", 10 },
+                            { "Функционал", 100 },
+                            { "Документация", 70 },
                         }
             });
+            listView1.Items.Add(new Resource
+            {
+                Name = "Проектировщик",
+                Type = "Проектировщик",
+                MaxUsageCount = 1,
+                Cost = 40000,
+                Parameters = new Dictionary<string, double>
+                        {
+                            { "Объем знаний", 80 },
+                            { "Опыт работы", 90 },
+                        }
+            });
+            listView1.Items.Add(new Resource
+            {
+                Name = "Нормоконтролер",
+                Type = "Нормоконтролер",
+                MaxUsageCount = 1,
+                Cost = 50000,
+                Parameters = new Dictionary<string, double>
+                        {
+                            { "Объем знаний", 70 },
+                            { "Опыт работы", 50 },
+                        }
+            });
+
             listView1.SelectedIndex = 0;
             SelectedResource = new Resource();
             this.button.Focus();
