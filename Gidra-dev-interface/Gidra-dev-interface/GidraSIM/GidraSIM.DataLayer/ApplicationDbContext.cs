@@ -10,14 +10,19 @@ namespace GidraSIM.DataLayer
         public DbSet<Procedure> Procedures { get; set; }
         public DbSet<Resource> Resources { get; set; }
 
-        public ApplicationDbContext() : base("DefaultConnection")
+        static ApplicationDbContext()
         {
+            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+        }
 
+        public ApplicationDbContext() : base("GidraSIM")
+        {
+            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
         }
 
         public ApplicationDbContext(string nameOrconnectionString) : base(nameOrconnectionString)
         {
-
+            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -43,6 +48,8 @@ namespace GidraSIM.DataLayer
             HelpSoftwareSeed(db);
             StandardsSeed(db);
             HumansSeed(db);
+
+            db.SaveChanges();
 
             base.Seed(db);
         }
