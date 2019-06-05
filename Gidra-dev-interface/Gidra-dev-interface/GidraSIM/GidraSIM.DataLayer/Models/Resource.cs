@@ -10,11 +10,12 @@ namespace GidraSIM.DataLayer.Models
 {
     public class Resource
     {
+        [Key]
+        [Index(IsUnique = true)]
         [Required]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        [Index(IsUnique = true)]
         public string Name { get; set; }
 
         [Required]
