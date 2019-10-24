@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using GidraSIM.GUI.Core.BlocksWPF;
-using GidraSIM.GUI.Utility;
 using GidraSIM.Core.Model;
 using System.IO;
 using System.Windows.Media;
@@ -258,45 +257,46 @@ namespace GidraSIM.GUI
         {
             try
             {
-                ViewModelConverter converter = new ViewModelConverter();
-                var simOptionsList = new List<SimulationOptions>();
+                throw new NotImplementedException("Not implemented");
+                //ViewModelConverter converter = new ViewModelConverter();
+                //var simOptionsList = new List<SimulationOptions>();
 
-                //запихиваем содержимое области рисования в процесс
-                foreach (var item in testTabControl.Items)
-                {
-                    var tab = item as TabItem;
-                    var drawArea = tab.Content as DrawArea;
-                    var simOptions = tab.Header as SimulationOptions;
-                    converter.Map(drawArea.Children, simOptions);
-                    simOptionsList.Add(simOptions);
-                }
+                ////запихиваем содержимое области рисования в процесс
+                //foreach (var item in testTabControl.Items)
+                //{
+                //    var tab = item as TabItem;
+                //    var drawArea = tab.Content as DrawArea;
+                //    var simOptions = tab.Header as SimulationOptions;
+                //    converter.Map(drawArea.Children, simOptions);
+                //    simOptionsList.Add(simOptions);
+                //}
 
-                foreach (var simOptions in simOptionsList)
-                {
-                    for (var i = 0; i < simOptions.Procedures.Count - 1; i++)
-                    {
-                        simOptions.Procedures[i].Connect(simOptions.Procedures[i + 1]);
-                    }
+                //foreach (var simOptions in simOptionsList)
+                //{
+                //    for (var i = 0; i < simOptions.Procedures.Count - 1; i++)
+                //    {
+                //        simOptions.Procedures[i].Connect(simOptions.Procedures[i + 1]);
+                //    }
 
-                    var simulator = new Simulator();
+                //    var simulator = new Simulator();
 
-                    var results = simulator.Simulate(simOptions);
+                //    var results = simulator.Simulate(simOptions);
 
-                    var successString = results.IsSuccess ? "успешно" : "неудачно";
-                    string resultMsg = $"Моделирование завершено {successString}";
+                //    var successString = results.IsSuccess ? "успешно" : "неудачно";
+                //    string resultMsg = $"Моделирование завершено {successString}";
 
-                    if (results.IsSuccess)
-                    {
-                        resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
+                //    if (results.IsSuccess)
+                //    {
+                //        resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
 
-                        foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
-                        {
-                            resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
-                        }
-                    }
+                //        foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
+                //        {
+                //            resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
+                //        }
+                //    }
 
-                    MessageBox.Show(resultMsg);
-                }
+                //    MessageBox.Show(resultMsg);
+                //}
 
                 ////запихиваем содержимое главной области рисования в процесс
                 //converter.Map(drawAreas[0].Children, mainProcess);
@@ -413,13 +413,13 @@ namespace GidraSIM.GUI
 
         private void ModelingParametersButton_Click(object sender, RoutedEventArgs e)
         {
-            ComplexitySelectionDialog dialog = new ComplexitySelectionDialog();
-            if (dialog.ShowDialog() == true)
-            {
-                complexity = dialog.Complexity;
-                dt = dialog.Step;
-                maxTime = dialog.MaxTime;
-            }
+            //ComplexitySelectionDialog dialog = new ComplexitySelectionDialog();
+            //if (dialog.ShowDialog() == true)
+            //{
+            //    complexity = dialog.Complexity;
+            //    dt = dialog.Step;
+            //    maxTime = dialog.MaxTime;
+            //}
         }
         private void SaveAsItemMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -686,12 +686,6 @@ namespace GidraSIM.GUI
 
         private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            AdmSet.SettingsView settingsWindow = new AdmSet.SettingsView();
-            if(settingsWindow.ShowDialog() == true)
-            {
-
-            }
-
         }
     }
 }

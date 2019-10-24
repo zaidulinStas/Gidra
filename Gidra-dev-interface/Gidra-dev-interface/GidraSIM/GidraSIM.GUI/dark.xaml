@@ -11,9 +11,9 @@
     <Style TargetType="local:DrawArea">
         <Setter Property="Background" Value="#252526" />
     </Style>
-    <Style TargetType="local:ComplexitySelectionDialog">
+    <!--<Style TargetType="local:ComplexitySelectionDialog">
         <Setter Property="Background" Value="#252526" />
-    </Style>
+    </Style>-->
     <Style TargetType="local:ProcedureSelectionDialog">
         <Setter Property="Background" Value="#252526" />
     </Style>
