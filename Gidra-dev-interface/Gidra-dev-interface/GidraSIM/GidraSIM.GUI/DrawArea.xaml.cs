@@ -49,7 +49,7 @@ namespace GidraSIM.GUI
         }
 
         /// <summary>
-        /// добавление процедур
+        /// Добавление процедуры
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

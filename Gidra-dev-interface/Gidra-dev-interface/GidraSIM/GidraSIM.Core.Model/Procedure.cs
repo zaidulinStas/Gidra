@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace GidraSIM.Core.Model
 {
     /// <summary>
-    /// Общий класс процедура, выполняющей часть процесса проектировани
+    /// Общий класс процедуры, выполняющей часть процесса проектировани
     /// </summary>
     public class Procedure : BaseProcedure
     {

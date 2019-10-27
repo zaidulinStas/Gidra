@@ -253,91 +253,223 @@ namespace GidraSIM.GUI
             PushButton(button_SubProcess);
         }
 
+        //public void Map(UIElementCollection uIElementCollection, SimulationOptions simOptions)
+        //{
+        //    Dictionary<ProcedureWPF, Procedure> procedures = new Dictionary<ProcedureWPF, Procedure>();
+        //    Dictionary<ResourceWPF, Resource> resources = new Dictionary<ResourceWPF, Resource>();
+
+        //    var resultProcedures = new List<Procedure>();
+
+        //    foreach (var element in uIElementCollection)
+        //    {
+        //        //смотрим все соединения процедур
+        //        if (element is ProcConnectionWPF)
+        //        {
+        //            var connection = (element as ProcConnectionWPF);
+
+        //            //TODO типа можно здесь всё обработать
+        //            // Комментарий от 28.05.19: facepalm
+        //            if (connection.StartBlock is StartBlockWPF && connection.EndBlock is EndBlockWPF)
+        //            {
+        //                throw new Exception("Нельзя просто соединить начало с концом!");
+        //            }
+
+        //            //обработка стартового блока
+        //            if (connection.StartBlock is StartBlockWPF)
+        //            {
+        //                Procedure block;
+
+        //                //если в первый раз встерчаем блок
+        //                if (!(procedures.ContainsKey(connection.EndBlock as ProcedureWPF)))
+        //                {
+        //                    //первого нет, второй значимый
+        //                    block = (connection.EndBlock as ProcedureWPF).BlockModel;
+
+        //                    //добавляем его в список
+        //                    procedures.Add(connection.EndBlock as ProcedureWPF, block);
+
+        //                    //добавляем его в список всех блоков процесса
+        //                    resultProcedures.Add(block);
+        //                }
+        //                //иначе просто берём из базы
+        //                else
+        //                    block = procedures[connection.EndBlock as ProcedureWPF];
+
+        //                //process.StartBlock = block;
+        //                //соединение будет когда-то потом
+        //            }
+        //            //обработка конечного блока
+        //            else if (connection.EndBlock is EndBlockWPF)
+        //            {
+        //                Procedure block = null;
+
+        //                //если в первый раз такое встречаем
+        //                if (!(procedures.ContainsKey(connection.StartBlock as ProcedureWPF)))
+        //                {
+        //                    block = (connection.StartBlock as ProcedureWPF).BlockModel;
+        //                    procedures.Add(connection.StartBlock as ProcedureWPF, block);
+        //                    resultProcedures.Add(block);
+        //                }
+        //                else
+        //                {
+        //                    block = procedures[connection.StartBlock as ProcedureWPF];
+        //                }
+        //                //process.EndBlock = block;
+        //                //соединение будет когда-то потом
+        //            }
+        //            //обработка всех остальных блоков
+        //            else
+        //            {
+        //                Procedure block = null;
+
+        //                //если в первый раз такое встречаем
+        //                if (!(procedures.ContainsKey(connection.StartBlock as ProcedureWPF)))
+        //                {
+        //                    block = (connection.StartBlock as ProcedureWPF).BlockModel;
+        //                    procedures.Add(connection.StartBlock as ProcedureWPF, block);
+        //                    resultProcedures.Add(block);
+        //                }
+        //                //если в первый раз такое встречаем
+        //                if (!(procedures.ContainsKey(connection.EndBlock as ProcedureWPF)))
+        //                {
+        //                    block = (connection.EndBlock as ProcedureWPF).BlockModel;
+        //                    procedures.Add(connection.EndBlock as ProcedureWPF, block);
+        //                    resultProcedures.Add(block);
+        //                }
+
+
+        //                //к счастью там только один вход и выход
+        //                //process.Connections.Connect(procedures[connection.StartBlock as ProcedureWPF], connection.StartPort,
+        //                //    procedures[connection.EndBlock as ProcedureWPF], connection.EndPort);
+
+        //            }
+        //        }
+        //        //сотрим соединения ресурсов
+        //        else if (element is ResConnectionWPF)
+        //        {
+
+        //            var connection = (element as ResConnectionWPF);
+        //            ProcedureWPF procedure;
+        //            ResourceWPF resourceWPF;
+        //            if (connection.StartBlock is ProcedureWPF)
+        //            {
+        //                procedure = connection.StartBlock as ProcedureWPF;
+        //                resourceWPF = connection.EndBlock as ResourceWPF;
+        //            }
+        //            else
+        //            {
+        //                procedure = connection.EndBlock as ProcedureWPF;
+        //                resourceWPF = connection.StartBlock as ResourceWPF;
+        //            }
+        //            Procedure block = null;
+
+        //            //если в первый раз такое встречаем
+        //            if (!(procedures.ContainsKey(procedure)))
+        //            {
+        //                block = procedure.BlockModel;
+        //                procedures.Add(procedure, block);
+        //                resultProcedures.Add(block);
+        //            }
+        //            else
+        //                block = procedures[procedure];
+
+        //            Resource resource = null; ;
+        //            //если в первый раз такое встречаем
+        //            if (!(resources.ContainsKey(resourceWPF)))
+        //            {
+        //                resource = this.ConvertWpfResourceToModel(resourceWPF);
+        //                resources.Add(resourceWPF, resource);
+        //                //process.Resources.Add(resource); // WTF???
+        //            }
+        //            else
+        //                resource = resources[resourceWPF];
+
+        //            if (block is Procedure)
+        //                (block as Procedure).Resources.Add(resource);
+        //            else
+        //                throw new ArgumentException("Ресурсы поддерживает только блоки типа Procedure");
+        //        }
+        //    }
+
+        //    simOptions.Procedures = resultProcedures;
+        //}
+
         private void StartModeling_Executed(object sender, RoutedEventArgs e)
         {
             try
             {
-                throw new NotImplementedException("Not implemented");
-                //ViewModelConverter converter = new ViewModelConverter();
-                //var simOptionsList = new List<SimulationOptions>();
+                var tabs = testTabControl.Items.OfType<TabItem>().ToList();
+                var drawArea = tabs[0].Content as DrawArea;
 
-                ////запихиваем содержимое области рисования в процесс
-                //foreach (var item in testTabControl.Items)
-                //{
-                //    var tab = item as TabItem;
-                //    var drawArea = tab.Content as DrawArea;
-                //    var simOptions = tab.Header as SimulationOptions;
-                //    converter.Map(drawArea.Children, simOptions);
-                //    simOptionsList.Add(simOptions);
-                //}
+                var proceduresConnections = drawArea.Children.OfType<ProcConnectionWPF>().ToList();
+                var resourcesConnections = drawArea.Children.OfType<ResConnectionWPF>().ToList();
+                var procedures = drawArea.Children.OfType<ProcedureWPF>().ToList();
+                var resources = drawArea.Children.OfType<ResourceWPF>().ToList();
 
-                //foreach (var simOptions in simOptionsList)
-                //{
-                //    for (var i = 0; i < simOptions.Procedures.Count - 1; i++)
-                //    {
-                //        simOptions.Procedures[i].Connect(simOptions.Procedures[i + 1]);
-                //    }
+                var resourcesDictionary = resourcesConnections
+                    .Select(x => new {
+                        Connection = x,
+                        Resource = x.StartBlock is ResourceWPF ? x.StartBlock as ResourceWPF : x.EndBlock as ResourceWPF,
+                        Procedure = x.StartBlock is ProcedureWPF ? x.StartBlock as ProcedureWPF : x.EndBlock as ProcedureWPF
+                    })
+                    .GroupBy(x => x.Procedure)
+                    .ToDictionary(x => x.Key, x => x.Select(y => y.Resource).ToList());
 
-                //    var simulator = new Simulator();
+                var proceduresDictionary = proceduresConnections
+                    .Where(x => x.StartBlock as ProcedureWPF != null && x.EndBlock as ProcedureWPF != null)
+                    .Select(x => new
+                    {
+                        StartProcedure = x.StartBlock as ProcedureWPF,
+                        EndProcedure = x.EndBlock as ProcedureWPF
+                    })
+                    .Select(x => new
+                    {
+                        Connection = new Connection()
+                        {
+                            Begin = x.StartProcedure.BlockModel,
+                            End = x.EndProcedure.BlockModel
+                        },
+                        x.StartProcedure,
+                        x.EndProcedure
+                    })
+                    .ToList();
 
-                //    var results = simulator.Simulate(simOptions);
+                var options = new SimulationOptions()
+                {
+                    Procedures = procedures
+                        .Select(procedure => new Procedure
+                        {
+                            Resources = resourcesDictionary[procedure].Select(res => res.ResourceModel).ToList(),
+                            Inputs = proceduresDictionary.Where(x => x.EndProcedure == procedure).Select(x => x.Connection).ToList(),
+                            Outputs = proceduresDictionary.Where(x => x.StartProcedure == procedure).Select(x => x.Connection).ToList(),
+                            Name = procedure.BlockModel.Name,
+                            Parameters = procedure.BlockModel.Parameters,
+                            ProgressFunction = procedure.BlockModel.ProgressFunction,
+                        })
+                        .Cast<BaseProcedure>()
+                        .ToList()
+                };
 
-                //    var successString = results.IsSuccess ? "успешно" : "неудачно";
-                //    string resultMsg = $"Моделирование завершено {successString}";
+                var simulator = new Simulator();
 
-                //    if (results.IsSuccess)
-                //    {
-                //        resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
+                var results = simulator.Simulate(options);
 
-                //        foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
-                //        {
-                //            resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
-                //        }
-                //    }
+                var successString = results.IsSuccess ? "успешно" : "неудачно";
+                string resultMsg = $"Моделирование завершено {successString}";
 
-                //    MessageBox.Show(resultMsg);
-                //}
+                if (results.IsSuccess)
+                {
+                    resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
 
-                ////запихиваем содержимое главной области рисования в процесс
-                //converter.Map(drawAreas[0].Children, mainProcess);
+                    foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
+                    {
+                        resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
+                    }
+                }
 
-                //добавляем на стартовый блок токен
-                //mainProcess.AddToken(new Token(0, complexity), 0);
-                //double i = 0;
-                //ModelingTime modelingTime = new ModelingTime() { Delta = this.dt, Now = 0 };
-                //for (modelingTime.Now = 0; modelingTime.Now < maxTime; modelingTime.Now += modelingTime.Delta)
-                //{
-                //    mainProcess.Update(modelingTime);
-                //    //на конечном блоке на выходе появился токен
-                //    if (mainProcess.EndBlockHasOutputToken)
-                //    {
-                //        break;
-                //    }
-                //}
+                MessageBox.Show(resultMsg);
 
-                //TokenViewer show = new TokenViewer(mainProcess.TokenCollector as TokensCollector);
-                //show.Show();
-
-                //Statictics();
-
-                //TODO сделать DataBinding
                 listBox1.Items.Clear();
-
-                //добавляем ещё инцидентры в историю
-                //AccidentsCollector collector = AccidentsCollector.GetInstance();
-                //collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
-
-                //ResultWindow resultWindow = new ResultWindow(mainProcess.Collector.GetHistory(), collector.GetHistory(), this.complexity);
-                //resultWindow.ShowDialog();
-                //mainProcess.Collector.GetHistory().ForEach(item => listBox1.Items.Add(item));
-
-
-
-                //mainProcess.Collector.GetHistory().Clear();
-                //collector.GetHistory().Clear();
-
-                //выводим число токенов и время затраченное(в заголовке)
-                //MessageBox.Show("Время, затраченное на имитацию " + modelingTime.Now.ToString(), "Имитация закончена");
             }
             catch (NotImplementedException ex)
             {

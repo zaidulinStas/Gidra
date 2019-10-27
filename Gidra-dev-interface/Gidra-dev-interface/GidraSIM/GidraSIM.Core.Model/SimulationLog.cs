@@ -8,7 +8,7 @@ namespace GidraSIM.Core.Model
 {
     public class SimulationLog
     {
-        public Procedure Procedure { get; set; }
+        public BaseProcedure Procedure { get; set; }
 
         public ProcedureSimulationResult SimulationResult { get; set; }
     }

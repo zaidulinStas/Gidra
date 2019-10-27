@@ -24,7 +24,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Список процедур
         /// </summary>
-        public List<Procedure> Procedures { get; set; } = new List<Procedure>();
+        public List<BaseProcedure> Procedures { get; set; } = new List<BaseProcedure>();
 
         /// <summary>
         /// Токен, который будет подан на вход схемы
