@@ -13,7 +13,7 @@ namespace GidraSIM.Core.Model
     /// <summary>
     /// Общий класс процедура, выполняющей часть процесса проектировани
     /// </summary>
-    public class Procedure : BaseProcedure
+    public class OneToManyProcedure : BaseProcedure
     {
         /// <summary>
         /// Ресурсы процедуры
@@ -54,39 +54,7 @@ namespace GidraSIM.Core.Model
         /// </summary>
         protected override bool OnUpdateModeling(double curTime)
         {
-            var token = Inputs[0].Tokens.Peek();
-
-            var variables = Parameters
-                .Select(x => new { Key=$"[{x.Key}]", x.Value })
-                .Concat(Resources.SelectMany(res => res.Parameters.Select(x => new { Key = $"[{res.Type}.{x.Key}]", x.Value })))
-                .Concat(new[] { new { Key = "[x]", Value = curTime - StartTime.Value } });
-
-            var expression = ProgressFunction;
-
-            foreach (var variable in variables)
-            {
-                expression = expression.Replace(variable.Key, variable.Value.ToString(CultureInfo.InvariantCulture.NumberFormat));
-            }
-
-            var matches = Regex.Matches(expression, @"rnd\([^\)\(]*,[^\)\(]*\)", RegexOptions.IgnoreCase);
-            foreach (Match match in matches)
-            {
-                foreach (Capture capture in match.Captures)
-                {
-                    var parts = Regex.Replace(capture.Value, @"rnd\(", "", RegexOptions.IgnoreCase)
-                                     .Replace(")", "")
-                                     .Replace(" ", "")
-                                     .Split(',');
-
-                    var rnd = new Random(DateTime.Now.Millisecond);
-                    var randomValue = double.Parse(parts[0]) + rnd.NextDouble() * double.Parse(parts[1]);
-                    expression = expression.Replace(capture.Value, randomValue.ToString(CultureInfo.InvariantCulture.NumberFormat));
-                }
-            }
-
-            var qualityIncrement = Convert.ToDouble(new Expression(expression).calculate(), null);
-
-            return qualityIncrement >= (_targetQuality - _interQuality);
+            return true;
         }
 
         /// <summary>
@@ -94,7 +62,7 @@ namespace GidraSIM.Core.Model
         /// </summary>
         protected override bool OnEndModeling()
         {
-            Inputs[0].Tokens.Peek().Quality = _targetQuality;
+            Inputs[0].Tokens.Peek().Quality = 0;
 
             foreach (var resource in Resources)
             {

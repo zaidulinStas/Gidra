@@ -25,5 +25,15 @@ namespace GidraSIM.Core.Model
         /// Продолжительность моделирования
         /// </summary>
         public double Duration => EndTime - StartTime;
+
+        /// <summary>
+        /// Обратная связь
+        /// </summary>
+        public bool IsBackLink { get; set; }
+
+        /// <summary>
+        /// Выходное качество
+        /// </summary>
+        public double ResultQuality { get; set; }
     }
 }

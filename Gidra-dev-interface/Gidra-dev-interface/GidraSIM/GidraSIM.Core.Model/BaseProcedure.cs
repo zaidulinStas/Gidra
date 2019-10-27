@@ -24,6 +24,11 @@ namespace GidraSIM.Core.Model
         public IList<Connection> Outputs { get; set; } = new List<Connection>();
 
         /// <summary>
+        /// Список соединений обратной связи
+        /// </summary>
+        public IList<Connection> BackLinks { get; set; } = new List<Connection>();
+
+        /// <summary>
         /// Ресурсы процедуры, включая все вложенные
         /// </summary>
         public abstract IList<Resource> AllResources { get; }
@@ -39,10 +44,34 @@ namespace GidraSIM.Core.Model
         public double? StartTime { get; private set; }
 
         /// <summary>
+        /// Минимально необходимая величина входного качества (от 0 до MaxQuality). 
+        /// </summary>
+        public double MinQuality { get; set; }
+
+        /// <summary>
+        /// Максимально возможная величина выходного качества (от MinQuality до 1)
+        /// </summary>
+        public double MaxQuality { get; set; }
+
+        /// <summary>
         /// Активность процедуры
         /// </summary>
         public bool IsActive => Inputs.All(x => x.Tokens.Any()) && Inputs.Any();
 
+        /// <summary>
+        /// Условие выполнения процедуры - входное качество должно быть больше минимального, иначе - возврат по обратной связи
+        /// </summary>
+        public bool IsQualityHigherEnough => Inputs[0].Tokens.Peek().Quality > MinQuality;
+
+        /// <summary>
+        /// Целевое качество, которое нужно достичь. Является случайной величиной от величины входного качества до MaxQuality
+        /// </summary>
+        protected double _targetQuality;
+
+        /// <summary>
+        /// Входное качество. Определяется качеством входного токена
+        /// </summary>
+        protected double _interQuality;
 
         /// <summary>
         /// Обновление 
@@ -51,6 +80,13 @@ namespace GidraSIM.Core.Model
         {
             if (!IsActive)
             {
+                return null;
+            }
+
+            if(!IsQualityHigherEnough)
+            {
+                BackLinkReturn(curTime);
+
                 return null;
             }
 
@@ -83,6 +119,12 @@ namespace GidraSIM.Core.Model
                 return false;
             }
 
+            Random rnd = new Random();
+
+            _interQuality = Inputs[0].Tokens.Peek().Quality;
+
+            _targetQuality = _interQuality + rnd.NextDouble() * (MaxQuality - _interQuality);
+
             return true;
         }
 
@@ -101,7 +143,7 @@ namespace GidraSIM.Core.Model
         /// </summary>
         private ProcedureSimulationResult EndModeling(double curTime)
         {
-            var newToken = new Token();
+            var referenceToken = Inputs[0].Tokens.Dequeue();
 
             foreach (var input in Inputs)
             {
@@ -110,6 +152,8 @@ namespace GidraSIM.Core.Model
 
             foreach (var output in Outputs)
             {
+                var newToken = new Token(referenceToken.Quality);
+
                 output.Tokens.Enqueue(newToken);
             }
 
@@ -119,6 +163,40 @@ namespace GidraSIM.Core.Model
             {
                 StartTime = StartTime.Value,
                 EndTime = curTime,
+                IsBackLink = false,
+                ResultQuality = referenceToken.Quality
+            };
+
+            StartTime = null;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Возврат по обратной связи
+        /// </summary>
+        private ProcedureSimulationResult BackLinkReturn(double curTime)
+        {
+            var newToken = Inputs[0].Tokens.Dequeue();
+
+            foreach (var input in Inputs)
+            {
+                input.Tokens.Dequeue();
+            }
+
+            foreach (var backlink in BackLinks)
+            {
+                backlink.Tokens.Enqueue(newToken);
+            }
+
+            //OnEndModeling();
+
+            var result = new ProcedureSimulationResult
+            {
+                StartTime = StartTime.Value,
+                EndTime = curTime,
+                IsBackLink = true,
+                ResultQuality = newToken.Quality
             };
 
             StartTime = null;
@@ -147,6 +225,24 @@ namespace GidraSIM.Core.Model
             var newConnection = new Connection() { Begin = this, End = another };
 
             Outputs.Add(newConnection);
+            another.Inputs.Add(newConnection);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Функция для соединения двух процедур обратной связью
+        /// </summary>
+        public bool BackLinkConnect(BaseProcedure another)
+        {
+            if (BackLinks.Any(x => x.End == another))
+            {
+                return false;
+            }
+
+            var newConnection = new Connection() { Begin = this, End = another };
+
+            BackLinks.Add(newConnection);
             another.Inputs.Add(newConnection);
 
             return true;
