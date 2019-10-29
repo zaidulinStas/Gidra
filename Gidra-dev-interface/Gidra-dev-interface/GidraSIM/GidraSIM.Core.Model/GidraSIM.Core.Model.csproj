@@ -49,6 +49,8 @@
     <Compile Include="BaseProcedure.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="IProcedure.cs" />
+    <Compile Include="ManyToOneProcedure.cs" />
+    <Compile Include="OneToManyProcedure.cs" />
     <Compile Include="Procedure.cs" />
     <Compile Include="ProcedureSimulationResult.cs" />
     <Compile Include="Process.cs" />
