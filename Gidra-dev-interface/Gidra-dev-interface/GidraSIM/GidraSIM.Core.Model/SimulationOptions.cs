@@ -29,6 +29,6 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Токен, который будет подан на вход схемы
         /// </summary>
-        public Token StartToken { get; set; } = new Token();
+        public Token StartToken { get; set; } = new Token(0);
     }
 }

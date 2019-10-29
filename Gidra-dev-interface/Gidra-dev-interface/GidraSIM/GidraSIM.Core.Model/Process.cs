@@ -37,7 +37,7 @@ namespace GidraSIM.Core.Model
         /// </summary>
         protected override bool OnStartModeling()
         {
-            var newToken = new Token();
+            var newToken = new Token(0);
 
             foreach (var input in StartProcedure.Inputs)
             {
