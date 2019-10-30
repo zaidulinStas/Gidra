@@ -412,13 +412,14 @@ namespace GidraSIM.GUI
                 var resources = drawArea.Children.OfType<ResourceWPF>().ToList();
 
                 var resourcesDictionary = resourcesConnections
-                    .Select(x => new {
+                    .Select(x => new
+                    {
                         Connection = x,
                         Resource = x.StartBlock is ResourceWPF ? x.StartBlock as ResourceWPF : x.EndBlock as ResourceWPF,
                         Procedure = x.StartBlock is ProcedureWPF ? x.StartBlock as ProcedureWPF : x.EndBlock as ProcedureWPF
                     })
                     .GroupBy(x => x.Procedure)
-                    .ToDictionary(x => x.Key, x => x.Select(y => y.Resource).ToList());
+                    .ToDictionary(x => x.Key.BlockModel, x => x.Select(y => y.Resource).ToList());
 
                 var proceduresDictionary = proceduresConnections
                     .Where(x => x.StartBlock as ProcedureWPF != null && x.EndBlock as ProcedureWPF != null)
@@ -457,23 +458,25 @@ namespace GidraSIM.GUI
                     })
                     .ToList();
 
+                var allProcedures = new List<Procedure>();
+                allProcedures.AddRange(proceduresDictionary.SelectMany(x => new[] { x.Connection.Begin, x.Connection.End }).Cast<Procedure>());
+                allProcedures.AddRange(proceduresBackLinkDictionary.SelectMany(x => new[] { x.Connection.Begin, x.Connection.End }).Cast<Procedure>());
+                allProcedures.AddRange(resourcesDictionary.Keys.Select(x => x));
+
+                var totalProcedures = allProcedures.Distinct();
+                foreach (var procedure in totalProcedures)
+                {
+                    procedure.Resources = resourcesDictionary.ContainsKey(procedure) ? resourcesDictionary[procedure].Select(res => res.ResourceModel).ToList() : new List<Resource>();
+                    procedure.Inputs = proceduresDictionary.Where(x => x.EndProcedure.BlockModel == procedure).Select(x => x.Connection).ToList();
+                    procedure.Outputs = proceduresDictionary.Where(x => x.StartProcedure.BlockModel == procedure).Select(x => x.Connection).ToList();
+                    procedure.BackLinks = proceduresBackLinkDictionary.Where(x => x.StartProcedure.BlockModel == procedure).Select(x => x.Connection).ToList();
+                }
+
                 var options = new SimulationOptions()
                 {
-                    Procedures = procedures
-                        .Select(procedure => new Procedure
-                        {
-                            Resources = resourcesDictionary.ContainsKey(procedure) ? resourcesDictionary[procedure].Select(res => res.ResourceModel).ToList() : new List<Resource>(),
-                            Inputs = proceduresDictionary.Where(x => x.EndProcedure == procedure).Select(x => x.Connection).ToList(),
-                            Outputs = proceduresDictionary.Where(x => x.StartProcedure == procedure).Select(x => x.Connection).ToList(),
-                            BackLinks = proceduresBackLinkDictionary.Where(x => x.StartProcedure == procedure).Select(x => x.Connection).ToList(),
-                            Name = procedure.BlockModel.Name,
-                            Parameters = procedure.BlockModel.Parameters,
-                            ProgressFunction = procedure.BlockModel.ProgressFunction,
-                            MinQuality = procedure.BlockModel.MinQuality,
-                            MaxQuality = procedure.BlockModel.MaxQuality
-                        })
-                        .Cast<BaseProcedure>()
-                        .ToList()
+                    Procedures = totalProcedures
+                    .Cast<BaseProcedure>()
+                    .ToList()
                 };
 
                 var simulator = new Simulator();
@@ -489,7 +492,12 @@ namespace GidraSIM.GUI
 
                     foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
                     {
-                        resultMsg += $"{Environment.NewLine}==={Environment.NewLine}Процедура: {log.Procedure?.Name}{Environment.NewLine}Начало: {log.SimulationResult.StartTime}{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}{Environment.NewLine}Конец: {log.SimulationResult.EndTime}";
+                        resultMsg += $"{Environment.NewLine}===" +
+                            $"{Environment.NewLine}Процедура: {log.Procedure?.Name}" +
+                            $"{Environment.NewLine}Начало: {log.SimulationResult.StartTime}" +
+                            $"{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}" +
+                            $"{Environment.NewLine}Конец: {log.SimulationResult.EndTime}" +
+                            $"{Environment.NewLine}Качество: {(int)(log.SimulationResult.ResultQuality * 100.0)}";
                     }
                 }
 

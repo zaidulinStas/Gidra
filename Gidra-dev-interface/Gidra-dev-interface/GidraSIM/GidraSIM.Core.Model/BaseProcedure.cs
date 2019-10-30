@@ -61,7 +61,7 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Условие выполнения процедуры - входное качество должно быть больше минимального, иначе - возврат по обратной связи
         /// </summary>
-        public bool IsQualityHigherEnough => Inputs[0].Tokens.Peek().Quality > MinQuality;
+        public bool IsQualityHigherEnough =>  Inputs.Any() && Inputs[0].Tokens.Peek().Quality >= MinQuality;
 
         /// <summary>
         /// Целевое качество, которое нужно достичь. Является случайной величиной от величины входного качества до MaxQuality
@@ -143,7 +143,7 @@ namespace GidraSIM.Core.Model
         /// </summary>
         private ProcedureSimulationResult EndModeling(double curTime)
         {
-            var referenceToken = Inputs[0].Tokens.Dequeue();
+            //var referenceToken = Inputs[0].Tokens.Peek();
 
             foreach (var input in Inputs)
             {
@@ -152,7 +152,7 @@ namespace GidraSIM.Core.Model
 
             foreach (var output in Outputs)
             {
-                var newToken = new Token(referenceToken.Quality);
+                var newToken = new Token(_targetQuality);
 
                 output.Tokens.Enqueue(newToken);
             }
@@ -161,10 +161,10 @@ namespace GidraSIM.Core.Model
 
             var result = new ProcedureSimulationResult
             {
-                StartTime = StartTime.Value,
+                StartTime = (StartTime.HasValue) ? StartTime.Value : curTime,
                 EndTime = curTime,
                 IsBackLink = false,
-                ResultQuality = referenceToken.Quality
+                ResultQuality = _targetQuality
             };
 
             StartTime = null;
@@ -177,7 +177,7 @@ namespace GidraSIM.Core.Model
         /// </summary>
         private ProcedureSimulationResult BackLinkReturn(double curTime)
         {
-            var newToken = Inputs[0].Tokens.Dequeue();
+            var newToken = Inputs[0].Tokens.Peek();
 
             foreach (var input in Inputs)
             {
@@ -186,14 +186,14 @@ namespace GidraSIM.Core.Model
 
             foreach (var backlink in BackLinks)
             {
-                backlink.Tokens.Enqueue(newToken);
+                backlink.End.Inputs[0].Tokens.Enqueue(new Token(newToken.Quality));
             }
 
             //OnEndModeling();
 
             var result = new ProcedureSimulationResult
             {
-                StartTime = StartTime.Value,
+                StartTime = (StartTime.HasValue) ? StartTime.Value : curTime,
                 EndTime = curTime,
                 IsBackLink = true,
                 ResultQuality = newToken.Quality
@@ -243,7 +243,7 @@ namespace GidraSIM.Core.Model
             var newConnection = new Connection() { Begin = this, End = another };
 
             BackLinks.Add(newConnection);
-            another.Inputs.Add(newConnection);
+            //another.Inputs.Add(newConnection);
 
             return true;
         }

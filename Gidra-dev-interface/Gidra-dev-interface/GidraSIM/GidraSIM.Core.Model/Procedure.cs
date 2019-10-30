@@ -94,8 +94,6 @@ namespace GidraSIM.Core.Model
         /// </summary>
         protected override bool OnEndModeling()
         {
-            Inputs[0].Tokens.Peek().Quality = _targetQuality;
-
             foreach (var resource in Resources)
             {
                 resource.Release();
