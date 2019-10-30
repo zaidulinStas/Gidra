@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using GidraSIM.Core.Model;
 using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace GidraSIM.GUI.Core.BlocksWPF
 {
@@ -13,6 +14,12 @@ namespace GidraSIM.GUI.Core.BlocksWPF
 
         public int InputCount { get; set; } = 1;
         public int OutputCount { get; set; } = 1;
+
+        //Входы обратной связи
+        private List<ProcConnectionWPF> backInputs;
+
+        //Выходы обратной связи
+        private List<ProcConnectionWPF> backOutputs;
 
         //Входы
         private List<ProcConnectionWPF> inputs;
@@ -33,6 +40,8 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             //this.OutputCount = block.OutputQuantity;
             this.BlockModel = block;
 
+            this.backInputs = new List<ProcConnectionWPF>();
+            this.backOutputs = new List<ProcConnectionWPF>();
             this.outputs = new List<ProcConnectionWPF>();
             this.inputs = new List<ProcConnectionWPF>();
             this.resputs = new List<ResConnectionWPF>();
@@ -86,6 +95,30 @@ namespace GidraSIM.GUI.Core.BlocksWPF
                     this));
 
                 y += 2.0 * POINT_MARGIN;
+            }
+
+            x = 0;
+            y = POINT_MARGIN;
+            for (int i = 0; i < 1; i++)
+            {
+                this.Children.Add(new ConnectPointWPF(
+                    new Point(x, y),
+                    i,
+                    Brushes.Red,
+                    ConnectPointWPF_Type.backInput,
+                    this));
+            }
+
+            x = DEFAULT_WIDTH;
+            y = POINT_MARGIN;
+            for (int i = 0; i < 1; i++)
+            {
+                this.Children.Add(new ConnectPointWPF(
+                    new Point(x, y),
+                    i,
+                    Brushes.Red,
+                    ConnectPointWPF_Type.backOutput,
+                    this));
             }
         }
 

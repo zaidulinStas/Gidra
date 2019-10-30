@@ -44,5 +44,5 @@ namespace GidraSIM.GUI.Core.BlocksWPF
         }
     }
 
-    public enum ConnectPointWPF_Type { inPut, outPut}
+    public enum ConnectPointWPF_Type { inPut, outPut, backInput, backOutput }
 }

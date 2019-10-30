@@ -38,15 +38,22 @@ namespace GidraSIM.GUI.Core.BlocksWPF
         public int StartPort { get; private set; }
 
         public int EndPort { get; private set; }
+        public ConnectPointWPF startPoint { get; set; }
+        public ConnectPointWPF endPoint { get; set; }
 
         public ProcConnectionWPF(
             BlockWPF startBlock, 
             BlockWPF endBlock, 
             Point relativeStartPosition, 
             Point relativeEndPosition,
-            int startPort = 0,
-            int endPort = 0) : base(startBlock, endBlock)
+            int startPort,
+            int endPort,
+            ConnectPointWPF start,
+            ConnectPointWPF end) : base(startBlock, endBlock)
         {
+            startPoint = start;
+            endPoint = end;
+
             // startBlock неможет быть EndBlockWPF или ResourceWPF
             if ((startBlock is EndBlockWPF) || (startBlock is ResourceWPF))
             {
@@ -78,8 +85,9 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             {
                 // path тела линии
                 Path linePath = new Path();
-                linePath.Stroke = Stroke;
-                linePath.StrokeThickness = THICKNESS;
+                linePath.Stroke = this.startPoint != null && this.startPoint.ConnectType == ConnectPointWPF_Type.backOutput ? Brushes.Red : Stroke;
+                linePath.StrokeThickness = this.startPoint != null && this.startPoint.ConnectType == ConnectPointWPF_Type.backOutput ? 1 : THICKNESS;
+
                 // содержимое path
                 
                 // кривая

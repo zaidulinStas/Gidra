@@ -231,7 +231,7 @@ namespace GidraSIM.GUI
                                     if (child is ConnectPointWPF)
                                     {
                                         ConnectPointWPF point = child as ConnectPointWPF;
-                                        if (point.ConnectType == ConnectPointWPF_Type.outPut)
+                                        if (point.ConnectType == ConnectPointWPF_Type.outPut || point.ConnectType == ConnectPointWPF_Type.backOutput)
                                         {
                                             selectedPoint = point;
                                             selectedPoint.Select();
@@ -537,6 +537,8 @@ namespace GidraSIM.GUI
                 aPort = selectedPoint.Port;
             }
 
+            ConnectPointWPF endPoint = null;
+
             // если второй блок ProcedureWPF, то для соединения, необходимо, 
             // чтобы была выбрана одна из точек входа этого блока
             if (block2 is ProcedureWPF)
@@ -549,15 +551,21 @@ namespace GidraSIM.GUI
                     {
                         if (child is ConnectPointWPF)
                         {
-                            
                             ConnectPointWPF point = child as ConnectPointWPF;
-                            if (point.ConnectType == ConnectPointWPF_Type.inPut)
+                            if ((selectedPoint == null || selectedPoint.ConnectType == ConnectPointWPF_Type.outPut) && point.ConnectType == ConnectPointWPF_Type.inPut)
                             {
-                                //selectedPoint = point;
-                                //selectedPoint.Select();
                                 b = point.Position;
                                 bPort = point.Port;
                                 someSelect = true;
+                                endPoint = point;
+                            }
+
+                            if (selectedPoint != null && selectedPoint.ConnectType == ConnectPointWPF_Type.backOutput && point.ConnectType == ConnectPointWPF_Type.backInput)
+                            {
+                                b = point.Position;
+                                bPort = point.Port;
+                                someSelect = true;
+                                endPoint = point;
                             }
                         }
                     }
@@ -566,7 +574,9 @@ namespace GidraSIM.GUI
                 if (!someSelect) return false;
             }
 
-            ProcConnectionWPF connection = new ProcConnectionWPF(block1, block2, a, b, aPort, bPort);
+            ProcConnectionWPF connection = new ProcConnectionWPF(
+                block1, block2, a, b, aPort, bPort, selectedPoint, endPoint
+            );
 
             if (block1 is StartBlockWPF)
             {

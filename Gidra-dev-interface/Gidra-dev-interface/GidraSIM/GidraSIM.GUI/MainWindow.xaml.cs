@@ -401,7 +401,12 @@ namespace GidraSIM.GUI
                 var tabs = testTabControl.Items.OfType<TabItem>().ToList();
                 var drawArea = tabs[0].Content as DrawArea;
 
-                var proceduresConnections = drawArea.Children.OfType<ProcConnectionWPF>().ToList();
+                var proceduresConnections = drawArea.Children.OfType<ProcConnectionWPF>()
+                    .Where(x => x.startPoint == null || x.startPoint.ConnectType == ConnectPointWPF_Type.outPut)
+                    .ToList();
+                var backLinksConnections = drawArea.Children.OfType<ProcConnectionWPF>()
+                    .Where(x => x.startPoint != null && x.startPoint.ConnectType == ConnectPointWPF_Type.backOutput)
+                    .ToList();
                 var resourcesConnections = drawArea.Children.OfType<ResConnectionWPF>().ToList();
                 var procedures = drawArea.Children.OfType<ProcedureWPF>().ToList();
                 var resources = drawArea.Children.OfType<ResourceWPF>().ToList();
@@ -434,14 +439,33 @@ namespace GidraSIM.GUI
                     })
                     .ToList();
 
+                var proceduresBackLinkDictionary = backLinksConnections
+                    .Select(x => new
+                    {
+                        StartProcedure = x.StartBlock as ProcedureWPF,
+                        EndProcedure = x.EndBlock as ProcedureWPF
+                    })
+                    .Select(x => new
+                    {
+                        Connection = new Connection()
+                        {
+                            Begin = x.StartProcedure.BlockModel,
+                            End = x.EndProcedure.BlockModel
+                        },
+                        x.StartProcedure,
+                        x.EndProcedure
+                    })
+                    .ToList();
+
                 var options = new SimulationOptions()
                 {
                     Procedures = procedures
                         .Select(procedure => new Procedure
                         {
-                            Resources = resourcesDictionary[procedure].Select(res => res.ResourceModel).ToList(),
+                            Resources = resourcesDictionary.ContainsKey(procedure) ? resourcesDictionary[procedure].Select(res => res.ResourceModel).ToList() : new List<Resource>(),
                             Inputs = proceduresDictionary.Where(x => x.EndProcedure == procedure).Select(x => x.Connection).ToList(),
                             Outputs = proceduresDictionary.Where(x => x.StartProcedure == procedure).Select(x => x.Connection).ToList(),
+                            BackLinks = proceduresDictionary.Where(x => x.StartProcedure == procedure).Select(x => x.Connection).ToList(),
                             Name = procedure.BlockModel.Name,
                             Parameters = procedure.BlockModel.Parameters,
                             ProgressFunction = procedure.BlockModel.ProgressFunction,
