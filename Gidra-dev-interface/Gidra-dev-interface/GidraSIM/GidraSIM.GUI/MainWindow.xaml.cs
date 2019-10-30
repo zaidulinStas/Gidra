@@ -465,7 +465,7 @@ namespace GidraSIM.GUI
                             Resources = resourcesDictionary.ContainsKey(procedure) ? resourcesDictionary[procedure].Select(res => res.ResourceModel).ToList() : new List<Resource>(),
                             Inputs = proceduresDictionary.Where(x => x.EndProcedure == procedure).Select(x => x.Connection).ToList(),
                             Outputs = proceduresDictionary.Where(x => x.StartProcedure == procedure).Select(x => x.Connection).ToList(),
-                            BackLinks = proceduresBackLinkDictionary.Where(x => x.EndProcedure == procedure).Select(x => x.Connection).ToList(),
+                            BackLinks = proceduresBackLinkDictionary.Where(x => x.StartProcedure == procedure).Select(x => x.Connection).ToList(),
                             Name = procedure.BlockModel.Name,
                             Parameters = procedure.BlockModel.Parameters,
                             ProgressFunction = procedure.BlockModel.ProgressFunction,
