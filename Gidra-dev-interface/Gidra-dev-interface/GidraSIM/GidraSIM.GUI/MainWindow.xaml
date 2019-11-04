@@ -128,20 +128,13 @@
                 </Viewbox>
             </Button>
             <!-- Вложенный процесс -->
-            <Button Height="35" HorizontalAlignment="Left" Margin="5" Name="button_SubProcess" ToolTip="Добавить вложенный процесс (Alt+T)" VerticalAlignment="Bottom" Width="35" Command="command:MainWindowCommands.SubProcess">
-                <!--<StackPanel Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8">
-                    <StackPanel.Background>
-                        <ImageBrush ImageSource="/GidraSIM.GUI;component/Image/SubProcessButton.png" />
-                    </StackPanel.Background>
-                </StackPanel>-->
+            <!--<Button Height="35" HorizontalAlignment="Left" Margin="5" Name="button_SubProcess" ToolTip="Добавить вложенный процесс (Alt+T)" VerticalAlignment="Bottom" Width="35" Command="command:MainWindowCommands.SubProcess">
                 <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
                     <Canvas Name="subsqare" Width="24" Height="24">
                         <Canvas.RenderTransform>
                             <TranslateTransform X="0" Y="0"/>
                         </Canvas.RenderTransform>
                         <Canvas.Resources/>
-                        <!--Unknown tag: metadata-->
-                        <!--Unknown tag: sodipodi:namedview-->
                         <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path5050" Fill="#000000">
                             <Path.Data>
                                 <PathGeometry Figures="M 19 19 H 5 V 5 H 19 M 18 4 H 6 C 4.8954305 4 4 4.8954305 4 6 v 12 c 0 1.104569 0.8954305 2 2 2 h 12 c 1.104569 0 2 -0.895431 2 -2 V 6 C 20 4.89 19.1 4 18 4 Z" FillRule="NonZero"/>
@@ -155,7 +148,7 @@
                         </Path>
                     </Canvas>
                 </Viewbox>
-            </Button>
+            </Button>-->
 
             <Button Height="35" HorizontalAlignment="Left" x:Name="TestBtn" Margin="5"  Width="35" ToolTip="Запустить моделирование (F5)"  Command="command:MainWindowCommands.StartModeling">
                 <!--<StackPanel Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8">

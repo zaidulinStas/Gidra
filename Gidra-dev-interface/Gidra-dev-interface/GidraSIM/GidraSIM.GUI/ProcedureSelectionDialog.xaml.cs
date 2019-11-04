@@ -43,6 +43,16 @@ namespace GidraSIM.GUI
                         { "Число элементов", 30 },
                     },
                     ProgressFunction = "[x]/([Число элементов]*200-[Компьютер.Частота процессора]/2000*10-[Компьютер.RAM]*10)"
+                },
+                new Procedure()
+                {
+                    Name = "Логическое разветвление",
+                    ProgressFunction = "[x]"
+                },
+                new Procedure()
+                {
+                    Name = "Логическое слияние",
+                    ProgressFunction = "[x]"
                 }
             };
 

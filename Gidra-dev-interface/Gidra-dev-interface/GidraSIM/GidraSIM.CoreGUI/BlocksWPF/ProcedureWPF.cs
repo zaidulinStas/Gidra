@@ -12,8 +12,29 @@ namespace GidraSIM.GUI.Core.BlocksWPF
     {
         public const int POINT_MARGIN = 7;
 
-        public int InputCount { get; set; } = 1;
-        public int OutputCount { get; set; } = 1;
+        //public int InputCount { get; set; } = 1;
+        //public int OutputCount { get; set; } = 1;
+
+        private int _inputCount = 1;
+        public int InputCount
+        {
+            get { return _inputCount; }
+            set {
+                _inputCount = value;
+                DrawPins();
+            }
+        }
+
+        private int _outputCount = 1;
+        public int OutputCount
+        {
+            get { return _outputCount; }
+            set
+            {
+                _outputCount = value;
+                DrawPins();
+            }
+        }
 
         //Входы обратной связи
         private List<ProcConnectionWPF> backInputs;
@@ -34,10 +55,12 @@ namespace GidraSIM.GUI.Core.BlocksWPF
 
         // константы для определения высоты блока
 
+        public event Action OnInputsChanged;
+
+        private List<UIElement> _pins = new List<UIElement>();
+
         public ProcedureWPF(Point position, Procedure block) : base(position, block.Name)
         {
-            //this.InputCount = block.InputQuantity;
-            //this.OutputCount = block.OutputQuantity;
             this.BlockModel = block;
 
             this.backInputs = new List<ProcConnectionWPF>();
@@ -46,19 +69,21 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             this.inputs = new List<ProcConnectionWPF>();
             this.resputs = new List<ResConnectionWPF>();
 
-            // проверка корректности inputCount и outputCount (TODO: переписать через исключения)
-            //if (this.InputCount < 1)
-            //    throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
-            //if (this.OutputCount < 1)
-            //    throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
-            //if (this.InputCount > 10)
-            //    throw new ArgumentOutOfRangeException("Число входов должно быть от 1 до 10");
-            //if (this.OutputCount > 10)
-            //    throw new ArgumentOutOfRangeException("Число выходов должно быть от 1 до 10");
+            DrawPins();
+        }
+
+        public void DrawPins()
+        {
+            foreach (var pin in _pins)
+            {
+                this.Children.Remove(pin);
+            }
+
+            _pins.Clear();
 
             // перерасчёт высоты блока
             int maxCount = Math.Max(this.InputCount, this.OutputCount);
-            if(DEFAULT_HEIGHT < (2*maxCount*POINT_MARGIN + 2*RADIUS))
+            if (DEFAULT_HEIGHT < (2 * maxCount * POINT_MARGIN + 2 * RADIUS))
             {
                 SetHeight(2 * maxCount * POINT_MARGIN + 2 * RADIUS);
             }
@@ -68,16 +93,16 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             //MakePoint(inPointFill, DEFAULT_HEIGHT / 2, 0);
             double x = 0;
             double y = (GetHeight() / 2.0) - POINT_MARGIN * (this.InputCount - 1);
-            
+
             for (int i = 0; i < this.InputCount; i++)
             {
-                this.Children.Add(new ConnectPointWPF(
+                _pins.Add(new ConnectPointWPF(
                     new Point(x, y),
                     i,
                     InPointFill,
                     ConnectPointWPF_Type.inPut,
                     this));
-
+                
                 y += 2.0 * POINT_MARGIN;
             }
 
@@ -87,7 +112,7 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             y = (GetHeight() / 2.0) - POINT_MARGIN * (this.OutputCount - 1);
             for (int i = 0; i < this.OutputCount; i++)
             {
-                this.Children.Add(new ConnectPointWPF(
+                _pins.Add(new ConnectPointWPF(
                     new Point(x, y),
                     i,
                     OutPointFill,
@@ -101,7 +126,7 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             y = POINT_MARGIN;
             for (int i = 0; i < 1; i++)
             {
-                this.Children.Add(new ConnectPointWPF(
+                _pins.Add(new ConnectPointWPF(
                     new Point(x, y),
                     i,
                     Brushes.Red,
@@ -113,12 +138,17 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             y = POINT_MARGIN;
             for (int i = 0; i < 1; i++)
             {
-                this.Children.Add(new ConnectPointWPF(
+                _pins.Add(new ConnectPointWPF(
                     new Point(x, y),
                     i,
                     Brushes.Red,
-                    ConnectPointWPF_Type.backOutput,
+                    ConnectPointWPF_Type.backInput,
                     this));
+            }
+
+            foreach (var pin in _pins)
+            {
+                this.Children.Add(pin);
             }
         }
 

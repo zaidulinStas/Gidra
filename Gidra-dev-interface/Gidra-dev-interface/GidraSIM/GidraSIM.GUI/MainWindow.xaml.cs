@@ -250,7 +250,7 @@ namespace GidraSIM.GUI
             //меняем для всех на подпроцессы
             drawAreas.ForEach(area => area.SelectSubProcessMode());
 
-            PushButton(button_SubProcess);
+            //PushButton(button_SubProcess);
         }
 
         //public void Map(UIElementCollection uIElementCollection, SimulationOptions simOptions)
