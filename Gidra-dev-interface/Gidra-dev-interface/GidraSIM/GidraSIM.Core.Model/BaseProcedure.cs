@@ -164,6 +164,7 @@ namespace GidraSIM.Core.Model
                 StartTime = (StartTime.HasValue) ? StartTime.Value : curTime,
                 EndTime = curTime,
                 IsBackLink = false,
+                StartQuality = _interQuality,
                 ResultQuality = _targetQuality
             };
 

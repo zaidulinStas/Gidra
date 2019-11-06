@@ -61,7 +61,9 @@ namespace GidraSIM.Core.Model
         /// </summary>
         protected override bool OnEndModeling()
         {
-            Inputs[0].Tokens.Peek().Quality = MaxQuality;
+            //Inputs[0].Tokens.Peek().Quality = MaxQuality;
+
+            _targetQuality = MaxQuality;
 
             foreach (var resource in Resources)
             {
