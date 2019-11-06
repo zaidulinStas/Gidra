@@ -44,12 +44,12 @@ namespace GidraSIM.GUI
                     },
                     ProgressFunction = "[x]/([Число элементов]*200-[Компьютер.Частота процессора]/2000*10-[Компьютер.RAM]*10)"
                 },
-                new Procedure()
+                new OneToManyProcedure()
                 {
                     Name = "Логическое разветвление",
                     ProgressFunction = "[x]"
                 },
-                new Procedure()
+                new ManyToOneProcedure()
                 {
                     Name = "Логическое слияние",
                     ProgressFunction = "[x]"
