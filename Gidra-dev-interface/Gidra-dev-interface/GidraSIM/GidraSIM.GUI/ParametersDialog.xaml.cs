@@ -181,11 +181,11 @@ namespace GidraSIM.GUI
                     wrapPanel.Children.Add(textBox);
                 }
 
-                minQuality = _minQuality.Value;
-                maxQuality = _maxQuality.Value;
-
                 if (_minQuality.HasValue && _maxQuality.HasValue)
                 {
+                    minQuality = _minQuality.Value;
+                    maxQuality = _maxQuality.Value;
+
                     var minQualityTextBox = new TextBox();
                     minQualityTextBox.Text = _minQuality.ToString();
                     minQualityTextBox.PreviewTextInput += MinQualityTextBox_PreviewTextInput;

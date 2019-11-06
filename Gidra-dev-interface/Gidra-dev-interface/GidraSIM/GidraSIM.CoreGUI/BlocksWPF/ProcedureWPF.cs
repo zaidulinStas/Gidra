@@ -142,7 +142,7 @@ namespace GidraSIM.GUI.Core.BlocksWPF
                     new Point(x, y),
                     i,
                     Brushes.Red,
-                    ConnectPointWPF_Type.backInput,
+                    ConnectPointWPF_Type.backOutput,
                     this));
             }
 
