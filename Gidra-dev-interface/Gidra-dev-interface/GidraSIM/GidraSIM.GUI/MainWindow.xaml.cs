@@ -497,7 +497,8 @@ namespace GidraSIM.GUI
                             $"{Environment.NewLine}Начало: {log.SimulationResult.StartTime}" +
                             $"{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}" +
                             $"{Environment.NewLine}Конец: {log.SimulationResult.EndTime}" +
-                            $"{Environment.NewLine}Качество: {(int)(log.SimulationResult.ResultQuality * 100.0)}";
+                            $"{Environment.NewLine}Входное качество: {(int)(log.SimulationResult.StartQuality * 100.0)}" +
+                            $"{Environment.NewLine}Выходное качество: {(int)(log.SimulationResult.ResultQuality * 100.0)}";
                     }
                 }
 

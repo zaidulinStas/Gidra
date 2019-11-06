@@ -34,6 +34,11 @@ namespace GidraSIM.Core.Model
         /// <summary>
         /// Выходное качество
         /// </summary>
+        public double StartQuality { get; set; }
+
+        /// <summary>
+        /// Выходное качество
+        /// </summary>
         public double ResultQuality { get; set; }
     }
 }
