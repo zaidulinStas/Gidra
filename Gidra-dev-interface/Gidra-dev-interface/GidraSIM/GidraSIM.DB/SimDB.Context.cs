@@ -32,7 +32,9 @@ namespace GidraSIM.DB
         public virtual DbSet<ResourceNames> ResourceNames { get; set; }
         public virtual DbSet<ResourceParameterNames> ResourceParameterNames { get; set; }
         public virtual DbSet<ResourceTypes> ResourceTypes { get; set; }
+        public virtual DbSet<Procedures> Procedures { get; set; }
         public virtual DbSet<ProceduresResources> ProceduresResources { get; set; }
+        public virtual DbSet<Processes> Processes { get; set; }
         public virtual DbSet<ResourceParameters> ResourceParameters { get; set; }
         public virtual DbSet<Resources> Resources { get; set; }
     
@@ -308,14 +310,22 @@ namespace GidraSIM.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Procedures_Create", procedureNameIdParameter, functionExpressionParameter, totalTimeParameter, totalPriceParameter);
         }
     
-        public virtual int Procedures_Delete()
+        public virtual int Procedures_Delete(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Procedures_Delete");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Procedures_Delete", idParameter);
         }
     
-        public virtual ObjectResult<Procedures_Get_Result> Procedures_Get()
+        public virtual ObjectResult<Procedures_Get_Result> Procedures_Get(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_Get_Result>("Procedures_Get");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_Get_Result>("Procedures_Get", idParameter);
         }
     
         public virtual ObjectResult<Procedures_GetAll_Result> Procedures_GetAll()
@@ -323,13 +333,21 @@ namespace GidraSIM.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_GetAll_Result>("Procedures_GetAll");
         }
     
-        public virtual ObjectResult<Procedures_GetByProcessId_Result> Procedures_GetByProcessId()
+        public virtual ObjectResult<Procedures_GetByProcessId_Result> Procedures_GetByProcessId(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_GetByProcessId_Result>("Procedures_GetByProcessId");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_GetByProcessId_Result>("Procedures_GetByProcessId", idParameter);
         }
     
-        public virtual int Procedures_Update(string functionExpression, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
+        public virtual int Procedures_Update(Nullable<int> id, string functionExpression, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
         {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
             var functionExpressionParameter = functionExpression != null ?
                 new ObjectParameter("FunctionExpression", functionExpression) :
                 new ObjectParameter("FunctionExpression", typeof(string));
@@ -342,16 +360,20 @@ namespace GidraSIM.DB
                 new ObjectParameter("TotalPrice", totalPrice) :
                 new ObjectParameter("TotalPrice", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Procedures_Update", functionExpressionParameter, totalTimeParameter, totalPriceParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Procedures_Update", idParameter, functionExpressionParameter, totalTimeParameter, totalPriceParameter);
         }
     
-        public virtual ObjectResult<Nullable<decimal>> ProceduresResources_Create(Nullable<int> resourceId)
+        public virtual ObjectResult<Nullable<decimal>> ProceduresResources_Create(Nullable<int> resourceId, Nullable<int> procedureId)
         {
             var resourceIdParameter = resourceId.HasValue ?
                 new ObjectParameter("ResourceId", resourceId) :
                 new ObjectParameter("ResourceId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ProceduresResources_Create", resourceIdParameter);
+            var procedureIdParameter = procedureId.HasValue ?
+                new ObjectParameter("ProcedureId", procedureId) :
+                new ObjectParameter("ProcedureId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ProceduresResources_Create", resourceIdParameter, procedureIdParameter);
         }
     
         public virtual int ProceduresResources_Delete(Nullable<int> id)
@@ -363,9 +385,13 @@ namespace GidraSIM.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ProceduresResources_Delete", idParameter);
         }
     
-        public virtual ObjectResult<ProceduresResources_GetByProcedureId_Result> ProceduresResources_GetByProcedureId()
+        public virtual ObjectResult<ProceduresResources_GetByProcedureId_Result> ProceduresResources_GetByProcedureId(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProceduresResources_GetByProcedureId_Result>("ProceduresResources_GetByProcedureId");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProceduresResources_GetByProcedureId_Result>("ProceduresResources_GetByProcedureId", idParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> Processes_Create(Nullable<int> processNameId, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
@@ -385,14 +411,22 @@ namespace GidraSIM.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Processes_Create", processNameIdParameter, totalTimeParameter, totalPriceParameter);
         }
     
-        public virtual int Processes_Delete()
+        public virtual int Processes_Delete(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Processes_Delete");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Processes_Delete", idParameter);
         }
     
-        public virtual ObjectResult<Processes_Get_Result> Processes_Get()
+        public virtual ObjectResult<Processes_Get_Result> Processes_Get(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Processes_Get_Result>("Processes_Get");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Processes_Get_Result>("Processes_Get", idParameter);
         }
     
         public virtual ObjectResult<Processes_GetAll_Result> Processes_GetAll()
@@ -400,8 +434,12 @@ namespace GidraSIM.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Processes_GetAll_Result>("Processes_GetAll");
         }
     
-        public virtual int Processes_Update(Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
+        public virtual int Processes_Update(Nullable<int> id, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
         {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
             var totalTimeParameter = totalTime.HasValue ?
                 new ObjectParameter("TotalTime", totalTime) :
                 new ObjectParameter("TotalTime", typeof(System.DateTime));
@@ -410,7 +448,7 @@ namespace GidraSIM.DB
                 new ObjectParameter("TotalPrice", totalPrice) :
                 new ObjectParameter("TotalPrice", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Processes_Update", totalTimeParameter, totalPriceParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Processes_Update", idParameter, totalTimeParameter, totalPriceParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> ResourceParameters_Create(Nullable<int> resourceParameterNameId, Nullable<int> resourceId, Nullable<double> value)
@@ -515,9 +553,13 @@ namespace GidraSIM.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Resources_GetAll_Result>("Resources_GetAll");
         }
     
-        public virtual ObjectResult<Resources_GetByProcedureId_Result> Resources_GetByProcedureId()
+        public virtual ObjectResult<Resources_GetByProcedureId_Result> Resources_GetByProcedureId(Nullable<int> id)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Resources_GetByProcedureId_Result>("Resources_GetByProcedureId");
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Resources_GetByProcedureId_Result>("Resources_GetByProcedureId", idParameter);
         }
     
         public virtual int Resources_Update(Nullable<int> id, string name, Nullable<decimal> price)

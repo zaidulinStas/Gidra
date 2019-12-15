@@ -42,33 +42,34 @@
           <Property Name="ResourceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'ProcedureId' in the table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Procedures' was excluded.
-warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'ProcessId' in the table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Procedures' was excluded.
-warning 6031: The column 'ProcedureId' on the table/view 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Procedures' was excluded, and is a key column.  The table/view has been excluded.  Please fix the entity in the schema file, and uncomment.
         <EntityType Name="Procedures">
+          <Key>
+            <PropertyRef Name="ProcedureId" />
+          </Key>
+          <Property Name="ProcedureId" Type="int" Nullable="false" />
+          <Property Name="ProcessId" Type="int" />
           <Property Name="ProcedureNameId" Type="int" Nullable="false" />
           <Property Name="FunctionExpression" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TotalTime" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="TotalPrice" Type="money" Nullable="false" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'ProcedureId' in the table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.ProceduresResources' was excluded.-->
+        </EntityType>
         <EntityType Name="ProceduresResources">
           <Key>
             <PropertyRef Name="ProcedureResourceId" />
           </Key>
           <Property Name="ProcedureResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="ProcedureId" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6005: The data type 'hierarchyid' is currently not supported for the target Entity Framework version; the column 'ProcessId' in the table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Processes' was excluded.
-warning 6031: The column 'ProcessId' on the table/view 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Processes' was excluded, and is a key column.  The table/view has been excluded.  Please fix the entity in the schema file, and uncomment.
         <EntityType Name="Processes">
+          <Key>
+            <PropertyRef Name="ProcessId" />
+          </Key>
+          <Property Name="ProcessId" Type="int" Nullable="false" />
           <Property Name="ProcessNameId" Type="int" Nullable="false" />
           <Property Name="TotalTime" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="TotalPrice" Type="money" Nullable="false" />
-        </EntityType>-->
+        </EntityType>
         <EntityType Name="ResourceParameters">
           <Key>
             <PropertyRef Name="ResourceParameterId" />
@@ -87,16 +88,42 @@ warning 6031: The column 'ProcessId' on the table/view 'D:\PROJECTS\ETU PROJECTS
           <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Price" Type="money" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Processes' is referenced by a relationship, but cannot be found.
-error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Procedures' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Procedure__Proce__38996AB5" />-->
-        <!--Errors Found During Generation:
-error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Procedures' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Procedure__Proce__3A81B327" />-->
-        <!--Errors Found During Generation:
-error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Procedures' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Procedure__Proce__49C3F6B7" />-->
+        <Association Name="FK__Procedure__Proce__38996AB5">
+          <End Role="Processes" Type="Self.Processes" Multiplicity="0..1" />
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Processes">
+              <PropertyRef Name="ProcessId" />
+            </Principal>
+            <Dependent Role="Procedures">
+              <PropertyRef Name="ProcessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__Proce__3A81B327">
+          <End Role="ProcedureNames" Type="Self.ProcedureNames" Multiplicity="1" />
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProcedureNames">
+              <PropertyRef Name="ProcedureNameId" />
+            </Principal>
+            <Dependent Role="Procedures">
+              <PropertyRef Name="ProcedureNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__Proce__49C3F6B7">
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="1" />
+          <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Procedures">
+              <PropertyRef Name="ProcedureId" />
+            </Principal>
+            <Dependent Role="ProceduresResources">
+              <PropertyRef Name="ProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Procedure__Resou__48CFD27E">
           <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
           <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
@@ -109,9 +136,18 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-DEV-INTERFACE\GIDRASIM\GIDRASIM.DB\SIMSAPRNEW.MDF.Processes.Processes' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Processes__Proce__33D4B598" />-->
+        <Association Name="FK__Processes__Proce__33D4B598">
+          <End Role="ProcessNames" Type="Self.ProcessNames" Multiplicity="1" />
+          <End Role="Processes" Type="Self.Processes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProcessNames">
+              <PropertyRef Name="ProcessNameId" />
+            </Principal>
+            <Dependent Role="Processes">
+              <PropertyRef Name="ProcessNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ResourceN__Resou__2C3393D0">
           <End Role="ResourceTypes" Type="Self.ResourceTypes" Multiplicity="1" />
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="*" />
@@ -256,31 +292,46 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <Parameter Name="TotalTime" Type="datetime2" Mode="In" />
           <Parameter Name="TotalPrice" Type="money" Mode="In" />
         </Function>
-        <Function Name="Procedures_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
-        <Function Name="Procedures_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
+        <Function Name="Procedures_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Procedures_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="Procedures_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
-        <Function Name="Procedures_GetByProcessId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
+        <Function Name="Procedures_GetByProcessId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="Procedures_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="FunctionExpression" Type="nvarchar" Mode="In" />
           <Parameter Name="TotalTime" Type="datetime2" Mode="In" />
           <Parameter Name="TotalPrice" Type="money" Mode="In" />
         </Function>
         <Function Name="ProceduresResources_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
           <Parameter Name="ResourceId" Type="int" Mode="In" />
+          <Parameter Name="ProcedureId" Type="int" Mode="In" />
         </Function>
         <Function Name="ProceduresResources_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
           <Parameter Name="Id" Type="int" Mode="In" />
         </Function>
-        <Function Name="ProceduresResources_GetByProcedureId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
+        <Function Name="ProceduresResources_GetByProcedureId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="Processes_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
           <Parameter Name="ProcessNameId" Type="int" Mode="In" />
           <Parameter Name="TotalTime" Type="datetime2" Mode="In" />
           <Parameter Name="TotalPrice" Type="money" Mode="In" />
         </Function>
-        <Function Name="Processes_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
-        <Function Name="Processes_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
+        <Function Name="Processes_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Processes_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="Processes_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
         <Function Name="Processes_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="TotalTime" Type="datetime2" Mode="In" />
           <Parameter Name="TotalPrice" Type="money" Mode="In" />
         </Function>
@@ -315,7 +366,9 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <Parameter Name="Id" Type="int" Mode="In" />
         </Function>
         <Function Name="Resources_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Resources" />
-        <Function Name="Resources_GetByProcedureId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Resources" />
+        <Function Name="Resources_GetByProcedureId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Resources">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
         <Function Name="Resources_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Resources">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Name" Type="nvarchar" Mode="In" />
@@ -327,12 +380,30 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <EntitySet Name="ResourceNames" EntityType="Self.ResourceNames" Schema="Dictionaries" store:Type="Tables" />
           <EntitySet Name="ResourceParameterNames" EntityType="Self.ResourceParameterNames" Schema="Dictionaries" store:Type="Tables" />
           <EntitySet Name="ResourceTypes" EntityType="Self.ResourceTypes" Schema="Dictionaries" store:Type="Tables" />
+          <EntitySet Name="Procedures" EntityType="Self.Procedures" Schema="Processes" store:Type="Tables" />
           <EntitySet Name="ProceduresResources" EntityType="Self.ProceduresResources" Schema="Processes" store:Type="Tables" />
+          <EntitySet Name="Processes" EntityType="Self.Processes" Schema="Processes" store:Type="Tables" />
           <EntitySet Name="ResourceParameters" EntityType="Self.ResourceParameters" Schema="Resources" store:Type="Tables" />
           <EntitySet Name="Resources" EntityType="Self.Resources" Schema="Resources" store:Type="Tables" />
+          <AssociationSet Name="FK__Procedure__Proce__38996AB5" Association="Self.FK__Procedure__Proce__38996AB5">
+            <End Role="Processes" EntitySet="Processes" />
+            <End Role="Procedures" EntitySet="Procedures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__Proce__3A81B327" Association="Self.FK__Procedure__Proce__3A81B327">
+            <End Role="ProcedureNames" EntitySet="ProcedureNames" />
+            <End Role="Procedures" EntitySet="Procedures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__Proce__49C3F6B7" Association="Self.FK__Procedure__Proce__49C3F6B7">
+            <End Role="Procedures" EntitySet="Procedures" />
+            <End Role="ProceduresResources" EntitySet="ProceduresResources" />
+          </AssociationSet>
           <AssociationSet Name="FK__Procedure__Resou__48CFD27E" Association="Self.FK__Procedure__Resou__48CFD27E">
             <End Role="Resources" EntitySet="Resources" />
             <End Role="ProceduresResources" EntitySet="ProceduresResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Processes__Proce__33D4B598" Association="Self.FK__Processes__Proce__33D4B598">
+            <End Role="ProcessNames" EntitySet="ProcessNames" />
+            <End Role="Processes" EntitySet="Processes" />
           </AssociationSet>
           <AssociationSet Name="FK__ResourceN__Resou__2C3393D0" Association="Self.FK__ResourceN__Resou__2C3393D0">
             <End Role="ResourceTypes" EntitySet="ResourceTypes" />
@@ -366,6 +437,7 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           </Key>
           <Property Name="ProcedureNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__3A81B327" FromRole="ProcedureNames" ToRole="Procedures" />
         </EntityType>
         <EntityType Name="ProcessNames">
           <Key>
@@ -373,6 +445,7 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           </Key>
           <Property Name="ProcessNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Processes" Relationship="Self.FK__Processes__Proce__33D4B598" FromRole="ProcessNames" ToRole="Processes" />
         </EntityType>
         <EntityType Name="ResourceNames">
           <Key>
@@ -403,13 +476,40 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ResourceNames" Relationship="Self.FK__ResourceN__Resou__2C3393D0" FromRole="ResourceTypes" ToRole="ResourceNames" />
         </EntityType>
+        <EntityType Name="Procedures">
+          <Key>
+            <PropertyRef Name="ProcedureId" />
+          </Key>
+          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
+          <Property Name="ProcessId" Type="Int32" />
+          <Property Name="ProcedureNameId" Type="Int32" Nullable="false" />
+          <Property Name="FunctionExpression" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TotalTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="ProcedureNames" Relationship="Self.FK__Procedure__Proce__3A81B327" FromRole="Procedures" ToRole="ProcedureNames" />
+          <NavigationProperty Name="Processes" Relationship="Self.FK__Procedure__Proce__38996AB5" FromRole="Procedures" ToRole="Processes" />
+          <NavigationProperty Name="ProceduresResources" Relationship="Self.FK__Procedure__Proce__49C3F6B7" FromRole="Procedures" ToRole="ProceduresResources" />
+        </EntityType>
         <EntityType Name="ProceduresResources">
           <Key>
             <PropertyRef Name="ProcedureResourceId" />
           </Key>
           <Property Name="ProcedureResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__49C3F6B7" FromRole="ProceduresResources" ToRole="Procedures" />
           <NavigationProperty Name="Resources" Relationship="Self.FK__Procedure__Resou__48CFD27E" FromRole="ProceduresResources" ToRole="Resources" />
+        </EntityType>
+        <EntityType Name="Processes">
+          <Key>
+            <PropertyRef Name="ProcessId" />
+          </Key>
+          <Property Name="ProcessId" Type="Int32" Nullable="false" />
+          <Property Name="ProcessNameId" Type="Int32" Nullable="false" />
+          <Property Name="TotalTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="ProcessNames" Relationship="Self.FK__Processes__Proce__33D4B598" FromRole="Processes" ToRole="ProcessNames" />
+          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__38996AB5" FromRole="Processes" ToRole="Procedures" />
         </EntityType>
         <EntityType Name="ResourceParameters">
           <Key>
@@ -434,6 +534,30 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <NavigationProperty Name="ProceduresResources" Relationship="Self.FK__Procedure__Resou__48CFD27E" FromRole="Resources" ToRole="ProceduresResources" />
           <NavigationProperty Name="ResourceParameters" Relationship="Self.FK__ResourceP__Resou__45F365D3" FromRole="Resources" ToRole="ResourceParameters" />
         </EntityType>
+        <Association Name="FK__Procedure__Proce__3A81B327">
+          <End Role="ProcedureNames" Type="Self.ProcedureNames" Multiplicity="1" />
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProcedureNames">
+              <PropertyRef Name="ProcedureNameId" />
+            </Principal>
+            <Dependent Role="Procedures">
+              <PropertyRef Name="ProcedureNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Processes__Proce__33D4B598">
+          <End Role="ProcessNames" Type="Self.ProcessNames" Multiplicity="1" />
+          <End Role="Processes" Type="Self.Processes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProcessNames">
+              <PropertyRef Name="ProcessNameId" />
+            </Principal>
+            <Dependent Role="Processes">
+              <PropertyRef Name="ProcessNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ResourceN__Resou__2C3393D0">
           <End Role="ResourceTypes" Type="Self.ResourceTypes" Multiplicity="1" />
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="*" />
@@ -482,6 +606,30 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Procedure__Proce__38996AB5">
+          <End Role="Processes" Type="Self.Processes" Multiplicity="0..1" />
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Processes">
+              <PropertyRef Name="ProcessId" />
+            </Principal>
+            <Dependent Role="Procedures">
+              <PropertyRef Name="ProcessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__Proce__49C3F6B7">
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="1" />
+          <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Procedures">
+              <PropertyRef Name="ProcedureId" />
+            </Principal>
+            <Dependent Role="ProceduresResources">
+              <PropertyRef Name="ProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Procedure__Resou__48CFD27E">
           <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
           <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
@@ -512,9 +660,19 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <EntitySet Name="ResourceNames" EntityType="Self.ResourceNames" />
           <EntitySet Name="ResourceParameterNames" EntityType="Self.ResourceParameterNames" />
           <EntitySet Name="ResourceTypes" EntityType="Self.ResourceTypes" />
+          <EntitySet Name="Procedures" EntityType="Self.Procedures" />
           <EntitySet Name="ProceduresResources" EntityType="Self.ProceduresResources" />
+          <EntitySet Name="Processes" EntityType="Self.Processes" />
           <EntitySet Name="ResourceParameters" EntityType="Self.ResourceParameters" />
           <EntitySet Name="Resources" EntityType="Self.Resources" />
+          <AssociationSet Name="FK__Procedure__Proce__3A81B327" Association="Self.FK__Procedure__Proce__3A81B327">
+            <End Role="ProcedureNames" EntitySet="ProcedureNames" />
+            <End Role="Procedures" EntitySet="Procedures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Processes__Proce__33D4B598" Association="Self.FK__Processes__Proce__33D4B598">
+            <End Role="ProcessNames" EntitySet="ProcessNames" />
+            <End Role="Processes" EntitySet="Processes" />
+          </AssociationSet>
           <AssociationSet Name="FK__ResourceN__Resou__2C3393D0" Association="Self.FK__ResourceN__Resou__2C3393D0">
             <End Role="ResourceTypes" EntitySet="ResourceTypes" />
             <End Role="ResourceNames" EntitySet="ResourceNames" />
@@ -530,6 +688,14 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <AssociationSet Name="FK__ResourceP__Resou__44FF419A" Association="Self.FK__ResourceP__Resou__44FF419A">
             <End Role="ResourceParameterNames" EntitySet="ResourceParameterNames" />
             <End Role="ResourceParameters" EntitySet="ResourceParameters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__Proce__38996AB5" Association="Self.FK__Procedure__Proce__38996AB5">
+            <End Role="Processes" EntitySet="Processes" />
+            <End Role="Procedures" EntitySet="Procedures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__Proce__49C3F6B7" Association="Self.FK__Procedure__Proce__49C3F6B7">
+            <End Role="Procedures" EntitySet="Procedures" />
+            <End Role="ProceduresResources" EntitySet="ProceduresResources" />
           </AssociationSet>
           <AssociationSet Name="FK__Procedure__Resou__48CFD27E" Association="Self.FK__Procedure__Resou__48CFD27E">
             <End Role="Resources" EntitySet="Resources" />
@@ -623,31 +789,46 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
             <Parameter Name="TotalTime" Mode="In" Type="DateTime" />
             <Parameter Name="TotalPrice" Mode="In" Type="Decimal" />
           </FunctionImport>
-          <FunctionImport Name="Procedures_Delete" />
-          <FunctionImport Name="Procedures_Get" ReturnType="Collection(SimSaprNewModel.Procedures_Get_Result)" />
+          <FunctionImport Name="Procedures_Delete">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Procedures_Get" ReturnType="Collection(SimSaprNewModel.Procedures_Get_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Procedures_GetAll" ReturnType="Collection(SimSaprNewModel.Procedures_GetAll_Result)" />
-          <FunctionImport Name="Procedures_GetByProcessId" ReturnType="Collection(SimSaprNewModel.Procedures_GetByProcessId_Result)" />
+          <FunctionImport Name="Procedures_GetByProcessId" ReturnType="Collection(SimSaprNewModel.Procedures_GetByProcessId_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Procedures_Update">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="FunctionExpression" Mode="In" Type="String" />
             <Parameter Name="TotalTime" Mode="In" Type="DateTime" />
             <Parameter Name="TotalPrice" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="ProceduresResources_Create" ReturnType="Collection(Decimal)">
             <Parameter Name="ResourceId" Mode="In" Type="Int32" />
+            <Parameter Name="ProcedureId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ProceduresResources_Delete">
             <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="ProceduresResources_GetByProcedureId" ReturnType="Collection(SimSaprNewModel.ProceduresResources_GetByProcedureId_Result)" />
+          <FunctionImport Name="ProceduresResources_GetByProcedureId" ReturnType="Collection(SimSaprNewModel.ProceduresResources_GetByProcedureId_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Processes_Create" ReturnType="Collection(Decimal)">
             <Parameter Name="ProcessNameId" Mode="In" Type="Int32" />
             <Parameter Name="TotalTime" Mode="In" Type="DateTime" />
             <Parameter Name="TotalPrice" Mode="In" Type="Decimal" />
           </FunctionImport>
-          <FunctionImport Name="Processes_Delete" />
-          <FunctionImport Name="Processes_Get" ReturnType="Collection(SimSaprNewModel.Processes_Get_Result)" />
+          <FunctionImport Name="Processes_Delete">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Processes_Get" ReturnType="Collection(SimSaprNewModel.Processes_Get_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Processes_GetAll" ReturnType="Collection(SimSaprNewModel.Processes_GetAll_Result)" />
           <FunctionImport Name="Processes_Update">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="TotalTime" Mode="In" Type="DateTime" />
             <Parameter Name="TotalPrice" Mode="In" Type="Decimal" />
           </FunctionImport>
@@ -682,7 +863,9 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
             <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Resources_GetAll" ReturnType="Collection(SimSaprNewModel.Resources_GetAll_Result)" />
-          <FunctionImport Name="Resources_GetByProcedureId" ReturnType="Collection(SimSaprNewModel.Resources_GetByProcedureId_Result)" />
+          <FunctionImport Name="Resources_GetByProcedureId" ReturnType="Collection(SimSaprNewModel.Resources_GetByProcedureId_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Resources_Update">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="Name" Mode="In" Type="String" />
@@ -746,17 +929,21 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
         </ComplexType>
         <ComplexType Name="Procedures_Get_Result">
+          <Property Type="Int32" Name="ProcedureId" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
           <Property Type="String" Name="Procedure" Nullable="false" />
         </ComplexType>
         <ComplexType Name="Procedures_GetAll_Result">
+          <Property Type="Int32" Name="ProcedureId" Nullable="false" />
+          <Property Type="Int32" Name="ProcessId" Nullable="true" />
           <Property Type="Int32" Name="ProcedureNameId" Nullable="false" />
           <Property Type="String" Name="FunctionExpression" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
         </ComplexType>
         <ComplexType Name="Procedures_GetByProcessId_Result">
+          <Property Type="Int32" Name="ProcedureId" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
           <Property Type="String" Name="Procedure" Nullable="false" />
@@ -764,13 +951,16 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
         <ComplexType Name="ProceduresResources_GetByProcedureId_Result">
           <Property Type="Int32" Name="ProcedureResourceId" Nullable="false" />
           <Property Type="Int32" Name="ResourceId" Nullable="false" />
+          <Property Type="Int32" Name="ProcedureId" Nullable="false" />
         </ComplexType>
         <ComplexType Name="Processes_Get_Result">
+          <Property Type="Int32" Name="ProcessId" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
           <Property Type="String" Name="Process" Nullable="false" />
         </ComplexType>
         <ComplexType Name="Processes_GetAll_Result">
+          <Property Type="Int32" Name="ProcessId" Nullable="false" />
           <Property Type="Int32" Name="ProcessNameId" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
@@ -859,11 +1049,34 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Procedures">
+            <EntityTypeMapping TypeName="SimSaprNewModel.Procedures">
+              <MappingFragment StoreEntitySet="Procedures">
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
+                <ScalarProperty Name="ProcedureNameId" ColumnName="ProcedureNameId" />
+                <ScalarProperty Name="FunctionExpression" ColumnName="FunctionExpression" />
+                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ProceduresResources">
             <EntityTypeMapping TypeName="SimSaprNewModel.ProceduresResources">
               <MappingFragment StoreEntitySet="ProceduresResources">
                 <ScalarProperty Name="ProcedureResourceId" ColumnName="ProcedureResourceId" />
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Processes">
+            <EntityTypeMapping TypeName="SimSaprNewModel.Processes">
+              <MappingFragment StoreEntitySet="Processes">
+                <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
+                <ScalarProperty Name="ProcessNameId" ColumnName="ProcessNameId" />
+                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1011,6 +1224,7 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <FunctionImportMapping FunctionImportName="Procedures_Get" FunctionName="SimSaprNewModel.Store.Procedures_Get">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SimSaprNewModel.Procedures_Get_Result">
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="Procedure" ColumnName="Procedure" />
@@ -1020,6 +1234,8 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <FunctionImportMapping FunctionImportName="Procedures_GetAll" FunctionName="SimSaprNewModel.Store.Procedures_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SimSaprNewModel.Procedures_GetAll_Result">
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
                 <ScalarProperty Name="ProcedureNameId" ColumnName="ProcedureNameId" />
                 <ScalarProperty Name="FunctionExpression" ColumnName="FunctionExpression" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
@@ -1030,6 +1246,7 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <FunctionImportMapping FunctionImportName="Procedures_GetByProcessId" FunctionName="SimSaprNewModel.Store.Procedures_GetByProcessId">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SimSaprNewModel.Procedures_GetByProcessId_Result">
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="Procedure" ColumnName="Procedure" />
@@ -1044,6 +1261,7 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
               <ComplexTypeMapping TypeName="SimSaprNewModel.ProceduresResources_GetByProcedureId_Result">
                 <ScalarProperty Name="ProcedureResourceId" ColumnName="ProcedureResourceId" />
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1052,6 +1270,7 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <FunctionImportMapping FunctionImportName="Processes_Get" FunctionName="SimSaprNewModel.Store.Processes_Get">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SimSaprNewModel.Processes_Get_Result">
+                <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="Process" ColumnName="Process" />
@@ -1061,6 +1280,7 @@ error 6004: The table 'D:\PROJECTS\ETU PROJECTS\GIDRA\GIDRA-DEV-INTERFACE\GIDRA-
           <FunctionImportMapping FunctionImportName="Processes_GetAll" FunctionName="SimSaprNewModel.Store.Processes_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SimSaprNewModel.Processes_GetAll_Result">
+                <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
                 <ScalarProperty Name="ProcessNameId" ColumnName="ProcessNameId" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />

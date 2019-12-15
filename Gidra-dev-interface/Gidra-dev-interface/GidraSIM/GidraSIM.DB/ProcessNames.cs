@@ -14,7 +14,16 @@ namespace GidraSIM.DB
     
     public partial class ProcessNames
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProcessNames()
+        {
+            this.Processes = new HashSet<Processes>();
+        }
+    
         public int ProcessNameId { get; set; }
         public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Processes> Processes { get; set; }
     }
 }

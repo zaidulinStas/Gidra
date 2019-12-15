@@ -78,106 +78,131 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="ProcedureNames.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureNamesWindow.xaml.cs">
+      <DependentUpon>ProcedureNamesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProcedureNames_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProcedureNames_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProceduresResources.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProceduresResources_GetByProcedureId_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Procedures_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Procedures_GetByProcessId_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Procedures_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Processes.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Processes_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Processes_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProcessNames.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProcessNames_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProcessNames_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceNameEditWindow.xaml.cs">
+      <DependentUpon>ResourceNameEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceNames.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceNamesWindow.xaml.cs">
+      <DependentUpon>ResourceNamesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceNames_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceNames_GetByResourceTypeId_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceNames_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameterNames.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameterNames_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameterNames_GetByResourceId_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameterNames_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameters.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameters_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameters_GetByResourceId_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceParameters_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Resources.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Resources_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Resources_GetByProcedureId_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Resources_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceTypes.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceTypes_GetAll_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ResourceTypes_Get_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SimDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SimDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SimDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SimDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SimDB.edmx</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -191,18 +216,20 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ProcedureNamesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceNameEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceNamesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -220,40 +247,21 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EntityDeploy Include="SimDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SimDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="SimDB.edmx.diagram">
+      <DependentUpon>SimDB.edmx</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
-    <Content Include="Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
-    <Content Include="SimSaprNew.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SimSaprNew_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>SimSaprNew.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -264,6 +272,18 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SimDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SimDB.edmx</DependentUpon>
+      <LastGenOutput>SimDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="SimDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SimDB.edmx</DependentUpon>
+      <LastGenOutput>SimDB.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

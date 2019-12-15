@@ -13,6 +13,7 @@ namespace GidraSIM.DB
     
     public partial class Processes_Get_Result
     {
+        public int ProcessId { get; set; }
         public System.DateTime TotalTime { get; set; }
         public decimal TotalPrice { get; set; }
         public string Process { get; set; }

@@ -54,7 +54,7 @@ GO
 
 
 CREATE PROCEDURE Resources.Resources_GetByProcedureId
-@Id HIERARCHYID
+@Id INT
 AS
 BEGIN
     SELECT [ResourceId], [Price], r.[Name], rn.Name as 'Resource'

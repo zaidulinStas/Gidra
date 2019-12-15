@@ -12,17 +12,20 @@ namespace GidraSIM.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class ProcedureNames
+    public partial class Processes
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProcedureNames()
+        public Processes()
         {
             this.Procedures = new HashSet<Procedures>();
         }
     
-        public int ProcedureNameId { get; set; }
-        public string Name { get; set; }
+        public int ProcessId { get; set; }
+        public int ProcessNameId { get; set; }
+        public System.DateTime TotalTime { get; set; }
+        public decimal TotalPrice { get; set; }
     
+        public virtual ProcessNames ProcessNames { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Procedures> Procedures { get; set; }
     }

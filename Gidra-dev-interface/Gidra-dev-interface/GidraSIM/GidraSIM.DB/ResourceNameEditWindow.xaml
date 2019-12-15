@@ -1,0 +1,15 @@
+﻿<Window x:Class="GidraSIM.DB.ResourceNameEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GidraSIM.DB"
+        mc:Ignorable="d"
+        Title="ResourceNameEditWindow" Height="336.429" Width="397.143">
+    <Grid>
+        <TextBox x:Name="tb_name" HorizontalAlignment="Left" Height="23" Margin="130,42,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label1" Content="Имя ресурса" HorizontalAlignment="Left" Margin="151,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn_submit" Content="Сохранить" HorizontalAlignment="Left" Margin="157,105,0,0" VerticalAlignment="Top" Width="74" Click="btn_submit_Click"/>
+
+    </Grid>
+</Window>

@@ -56,7 +56,7 @@ GO
 
 CREATE TABLE Processes.Processes
 (
-    ProcessId HIERARCHYID PRIMARY KEY CLUSTERED,
+    ProcessId INT PRIMARY KEY CLUSTERED,
 	ProcessNameId INT REFERENCES Dictionaries.ProcessNames(ProcessNameId) NOT NULL,
     TotalTime DATETIME2(0) NOT NULL DEFAULT '01/01/0001 00:00:00',
     TotalPrice MONEY NOT NULL CHECK(TotalPrice>0)
@@ -65,8 +65,8 @@ CREATE TABLE Processes.Processes
 -- Таблица для сохранения конкретных процедур с уже реальными значениями ресурсов и их параметров
 CREATE TABLE Processes.Procedures
 (
-    ProcedureId HIERARCHYID PRIMARY KEY CLUSTERED,
-    ProcessId HIERARCHYID REFERENCES Processes.Processes(ProcessId) NULL DEFAULT NULL,
+    ProcedureId INT PRIMARY KEY CLUSTERED,
+    ProcessId INT REFERENCES Processes.Processes(ProcessId) NULL DEFAULT NULL,
 	ProcedureNameId INT REFERENCES Dictionaries.ProcedureNames(ProcedureNameId) NOT NULL,
 	-- выражение функции для расчета времени
 	FunctionExpression NVARCHAR(max) NOT NULL CHECK(LEN(FunctionExpression)>0),
@@ -103,6 +103,6 @@ CREATE TABLE Processes.ProceduresResources
 (
     ProcedureResourceId INT PRIMARY KEY IDENTITY(1,1),
 	ResourceId INT REFERENCES Resources.Resources(ResourceId) NOT NULL,
-    ProcedureId HIERARCHYID REFERENCES Processes.Procedures(ProcedureId) NOT NULL,
+    ProcedureId INT REFERENCES Processes.Procedures(ProcedureId) NOT NULL,
 );
 GO

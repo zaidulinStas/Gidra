@@ -15,5 +15,6 @@ namespace GidraSIM.DB
     {
         public int ProcedureResourceId { get; set; }
         public int ResourceId { get; set; }
+        public int ProcedureId { get; set; }
     }
 }

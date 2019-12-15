@@ -14,7 +14,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.Processes_Update
-@Id HIERARCHYID,
+@Id INT,
 @TotalTime DATETIME2,
 @TotalPrice MONEY
 AS
@@ -26,7 +26,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.Processes_Delete
-@Id HIERARCHYID
+@Id INT
 AS
 BEGIN
     DELETE Processes.Processes WHERE ProcessId=@Id
@@ -41,7 +41,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.Processes_Get
-@Id HIERARCHYID
+@Id INT
 AS
 BEGIN
      SELECT [ProcessId], [TotalTime], [TotalPrice], pn.Name as Process
@@ -69,7 +69,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.Procedures_Update
-@Id HIERARCHYID,
+@Id INT,
 @FunctionExpression NVARCHAR,
 @TotalTime DATETIME2,
 @TotalPrice MONEY
@@ -82,7 +82,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.Procedures_Delete
-@Id HIERARCHYID
+@Id INT
 AS
 BEGIN
     DELETE Processes.Procedures WHERE ProcedureId=@Id
@@ -97,7 +97,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.Procedures_Get
-@Id HIERARCHYID
+@Id INT
 AS
 BEGIN
     SELECT [ProcedureId], [TotalTime], [TotalPrice], pn.Name as 'Procedure'
@@ -107,7 +107,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.Procedures_GetByProcessId
-@Id HIERARCHYID
+@Id INT
 AS
 BEGIN
      SELECT [ProcedureId], [TotalTime], [TotalPrice], pn.Name as 'Procedure'
@@ -119,7 +119,7 @@ GO
 
 CREATE PROCEDURE Processes.ProceduresResources_Create
 @ResourceId INT,
-@ProcedureId HIERARCHYID
+@ProcedureId INT
 AS
 BEGIN
     INSERT Processes.ProceduresResources([ResourceId], [ProcedureId])
@@ -137,7 +137,7 @@ END
 GO
 
 CREATE PROCEDURE Processes.ProceduresResources_GetByProcedureId
-@Id HIERARCHYID
+@Id INT
 AS
 BEGIN
     SELECT * 

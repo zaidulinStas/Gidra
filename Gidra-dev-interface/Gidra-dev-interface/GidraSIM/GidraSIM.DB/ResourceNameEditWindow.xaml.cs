@@ -10,31 +10,27 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GidraSIM.DB
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ResourceNameEditWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ResourceNameEditWindow : Window
     {
-        public MainWindow()
+        ResourceNames resName;
+        public ResourceNameEditWindow(ResourceNames _resName)
         {
             InitializeComponent();
+            resName = _resName;
+            tb_name.Text = resName.Name;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void btn_submit_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new ProcedureNamesWindow();
-            dialog.ShowDialog();
-        }
-
-        private void res_btn_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ResourceNamesWindow();
-            dialog.ShowDialog();
+            resName.Name = tb_name.Text;
+            DialogResult = true;
         }
     }
 }

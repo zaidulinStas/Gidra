@@ -13,6 +13,8 @@ namespace GidraSIM.DB
     
     public partial class Procedures_GetAll_Result
     {
+        public int ProcedureId { get; set; }
+        public Nullable<int> ProcessId { get; set; }
         public int ProcedureNameId { get; set; }
         public string FunctionExpression { get; set; }
         public System.DateTime TotalTime { get; set; }
