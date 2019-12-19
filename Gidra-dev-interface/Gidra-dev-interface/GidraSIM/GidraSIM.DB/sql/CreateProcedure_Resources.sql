@@ -4,7 +4,7 @@ GO
 
 CREATE PROCEDURE Resources.Resources_Create
 @ResourceNameId INT,
-@Name NVARCHAR,
+@Name NVARCHAR(MAX),
 @Price MONEY
 AS
 BEGIN
@@ -16,12 +16,12 @@ GO
 
 CREATE PROCEDURE Resources.Resources_Update
 @Id INT,
-@Name NVARCHAR,
-@Price MONEY
+@Name NVARCHAR(MAX) = NULL,
+@Price MONEY = NULL
 AS
 BEGIN
     UPDATE Resources.Resources
-    SET [Name]=@Name, [Price]=@Price
+    SET [Name]=ISNULL(@Name, [Name]), [Price]=ISNULL(@Price, [Price])
     WHERE ResourceId=@Id
 END
 GO
@@ -85,11 +85,11 @@ GO
 
 CREATE PROCEDURE Resources.ResourceParameters_Update
 @Id INT,
-@Value float
+@Value float = NULL
 AS
 BEGIN
     UPDATE Resources.ResourceParameters
-    SET [Value]=@Value
+    SET [Value]=ISNULL(@Value, [Value])
     WHERE ResourceParameterId=@Id
 END
 GO

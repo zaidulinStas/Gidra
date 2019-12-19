@@ -14,6 +14,8 @@ namespace GidraSIM.DB
     public partial class Procedures_GetByProcessId_Result
     {
         public int ProcedureId { get; set; }
+        public string FunctionExpression { get; set; }
+        public string Name { get; set; }
         public System.DateTime TotalTime { get; set; }
         public decimal TotalPrice { get; set; }
         public string Procedure { get; set; }

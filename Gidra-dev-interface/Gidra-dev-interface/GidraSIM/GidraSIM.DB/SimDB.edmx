@@ -5,12 +5,21 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="SimSaprNewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="ProcedureNames">
+        <EntityType Name="BaseProcedureParameterNames">
           <Key>
-            <PropertyRef Name="ProcedureNameId" />
+            <PropertyRef Name="BaseProcedureParameterNameId" />
           </Key>
-          <Property Name="ProcedureNameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BaseProcedureParameterNameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BaseProcedureId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BaseProcedures">
+          <Key>
+            <PropertyRef Name="BaseProcedureId" />
+          </Key>
+          <Property Name="BaseProcedureId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DefaultFunctionExpression" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="ProcessNames">
           <Key>
@@ -46,12 +55,22 @@
           <Key>
             <PropertyRef Name="ProcedureId" />
           </Key>
-          <Property Name="ProcedureId" Type="int" Nullable="false" />
+          <Property Name="ProcedureId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProcessId" Type="int" />
-          <Property Name="ProcedureNameId" Type="int" Nullable="false" />
+          <Property Name="BaseProcedureId" Type="int" Nullable="false" />
           <Property Name="FunctionExpression" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TotalTime" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="TotalPrice" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProceduresParameters">
+          <Key>
+            <PropertyRef Name="ProcedureParameterId" />
+          </Key>
+          <Property Name="ProcedureParameterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BaseProcedureParameterNameId" Type="int" Nullable="false" />
+          <Property Name="ProcedureId" Type="int" Nullable="false" />
+          <Property Name="Value" Type="float" />
         </EntityType>
         <EntityType Name="ProceduresResources">
           <Key>
@@ -65,7 +84,7 @@
           <Key>
             <PropertyRef Name="ProcessId" />
           </Key>
-          <Property Name="ProcessId" Type="int" Nullable="false" />
+          <Property Name="ProcessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProcessNameId" Type="int" Nullable="false" />
           <Property Name="TotalTime" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="TotalPrice" Type="money" Nullable="false" />
@@ -85,10 +104,46 @@
           </Key>
           <Property Name="ResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ResourceNameId" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Price" Type="money" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Procedure__Proce__38996AB5">
+        <Association Name="FK__BaseProce__BaseP__34C8D9D1">
+          <End Role="BaseProcedures" Type="Self.BaseProcedures" Multiplicity="1" />
+          <End Role="BaseProcedureParameterNames" Type="Self.BaseProcedureParameterNames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseProcedures">
+              <PropertyRef Name="BaseProcedureId" />
+            </Principal>
+            <Dependent Role="BaseProcedureParameterNames">
+              <PropertyRef Name="BaseProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__BaseP__3F466844">
+          <End Role="BaseProcedures" Type="Self.BaseProcedures" Multiplicity="1" />
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseProcedures">
+              <PropertyRef Name="BaseProcedureId" />
+            </Principal>
+            <Dependent Role="Procedures">
+              <PropertyRef Name="BaseProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__BaseP__52593CB8">
+          <End Role="BaseProcedureParameterNames" Type="Self.BaseProcedureParameterNames" Multiplicity="1" />
+          <End Role="ProceduresParameters" Type="Self.ProceduresParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseProcedureParameterNames">
+              <PropertyRef Name="BaseProcedureParameterNameId" />
+            </Principal>
+            <Dependent Role="ProceduresParameters">
+              <PropertyRef Name="BaseProcedureParameterNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__Proce__3D5E1FD2">
           <End Role="Processes" Type="Self.Processes" Multiplicity="0..1" />
           <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
           <ReferentialConstraint>
@@ -100,19 +155,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Procedure__Proce__3A81B327">
-          <End Role="ProcedureNames" Type="Self.ProcedureNames" Multiplicity="1" />
-          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProcedureNames">
-              <PropertyRef Name="ProcedureNameId" />
-            </Principal>
-            <Dependent Role="Procedures">
-              <PropertyRef Name="ProcedureNameId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Procedure__Proce__49C3F6B7">
+        <Association Name="FK__Procedure__Proce__4F7CD00D">
           <End Role="Procedures" Type="Self.Procedures" Multiplicity="1" />
           <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
           <ReferentialConstraint>
@@ -124,7 +167,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Procedure__Resou__48CFD27E">
+        <Association Name="FK__Procedure__Proce__534D60F1">
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="1" />
+          <End Role="ProceduresParameters" Type="Self.ProceduresParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Procedures">
+              <PropertyRef Name="ProcedureId" />
+            </Principal>
+            <Dependent Role="ProceduresParameters">
+              <PropertyRef Name="ProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__Resou__4E88ABD4">
           <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
           <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
           <ReferentialConstraint>
@@ -136,7 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Processes__Proce__33D4B598">
+        <Association Name="FK__Processes__Proce__38996AB5">
           <End Role="ProcessNames" Type="Self.ProcessNames" Multiplicity="1" />
           <End Role="Processes" Type="Self.Processes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -148,7 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceN__Resou__2C3393D0">
+        <Association Name="FK__ResourceN__Resou__2D27B809">
           <End Role="ResourceTypes" Type="Self.ResourceTypes" Multiplicity="1" />
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="*" />
           <ReferentialConstraint>
@@ -160,7 +215,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceP__Resou__300424B4">
+        <Association Name="FK__ResourceP__Resou__30F848ED">
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="1" />
           <End Role="ResourceParameterNames" Type="Self.ResourceParameterNames" Multiplicity="*" />
           <ReferentialConstraint>
@@ -172,7 +227,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceP__Resou__44FF419A">
+        <Association Name="FK__ResourceP__Resou__4AB81AF0">
           <End Role="ResourceParameterNames" Type="Self.ResourceParameterNames" Multiplicity="1" />
           <End Role="ResourceParameters" Type="Self.ResourceParameters" Multiplicity="*" />
           <ReferentialConstraint>
@@ -184,7 +239,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceP__Resou__45F365D3">
+        <Association Name="FK__ResourceP__Resou__4BAC3F29">
           <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
           <End Role="ResourceParameters" Type="Self.ResourceParameters" Multiplicity="*" />
           <ReferentialConstraint>
@@ -196,7 +251,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Resources__Resou__403A8C7D">
+        <Association Name="FK__Resources__Resou__45F365D3">
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="1" />
           <End Role="Resources" Type="Self.Resources" Multiplicity="*" />
           <ReferentialConstraint>
@@ -208,22 +263,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="ProcedureNames_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+        <Function Name="BaseProcedureParameterNames_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="BaseProcedureId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="BaseProcedureParameterNames_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="BaseProcedureParameterNames_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="BaseProcedureParameterNames_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries" />
+        <Function Name="BaseProcedureParameterNames_GetByProcedureId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="BaseProcedureParameterNames_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+          <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="Name" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="ProcedureNames_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+        <Function Name="BaseProcedures_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="DefaultFunctionExpression" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="BaseProcedures_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Id" Type="int" Mode="In" />
         </Function>
-        <Function Name="ProcedureNames_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+        <Function Name="BaseProcedures_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Id" Type="int" Mode="In" />
         </Function>
-        <Function Name="ProcedureNames_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries" />
-        <Function Name="ProcedureNames_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
+        <Function Name="BaseProcedures_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries" />
+        <Function Name="BaseProcedures_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="DefaultFunctionExpression" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="ProcessNames_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
-          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="ProcessNames_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Id" Type="int" Mode="In" />
@@ -234,7 +309,7 @@
         <Function Name="ProcessNames_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries" />
         <Function Name="ProcessNames_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="ResourceNames_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Name" Type="nvarchar" Mode="In" />
@@ -256,7 +331,7 @@
         </Function>
         <Function Name="ResourceParameterNames_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Name" Type="nvarchar" Mode="In" />
-          <Parameter Name="ResourceId" Type="int" Mode="In" />
+          <Parameter Name="ResourceNameId" Type="int" Mode="In" />
         </Function>
         <Function Name="ResourceParameterNames_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Dictionaries">
           <Parameter Name="Id" Type="int" Mode="In" />
@@ -287,8 +362,9 @@
           <Parameter Name="Name" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="Procedures_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
-          <Parameter Name="ProcedureNameId" Type="int" Mode="In" />
-          <Parameter Name="FunctionExpression" Type="nvarchar" Mode="In" />
+          <Parameter Name="BaseProcedureId" Type="int" Mode="In" />
+          <Parameter Name="FunctionExpression" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="TotalTime" Type="datetime2" Mode="In" />
           <Parameter Name="TotalPrice" Type="money" Mode="In" />
         </Function>
@@ -304,9 +380,29 @@
         </Function>
         <Function Name="Procedures_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
           <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="FunctionExpression" Type="nvarchar" Mode="In" />
+          <Parameter Name="FunctionExpression" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="TotalTime" Type="datetime2" Mode="In" />
           <Parameter Name="TotalPrice" Type="money" Mode="In" />
+        </Function>
+        <Function Name="ProceduresParameters_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="BaseProcedureParameterNameId" Type="int" Mode="In" />
+          <Parameter Name="ProcedureId" Type="int" Mode="In" />
+          <Parameter Name="Value" Type="float" Mode="In" />
+        </Function>
+        <Function Name="ProceduresParameters_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProceduresParameters_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProceduresParameters_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes" />
+        <Function Name="ProceduresParameters_GetByProcessId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ProceduresParameters_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Value" Type="float" Mode="In" />
         </Function>
         <Function Name="ProceduresResources_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Processes">
           <Parameter Name="ResourceId" Type="int" Mode="In" />
@@ -356,7 +452,7 @@
         </Function>
         <Function Name="Resources_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Resources">
           <Parameter Name="ResourceNameId" Type="int" Mode="In" />
-          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Price" Type="money" Mode="In" />
         </Function>
         <Function Name="Resources_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Resources">
@@ -371,57 +467,71 @@
         </Function>
         <Function Name="Resources_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Resources">
           <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Price" Type="money" Mode="In" />
         </Function>
         <EntityContainer Name="SimSaprNewModelStoreContainer">
-          <EntitySet Name="ProcedureNames" EntityType="Self.ProcedureNames" Schema="Dictionaries" store:Type="Tables" />
+          <EntitySet Name="BaseProcedureParameterNames" EntityType="Self.BaseProcedureParameterNames" Schema="Dictionaries" store:Type="Tables" />
+          <EntitySet Name="BaseProcedures" EntityType="Self.BaseProcedures" Schema="Dictionaries" store:Type="Tables" />
           <EntitySet Name="ProcessNames" EntityType="Self.ProcessNames" Schema="Dictionaries" store:Type="Tables" />
           <EntitySet Name="ResourceNames" EntityType="Self.ResourceNames" Schema="Dictionaries" store:Type="Tables" />
           <EntitySet Name="ResourceParameterNames" EntityType="Self.ResourceParameterNames" Schema="Dictionaries" store:Type="Tables" />
           <EntitySet Name="ResourceTypes" EntityType="Self.ResourceTypes" Schema="Dictionaries" store:Type="Tables" />
           <EntitySet Name="Procedures" EntityType="Self.Procedures" Schema="Processes" store:Type="Tables" />
+          <EntitySet Name="ProceduresParameters" EntityType="Self.ProceduresParameters" Schema="Processes" store:Type="Tables" />
           <EntitySet Name="ProceduresResources" EntityType="Self.ProceduresResources" Schema="Processes" store:Type="Tables" />
           <EntitySet Name="Processes" EntityType="Self.Processes" Schema="Processes" store:Type="Tables" />
           <EntitySet Name="ResourceParameters" EntityType="Self.ResourceParameters" Schema="Resources" store:Type="Tables" />
           <EntitySet Name="Resources" EntityType="Self.Resources" Schema="Resources" store:Type="Tables" />
-          <AssociationSet Name="FK__Procedure__Proce__38996AB5" Association="Self.FK__Procedure__Proce__38996AB5">
+          <AssociationSet Name="FK__BaseProce__BaseP__34C8D9D1" Association="Self.FK__BaseProce__BaseP__34C8D9D1">
+            <End Role="BaseProcedures" EntitySet="BaseProcedures" />
+            <End Role="BaseProcedureParameterNames" EntitySet="BaseProcedureParameterNames" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__BaseP__3F466844" Association="Self.FK__Procedure__BaseP__3F466844">
+            <End Role="BaseProcedures" EntitySet="BaseProcedures" />
+            <End Role="Procedures" EntitySet="Procedures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__BaseP__52593CB8" Association="Self.FK__Procedure__BaseP__52593CB8">
+            <End Role="BaseProcedureParameterNames" EntitySet="BaseProcedureParameterNames" />
+            <End Role="ProceduresParameters" EntitySet="ProceduresParameters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__Proce__3D5E1FD2" Association="Self.FK__Procedure__Proce__3D5E1FD2">
             <End Role="Processes" EntitySet="Processes" />
             <End Role="Procedures" EntitySet="Procedures" />
           </AssociationSet>
-          <AssociationSet Name="FK__Procedure__Proce__3A81B327" Association="Self.FK__Procedure__Proce__3A81B327">
-            <End Role="ProcedureNames" EntitySet="ProcedureNames" />
-            <End Role="Procedures" EntitySet="Procedures" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Procedure__Proce__49C3F6B7" Association="Self.FK__Procedure__Proce__49C3F6B7">
+          <AssociationSet Name="FK__Procedure__Proce__4F7CD00D" Association="Self.FK__Procedure__Proce__4F7CD00D">
             <End Role="Procedures" EntitySet="Procedures" />
             <End Role="ProceduresResources" EntitySet="ProceduresResources" />
           </AssociationSet>
-          <AssociationSet Name="FK__Procedure__Resou__48CFD27E" Association="Self.FK__Procedure__Resou__48CFD27E">
+          <AssociationSet Name="FK__Procedure__Proce__534D60F1" Association="Self.FK__Procedure__Proce__534D60F1">
+            <End Role="Procedures" EntitySet="Procedures" />
+            <End Role="ProceduresParameters" EntitySet="ProceduresParameters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__Resou__4E88ABD4" Association="Self.FK__Procedure__Resou__4E88ABD4">
             <End Role="Resources" EntitySet="Resources" />
             <End Role="ProceduresResources" EntitySet="ProceduresResources" />
           </AssociationSet>
-          <AssociationSet Name="FK__Processes__Proce__33D4B598" Association="Self.FK__Processes__Proce__33D4B598">
+          <AssociationSet Name="FK__Processes__Proce__38996AB5" Association="Self.FK__Processes__Proce__38996AB5">
             <End Role="ProcessNames" EntitySet="ProcessNames" />
             <End Role="Processes" EntitySet="Processes" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceN__Resou__2C3393D0" Association="Self.FK__ResourceN__Resou__2C3393D0">
+          <AssociationSet Name="FK__ResourceN__Resou__2D27B809" Association="Self.FK__ResourceN__Resou__2D27B809">
             <End Role="ResourceTypes" EntitySet="ResourceTypes" />
             <End Role="ResourceNames" EntitySet="ResourceNames" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceP__Resou__300424B4" Association="Self.FK__ResourceP__Resou__300424B4">
+          <AssociationSet Name="FK__ResourceP__Resou__30F848ED" Association="Self.FK__ResourceP__Resou__30F848ED">
             <End Role="ResourceNames" EntitySet="ResourceNames" />
             <End Role="ResourceParameterNames" EntitySet="ResourceParameterNames" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceP__Resou__44FF419A" Association="Self.FK__ResourceP__Resou__44FF419A">
+          <AssociationSet Name="FK__ResourceP__Resou__4AB81AF0" Association="Self.FK__ResourceP__Resou__4AB81AF0">
             <End Role="ResourceParameterNames" EntitySet="ResourceParameterNames" />
             <End Role="ResourceParameters" EntitySet="ResourceParameters" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceP__Resou__45F365D3" Association="Self.FK__ResourceP__Resou__45F365D3">
+          <AssociationSet Name="FK__ResourceP__Resou__4BAC3F29" Association="Self.FK__ResourceP__Resou__4BAC3F29">
             <End Role="Resources" EntitySet="Resources" />
             <End Role="ResourceParameters" EntitySet="ResourceParameters" />
           </AssociationSet>
-          <AssociationSet Name="FK__Resources__Resou__403A8C7D" Association="Self.FK__Resources__Resou__403A8C7D">
+          <AssociationSet Name="FK__Resources__Resou__45F365D3" Association="Self.FK__Resources__Resou__45F365D3">
             <End Role="ResourceNames" EntitySet="ResourceNames" />
             <End Role="Resources" EntitySet="Resources" />
           </AssociationSet>
@@ -431,13 +541,25 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SimSaprNewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ProcedureNames">
+        <EntityType Name="BaseProcedureParameterNames">
           <Key>
-            <PropertyRef Name="ProcedureNameId" />
+            <PropertyRef Name="BaseProcedureParameterNameId" />
           </Key>
-          <Property Name="ProcedureNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BaseProcedureParameterNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BaseProcedureId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BaseProcedures" Relationship="Self.FK__BaseProce__BaseP__34C8D9D1" FromRole="BaseProcedureParameterNames" ToRole="BaseProcedures" />
+          <NavigationProperty Name="ProceduresParameters" Relationship="Self.FK__Procedure__BaseP__52593CB8" FromRole="BaseProcedureParameterNames" ToRole="ProceduresParameters" />
+        </EntityType>
+        <EntityType Name="BaseProcedures">
+          <Key>
+            <PropertyRef Name="BaseProcedureId" />
+          </Key>
+          <Property Name="BaseProcedureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__3A81B327" FromRole="ProcedureNames" ToRole="Procedures" />
+          <Property Name="DefaultFunctionExpression" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BaseProcedureParameterNames" Relationship="Self.FK__BaseProce__BaseP__34C8D9D1" FromRole="BaseProcedures" ToRole="BaseProcedureParameterNames" />
+          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__BaseP__3F466844" FromRole="BaseProcedures" ToRole="Procedures" />
         </EntityType>
         <EntityType Name="ProcessNames">
           <Key>
@@ -445,7 +567,7 @@
           </Key>
           <Property Name="ProcessNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Processes" Relationship="Self.FK__Processes__Proce__33D4B598" FromRole="ProcessNames" ToRole="Processes" />
+          <NavigationProperty Name="Processes" Relationship="Self.FK__Processes__Proce__38996AB5" FromRole="ProcessNames" ToRole="Processes" />
         </EntityType>
         <EntityType Name="ResourceNames">
           <Key>
@@ -454,9 +576,9 @@
           <Property Name="ResourceNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ResourceTypeId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ResourceTypes" Relationship="Self.FK__ResourceN__Resou__2C3393D0" FromRole="ResourceNames" ToRole="ResourceTypes" />
-          <NavigationProperty Name="ResourceParameterNames" Relationship="Self.FK__ResourceP__Resou__300424B4" FromRole="ResourceNames" ToRole="ResourceParameterNames" />
-          <NavigationProperty Name="Resources" Relationship="Self.FK__Resources__Resou__403A8C7D" FromRole="ResourceNames" ToRole="Resources" />
+          <NavigationProperty Name="ResourceTypes" Relationship="Self.FK__ResourceN__Resou__2D27B809" FromRole="ResourceNames" ToRole="ResourceTypes" />
+          <NavigationProperty Name="ResourceParameterNames" Relationship="Self.FK__ResourceP__Resou__30F848ED" FromRole="ResourceNames" ToRole="ResourceParameterNames" />
+          <NavigationProperty Name="Resources" Relationship="Self.FK__Resources__Resou__45F365D3" FromRole="ResourceNames" ToRole="Resources" />
         </EntityType>
         <EntityType Name="ResourceParameterNames">
           <Key>
@@ -465,8 +587,8 @@
           <Property Name="ResourceParameterNameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ResourceNameId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ResourceNames" Relationship="Self.FK__ResourceP__Resou__300424B4" FromRole="ResourceParameterNames" ToRole="ResourceNames" />
-          <NavigationProperty Name="ResourceParameters" Relationship="Self.FK__ResourceP__Resou__44FF419A" FromRole="ResourceParameterNames" ToRole="ResourceParameters" />
+          <NavigationProperty Name="ResourceNames" Relationship="Self.FK__ResourceP__Resou__30F848ED" FromRole="ResourceParameterNames" ToRole="ResourceNames" />
+          <NavigationProperty Name="ResourceParameters" Relationship="Self.FK__ResourceP__Resou__4AB81AF0" FromRole="ResourceParameterNames" ToRole="ResourceParameters" />
         </EntityType>
         <EntityType Name="ResourceTypes">
           <Key>
@@ -474,21 +596,34 @@
           </Key>
           <Property Name="ResourceTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ResourceNames" Relationship="Self.FK__ResourceN__Resou__2C3393D0" FromRole="ResourceTypes" ToRole="ResourceNames" />
+          <NavigationProperty Name="ResourceNames" Relationship="Self.FK__ResourceN__Resou__2D27B809" FromRole="ResourceTypes" ToRole="ResourceNames" />
         </EntityType>
         <EntityType Name="Procedures">
           <Key>
             <PropertyRef Name="ProcedureId" />
           </Key>
-          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
+          <Property Name="ProcedureId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProcessId" Type="Int32" />
-          <Property Name="ProcedureNameId" Type="Int32" Nullable="false" />
+          <Property Name="BaseProcedureId" Type="Int32" Nullable="false" />
           <Property Name="FunctionExpression" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TotalTime" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="ProcedureNames" Relationship="Self.FK__Procedure__Proce__3A81B327" FromRole="Procedures" ToRole="ProcedureNames" />
-          <NavigationProperty Name="Processes" Relationship="Self.FK__Procedure__Proce__38996AB5" FromRole="Procedures" ToRole="Processes" />
-          <NavigationProperty Name="ProceduresResources" Relationship="Self.FK__Procedure__Proce__49C3F6B7" FromRole="Procedures" ToRole="ProceduresResources" />
+          <NavigationProperty Name="BaseProcedures" Relationship="Self.FK__Procedure__BaseP__3F466844" FromRole="Procedures" ToRole="BaseProcedures" />
+          <NavigationProperty Name="Processes" Relationship="Self.FK__Procedure__Proce__3D5E1FD2" FromRole="Procedures" ToRole="Processes" />
+          <NavigationProperty Name="ProceduresResources" Relationship="Self.FK__Procedure__Proce__4F7CD00D" FromRole="Procedures" ToRole="ProceduresResources" />
+          <NavigationProperty Name="ProceduresParameters" Relationship="Self.FK__Procedure__Proce__534D60F1" FromRole="Procedures" ToRole="ProceduresParameters" />
+        </EntityType>
+        <EntityType Name="ProceduresParameters">
+          <Key>
+            <PropertyRef Name="ProcedureParameterId" />
+          </Key>
+          <Property Name="ProcedureParameterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BaseProcedureParameterNameId" Type="Int32" Nullable="false" />
+          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="Double" />
+          <NavigationProperty Name="BaseProcedureParameterNames" Relationship="Self.FK__Procedure__BaseP__52593CB8" FromRole="ProceduresParameters" ToRole="BaseProcedureParameterNames" />
+          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__534D60F1" FromRole="ProceduresParameters" ToRole="Procedures" />
         </EntityType>
         <EntityType Name="ProceduresResources">
           <Key>
@@ -497,19 +632,19 @@
           <Property Name="ProcedureResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ResourceId" Type="Int32" Nullable="false" />
           <Property Name="ProcedureId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__49C3F6B7" FromRole="ProceduresResources" ToRole="Procedures" />
-          <NavigationProperty Name="Resources" Relationship="Self.FK__Procedure__Resou__48CFD27E" FromRole="ProceduresResources" ToRole="Resources" />
+          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__4F7CD00D" FromRole="ProceduresResources" ToRole="Procedures" />
+          <NavigationProperty Name="Resources" Relationship="Self.FK__Procedure__Resou__4E88ABD4" FromRole="ProceduresResources" ToRole="Resources" />
         </EntityType>
         <EntityType Name="Processes">
           <Key>
             <PropertyRef Name="ProcessId" />
           </Key>
-          <Property Name="ProcessId" Type="Int32" Nullable="false" />
+          <Property Name="ProcessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProcessNameId" Type="Int32" Nullable="false" />
           <Property Name="TotalTime" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="ProcessNames" Relationship="Self.FK__Processes__Proce__33D4B598" FromRole="Processes" ToRole="ProcessNames" />
-          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__38996AB5" FromRole="Processes" ToRole="Procedures" />
+          <NavigationProperty Name="ProcessNames" Relationship="Self.FK__Processes__Proce__38996AB5" FromRole="Processes" ToRole="ProcessNames" />
+          <NavigationProperty Name="Procedures" Relationship="Self.FK__Procedure__Proce__3D5E1FD2" FromRole="Processes" ToRole="Procedures" />
         </EntityType>
         <EntityType Name="ResourceParameters">
           <Key>
@@ -519,8 +654,8 @@
           <Property Name="ResourceParameterNameId" Type="Int32" Nullable="false" />
           <Property Name="ResourceId" Type="Int32" Nullable="false" />
           <Property Name="Value" Type="Double" />
-          <NavigationProperty Name="ResourceParameterNames" Relationship="Self.FK__ResourceP__Resou__44FF419A" FromRole="ResourceParameters" ToRole="ResourceParameterNames" />
-          <NavigationProperty Name="Resources" Relationship="Self.FK__ResourceP__Resou__45F365D3" FromRole="ResourceParameters" ToRole="Resources" />
+          <NavigationProperty Name="ResourceParameterNames" Relationship="Self.FK__ResourceP__Resou__4AB81AF0" FromRole="ResourceParameters" ToRole="ResourceParameterNames" />
+          <NavigationProperty Name="Resources" Relationship="Self.FK__ResourceP__Resou__4BAC3F29" FromRole="ResourceParameters" ToRole="Resources" />
         </EntityType>
         <EntityType Name="Resources">
           <Key>
@@ -528,25 +663,49 @@
           </Key>
           <Property Name="ResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ResourceNameId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="ResourceNames" Relationship="Self.FK__Resources__Resou__403A8C7D" FromRole="Resources" ToRole="ResourceNames" />
-          <NavigationProperty Name="ProceduresResources" Relationship="Self.FK__Procedure__Resou__48CFD27E" FromRole="Resources" ToRole="ProceduresResources" />
-          <NavigationProperty Name="ResourceParameters" Relationship="Self.FK__ResourceP__Resou__45F365D3" FromRole="Resources" ToRole="ResourceParameters" />
+          <NavigationProperty Name="ResourceNames" Relationship="Self.FK__Resources__Resou__45F365D3" FromRole="Resources" ToRole="ResourceNames" />
+          <NavigationProperty Name="ProceduresResources" Relationship="Self.FK__Procedure__Resou__4E88ABD4" FromRole="Resources" ToRole="ProceduresResources" />
+          <NavigationProperty Name="ResourceParameters" Relationship="Self.FK__ResourceP__Resou__4BAC3F29" FromRole="Resources" ToRole="ResourceParameters" />
         </EntityType>
-        <Association Name="FK__Procedure__Proce__3A81B327">
-          <End Role="ProcedureNames" Type="Self.ProcedureNames" Multiplicity="1" />
-          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
+        <Association Name="FK__BaseProce__BaseP__34C8D9D1">
+          <End Role="BaseProcedures" Type="Self.BaseProcedures" Multiplicity="1" />
+          <End Role="BaseProcedureParameterNames" Type="Self.BaseProcedureParameterNames" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ProcedureNames">
-              <PropertyRef Name="ProcedureNameId" />
+            <Principal Role="BaseProcedures">
+              <PropertyRef Name="BaseProcedureId" />
             </Principal>
-            <Dependent Role="Procedures">
-              <PropertyRef Name="ProcedureNameId" />
+            <Dependent Role="BaseProcedureParameterNames">
+              <PropertyRef Name="BaseProcedureId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Processes__Proce__33D4B598">
+        <Association Name="FK__Procedure__BaseP__52593CB8">
+          <End Role="BaseProcedureParameterNames" Type="Self.BaseProcedureParameterNames" Multiplicity="1" />
+          <End Role="ProceduresParameters" Type="Self.ProceduresParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseProcedureParameterNames">
+              <PropertyRef Name="BaseProcedureParameterNameId" />
+            </Principal>
+            <Dependent Role="ProceduresParameters">
+              <PropertyRef Name="BaseProcedureParameterNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__BaseP__3F466844">
+          <End Role="BaseProcedures" Type="Self.BaseProcedures" Multiplicity="1" />
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseProcedures">
+              <PropertyRef Name="BaseProcedureId" />
+            </Principal>
+            <Dependent Role="Procedures">
+              <PropertyRef Name="BaseProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Processes__Proce__38996AB5">
           <End Role="ProcessNames" Type="Self.ProcessNames" Multiplicity="1" />
           <End Role="Processes" Type="Self.Processes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -558,7 +717,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceN__Resou__2C3393D0">
+        <Association Name="FK__ResourceN__Resou__2D27B809">
           <End Role="ResourceTypes" Type="Self.ResourceTypes" Multiplicity="1" />
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="*" />
           <ReferentialConstraint>
@@ -570,7 +729,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceP__Resou__300424B4">
+        <Association Name="FK__ResourceP__Resou__30F848ED">
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="1" />
           <End Role="ResourceParameterNames" Type="Self.ResourceParameterNames" Multiplicity="*" />
           <ReferentialConstraint>
@@ -582,7 +741,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Resources__Resou__403A8C7D">
+        <Association Name="FK__Resources__Resou__45F365D3">
           <End Role="ResourceNames" Type="Self.ResourceNames" Multiplicity="1" />
           <End Role="Resources" Type="Self.Resources" Multiplicity="*" />
           <ReferentialConstraint>
@@ -594,7 +753,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceP__Resou__44FF419A">
+        <Association Name="FK__ResourceP__Resou__4AB81AF0">
           <End Role="ResourceParameterNames" Type="Self.ResourceParameterNames" Multiplicity="1" />
           <End Role="ResourceParameters" Type="Self.ResourceParameters" Multiplicity="*" />
           <ReferentialConstraint>
@@ -606,7 +765,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Procedure__Proce__38996AB5">
+        <Association Name="FK__Procedure__Proce__3D5E1FD2">
           <End Role="Processes" Type="Self.Processes" Multiplicity="0..1" />
           <End Role="Procedures" Type="Self.Procedures" Multiplicity="*" />
           <ReferentialConstraint>
@@ -618,7 +777,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Procedure__Proce__49C3F6B7">
+        <Association Name="FK__Procedure__Proce__4F7CD00D">
           <End Role="Procedures" Type="Self.Procedures" Multiplicity="1" />
           <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
           <ReferentialConstraint>
@@ -630,7 +789,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Procedure__Resou__48CFD27E">
+        <Association Name="FK__Procedure__Proce__534D60F1">
+          <End Role="Procedures" Type="Self.Procedures" Multiplicity="1" />
+          <End Role="ProceduresParameters" Type="Self.ProceduresParameters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Procedures">
+              <PropertyRef Name="ProcedureId" />
+            </Principal>
+            <Dependent Role="ProceduresParameters">
+              <PropertyRef Name="ProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Procedure__Resou__4E88ABD4">
           <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
           <End Role="ProceduresResources" Type="Self.ProceduresResources" Multiplicity="*" />
           <ReferentialConstraint>
@@ -642,7 +813,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ResourceP__Resou__45F365D3">
+        <Association Name="FK__ResourceP__Resou__4BAC3F29">
           <End Role="Resources" Type="Self.Resources" Multiplicity="1" />
           <End Role="ResourceParameters" Type="Self.ResourceParameters" Multiplicity="*" />
           <ReferentialConstraint>
@@ -655,69 +826,103 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SimSaprNewEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ProcedureNames" EntityType="Self.ProcedureNames" />
+          <EntitySet Name="BaseProcedureParameterNames" EntityType="Self.BaseProcedureParameterNames" />
+          <EntitySet Name="BaseProcedures" EntityType="Self.BaseProcedures" />
           <EntitySet Name="ProcessNames" EntityType="Self.ProcessNames" />
           <EntitySet Name="ResourceNames" EntityType="Self.ResourceNames" />
           <EntitySet Name="ResourceParameterNames" EntityType="Self.ResourceParameterNames" />
           <EntitySet Name="ResourceTypes" EntityType="Self.ResourceTypes" />
           <EntitySet Name="Procedures" EntityType="Self.Procedures" />
+          <EntitySet Name="ProceduresParameters" EntityType="Self.ProceduresParameters" />
           <EntitySet Name="ProceduresResources" EntityType="Self.ProceduresResources" />
           <EntitySet Name="Processes" EntityType="Self.Processes" />
           <EntitySet Name="ResourceParameters" EntityType="Self.ResourceParameters" />
           <EntitySet Name="Resources" EntityType="Self.Resources" />
-          <AssociationSet Name="FK__Procedure__Proce__3A81B327" Association="Self.FK__Procedure__Proce__3A81B327">
-            <End Role="ProcedureNames" EntitySet="ProcedureNames" />
+          <AssociationSet Name="FK__BaseProce__BaseP__34C8D9D1" Association="Self.FK__BaseProce__BaseP__34C8D9D1">
+            <End Role="BaseProcedures" EntitySet="BaseProcedures" />
+            <End Role="BaseProcedureParameterNames" EntitySet="BaseProcedureParameterNames" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__BaseP__52593CB8" Association="Self.FK__Procedure__BaseP__52593CB8">
+            <End Role="BaseProcedureParameterNames" EntitySet="BaseProcedureParameterNames" />
+            <End Role="ProceduresParameters" EntitySet="ProceduresParameters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__BaseP__3F466844" Association="Self.FK__Procedure__BaseP__3F466844">
+            <End Role="BaseProcedures" EntitySet="BaseProcedures" />
             <End Role="Procedures" EntitySet="Procedures" />
           </AssociationSet>
-          <AssociationSet Name="FK__Processes__Proce__33D4B598" Association="Self.FK__Processes__Proce__33D4B598">
+          <AssociationSet Name="FK__Processes__Proce__38996AB5" Association="Self.FK__Processes__Proce__38996AB5">
             <End Role="ProcessNames" EntitySet="ProcessNames" />
             <End Role="Processes" EntitySet="Processes" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceN__Resou__2C3393D0" Association="Self.FK__ResourceN__Resou__2C3393D0">
+          <AssociationSet Name="FK__ResourceN__Resou__2D27B809" Association="Self.FK__ResourceN__Resou__2D27B809">
             <End Role="ResourceTypes" EntitySet="ResourceTypes" />
             <End Role="ResourceNames" EntitySet="ResourceNames" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceP__Resou__300424B4" Association="Self.FK__ResourceP__Resou__300424B4">
+          <AssociationSet Name="FK__ResourceP__Resou__30F848ED" Association="Self.FK__ResourceP__Resou__30F848ED">
             <End Role="ResourceNames" EntitySet="ResourceNames" />
             <End Role="ResourceParameterNames" EntitySet="ResourceParameterNames" />
           </AssociationSet>
-          <AssociationSet Name="FK__Resources__Resou__403A8C7D" Association="Self.FK__Resources__Resou__403A8C7D">
+          <AssociationSet Name="FK__Resources__Resou__45F365D3" Association="Self.FK__Resources__Resou__45F365D3">
             <End Role="ResourceNames" EntitySet="ResourceNames" />
             <End Role="Resources" EntitySet="Resources" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceP__Resou__44FF419A" Association="Self.FK__ResourceP__Resou__44FF419A">
+          <AssociationSet Name="FK__ResourceP__Resou__4AB81AF0" Association="Self.FK__ResourceP__Resou__4AB81AF0">
             <End Role="ResourceParameterNames" EntitySet="ResourceParameterNames" />
             <End Role="ResourceParameters" EntitySet="ResourceParameters" />
           </AssociationSet>
-          <AssociationSet Name="FK__Procedure__Proce__38996AB5" Association="Self.FK__Procedure__Proce__38996AB5">
+          <AssociationSet Name="FK__Procedure__Proce__3D5E1FD2" Association="Self.FK__Procedure__Proce__3D5E1FD2">
             <End Role="Processes" EntitySet="Processes" />
             <End Role="Procedures" EntitySet="Procedures" />
           </AssociationSet>
-          <AssociationSet Name="FK__Procedure__Proce__49C3F6B7" Association="Self.FK__Procedure__Proce__49C3F6B7">
+          <AssociationSet Name="FK__Procedure__Proce__4F7CD00D" Association="Self.FK__Procedure__Proce__4F7CD00D">
             <End Role="Procedures" EntitySet="Procedures" />
             <End Role="ProceduresResources" EntitySet="ProceduresResources" />
           </AssociationSet>
-          <AssociationSet Name="FK__Procedure__Resou__48CFD27E" Association="Self.FK__Procedure__Resou__48CFD27E">
+          <AssociationSet Name="FK__Procedure__Proce__534D60F1" Association="Self.FK__Procedure__Proce__534D60F1">
+            <End Role="Procedures" EntitySet="Procedures" />
+            <End Role="ProceduresParameters" EntitySet="ProceduresParameters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Procedure__Resou__4E88ABD4" Association="Self.FK__Procedure__Resou__4E88ABD4">
             <End Role="Resources" EntitySet="Resources" />
             <End Role="ProceduresResources" EntitySet="ProceduresResources" />
           </AssociationSet>
-          <AssociationSet Name="FK__ResourceP__Resou__45F365D3" Association="Self.FK__ResourceP__Resou__45F365D3">
+          <AssociationSet Name="FK__ResourceP__Resou__4BAC3F29" Association="Self.FK__ResourceP__Resou__4BAC3F29">
             <End Role="Resources" EntitySet="Resources" />
             <End Role="ResourceParameters" EntitySet="ResourceParameters" />
           </AssociationSet>
-          <FunctionImport Name="ProcedureNames_Create" ReturnType="Collection(Decimal)">
+          <FunctionImport Name="BaseProcedureParameterNames_Create" ReturnType="Collection(Decimal)">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="BaseProcedureId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BaseProcedureParameterNames_Delete">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BaseProcedureParameterNames_Get" ReturnType="Collection(SimSaprNewModel.BaseProcedureParameterNames_Get_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BaseProcedureParameterNames_GetAll" ReturnType="Collection(SimSaprNewModel.BaseProcedureParameterNames_GetAll_Result)" />
+          <FunctionImport Name="BaseProcedureParameterNames_GetByProcedureId" ReturnType="Collection(SimSaprNewModel.BaseProcedureParameterNames_GetByProcedureId_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BaseProcedureParameterNames_Update">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="Name" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="ProcedureNames_Delete">
+          <FunctionImport Name="BaseProcedures_Create" ReturnType="Collection(Decimal)">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="DefaultFunctionExpression" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="BaseProcedures_Delete">
             <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="ProcedureNames_Get" ReturnType="Collection(SimSaprNewModel.ProcedureNames_Get_Result)">
+          <FunctionImport Name="BaseProcedures_Get" ReturnType="Collection(SimSaprNewModel.BaseProcedures_Get_Result)">
             <Parameter Name="Id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="ProcedureNames_GetAll" ReturnType="Collection(SimSaprNewModel.ProcedureNames_GetAll_Result)" />
-          <FunctionImport Name="ProcedureNames_Update">
+          <FunctionImport Name="BaseProcedures_GetAll" ReturnType="Collection(SimSaprNewModel.BaseProcedures_GetAll_Result)" />
+          <FunctionImport Name="BaseProcedures_Update">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="DefaultFunctionExpression" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ProcessNames_Create" ReturnType="Collection(Decimal)">
             <Parameter Name="Name" Mode="In" Type="String" />
@@ -753,7 +958,7 @@
           </FunctionImport>
           <FunctionImport Name="ResourceParameterNames_Create" ReturnType="Collection(Decimal)">
             <Parameter Name="Name" Mode="In" Type="String" />
-            <Parameter Name="ResourceId" Mode="In" Type="Int32" />
+            <Parameter Name="ResourceNameId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ResourceParameterNames_Delete">
             <Parameter Name="Id" Mode="In" Type="Int32" />
@@ -784,8 +989,9 @@
             <Parameter Name="Name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Procedures_Create" ReturnType="Collection(Decimal)">
-            <Parameter Name="ProcedureNameId" Mode="In" Type="Int32" />
+            <Parameter Name="BaseProcedureId" Mode="In" Type="Int32" />
             <Parameter Name="FunctionExpression" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="TotalTime" Mode="In" Type="DateTime" />
             <Parameter Name="TotalPrice" Mode="In" Type="Decimal" />
           </FunctionImport>
@@ -802,8 +1008,28 @@
           <FunctionImport Name="Procedures_Update">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="FunctionExpression" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="TotalTime" Mode="In" Type="DateTime" />
             <Parameter Name="TotalPrice" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ProceduresParameters_Create" ReturnType="Collection(Decimal)">
+            <Parameter Name="BaseProcedureParameterNameId" Mode="In" Type="Int32" />
+            <Parameter Name="ProcedureId" Mode="In" Type="Int32" />
+            <Parameter Name="Value" Mode="In" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="ProceduresParameters_Delete">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProceduresParameters_Get" ReturnType="Collection(SimSaprNewModel.ProceduresParameters_Get_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProceduresParameters_GetAll" ReturnType="Collection(SimSaprNewModel.ProceduresParameters_GetAll_Result)" />
+          <FunctionImport Name="ProceduresParameters_GetByProcessId" ReturnType="Collection(SimSaprNewModel.ProceduresParameters_GetByProcessId_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ProceduresParameters_Update">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Value" Mode="In" Type="Double" />
           </FunctionImport>
           <FunctionImport Name="ProceduresResources_Create" ReturnType="Collection(Decimal)">
             <Parameter Name="ResourceId" Mode="In" Type="Int32" />
@@ -872,13 +1098,31 @@
             <Parameter Name="Price" Mode="In" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="ProcedureNames_Get_Result">
-          <Property Type="Int32" Name="ProcedureNameId" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" />
+        <ComplexType Name="BaseProcedureParameterNames_Get_Result">
+          <Property Type="Int32" Name="BaseProcedureParameterNameId" Nullable="false" />
+          <Property Type="Int32" Name="BaseProcedureId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Procedure" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="ProcedureNames_GetAll_Result">
-          <Property Type="Int32" Name="ProcedureNameId" Nullable="false" />
+        <ComplexType Name="BaseProcedureParameterNames_GetAll_Result">
+          <Property Type="Int32" Name="BaseProcedureParameterNameId" Nullable="false" />
+          <Property Type="Int32" Name="BaseProcedureId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="BaseProcedureParameterNames_GetByProcedureId_Result">
+          <Property Type="Int32" Name="BaseProcedureParameterNameId" Nullable="false" />
+          <Property Type="Int32" Name="BaseProcedureId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="BaseProcedures_Get_Result">
+          <Property Type="Int32" Name="BaseProcedureId" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="DefaultFunctionExpression" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="BaseProcedures_GetAll_Result">
+          <Property Type="Int32" Name="BaseProcedureId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="DefaultFunctionExpression" Nullable="false" />
         </ComplexType>
         <ComplexType Name="ProcessNames_Get_Result">
           <Property Type="Int32" Name="ProcessNameId" Nullable="false" />
@@ -930,6 +1174,8 @@
         </ComplexType>
         <ComplexType Name="Procedures_Get_Result">
           <Property Type="Int32" Name="ProcedureId" Nullable="false" />
+          <Property Type="String" Name="FunctionExpression" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
           <Property Type="String" Name="Procedure" Nullable="false" />
@@ -937,16 +1183,39 @@
         <ComplexType Name="Procedures_GetAll_Result">
           <Property Type="Int32" Name="ProcedureId" Nullable="false" />
           <Property Type="Int32" Name="ProcessId" Nullable="true" />
-          <Property Type="Int32" Name="ProcedureNameId" Nullable="false" />
+          <Property Type="Int32" Name="BaseProcedureId" Nullable="false" />
           <Property Type="String" Name="FunctionExpression" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
         </ComplexType>
         <ComplexType Name="Procedures_GetByProcessId_Result">
           <Property Type="Int32" Name="ProcedureId" Nullable="false" />
+          <Property Type="String" Name="FunctionExpression" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="DateTime" Name="TotalTime" Nullable="false" />
           <Property Type="Decimal" Name="TotalPrice" Nullable="false" Precision="19" />
           <Property Type="String" Name="Procedure" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ProceduresParameters_Get_Result">
+          <Property Type="Int32" Name="ProcedureParameterId" Nullable="false" />
+          <Property Type="Int32" Name="BaseProcedureParameterNameId" Nullable="false" />
+          <Property Type="Int32" Name="ProcedureId" Nullable="false" />
+          <Property Type="Double" Name="Value" Nullable="true" />
+          <Property Type="String" Name="Parameter" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="ProceduresParameters_GetAll_Result">
+          <Property Type="Int32" Name="ProcedureParameterId" Nullable="false" />
+          <Property Type="Int32" Name="BaseProcedureParameterNameId" Nullable="false" />
+          <Property Type="Int32" Name="ProcedureId" Nullable="false" />
+          <Property Type="Double" Name="Value" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ProceduresParameters_GetByProcessId_Result">
+          <Property Type="Int32" Name="ProcedureParameterId" Nullable="false" />
+          <Property Type="Int32" Name="BaseProcedureParameterNameId" Nullable="false" />
+          <Property Type="Int32" Name="ProcedureId" Nullable="false" />
+          <Property Type="Double" Name="Value" Nullable="true" />
+          <Property Type="String" Name="Parameter" Nullable="false" MaxLength="255" />
         </ComplexType>
         <ComplexType Name="ProceduresResources_GetByProcedureId_Result">
           <Property Type="Int32" Name="ProcedureResourceId" Nullable="false" />
@@ -986,19 +1255,19 @@
         <ComplexType Name="Resources_Get_Result">
           <Property Type="Int32" Name="ResourceId" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="String" Name="Resource" Nullable="false" MaxLength="255" />
         </ComplexType>
         <ComplexType Name="Resources_GetAll_Result">
           <Property Type="Int32" Name="ResourceId" Nullable="false" />
           <Property Type="Int32" Name="ResourceNameId" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
         </ComplexType>
         <ComplexType Name="Resources_GetByProcedureId_Result">
           <Property Type="Int32" Name="ResourceId" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="String" Name="Resource" Nullable="false" MaxLength="255" />
         </ComplexType>
       </Schema>
@@ -1007,11 +1276,21 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SimSaprNewModelStoreContainer" CdmEntityContainer="SimSaprNewEntities">
-          <EntitySetMapping Name="ProcedureNames">
-            <EntityTypeMapping TypeName="SimSaprNewModel.ProcedureNames">
-              <MappingFragment StoreEntitySet="ProcedureNames">
-                <ScalarProperty Name="ProcedureNameId" ColumnName="ProcedureNameId" />
+          <EntitySetMapping Name="BaseProcedureParameterNames">
+            <EntityTypeMapping TypeName="SimSaprNewModel.BaseProcedureParameterNames">
+              <MappingFragment StoreEntitySet="BaseProcedureParameterNames">
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BaseProcedures">
+            <EntityTypeMapping TypeName="SimSaprNewModel.BaseProcedures">
+              <MappingFragment StoreEntitySet="BaseProcedures">
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DefaultFunctionExpression" ColumnName="DefaultFunctionExpression" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1054,10 +1333,21 @@
               <MappingFragment StoreEntitySet="Procedures">
                 <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
                 <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
-                <ScalarProperty Name="ProcedureNameId" ColumnName="ProcedureNameId" />
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
                 <ScalarProperty Name="FunctionExpression" ColumnName="FunctionExpression" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProceduresParameters">
+            <EntityTypeMapping TypeName="SimSaprNewModel.ProceduresParameters">
+              <MappingFragment StoreEntitySet="ProceduresParameters">
+                <ScalarProperty Name="ProcedureParameterId" ColumnName="ProcedureParameterId" />
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1100,25 +1390,58 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="ProcedureNames_Create" FunctionName="SimSaprNewModel.Store.ProcedureNames_Create" />
-          <FunctionImportMapping FunctionImportName="ProcedureNames_Delete" FunctionName="SimSaprNewModel.Store.ProcedureNames_Delete" />
-          <FunctionImportMapping FunctionImportName="ProcedureNames_Get" FunctionName="SimSaprNewModel.Store.ProcedureNames_Get">
+          <FunctionImportMapping FunctionImportName="BaseProcedureParameterNames_Create" FunctionName="SimSaprNewModel.Store.BaseProcedureParameterNames_Create" />
+          <FunctionImportMapping FunctionImportName="BaseProcedureParameterNames_Delete" FunctionName="SimSaprNewModel.Store.BaseProcedureParameterNames_Delete" />
+          <FunctionImportMapping FunctionImportName="BaseProcedureParameterNames_Get" FunctionName="SimSaprNewModel.Store.BaseProcedureParameterNames_Get">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="SimSaprNewModel.ProcedureNames_Get_Result">
-                <ScalarProperty Name="ProcedureNameId" ColumnName="ProcedureNameId" />
+              <ComplexTypeMapping TypeName="SimSaprNewModel.BaseProcedureParameterNames_Get_Result">
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Procedure" ColumnName="Procedure" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BaseProcedureParameterNames_GetAll" FunctionName="SimSaprNewModel.Store.BaseProcedureParameterNames_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SimSaprNewModel.BaseProcedureParameterNames_GetAll_Result">
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ProcedureNames_GetAll" FunctionName="SimSaprNewModel.Store.ProcedureNames_GetAll">
+          <FunctionImportMapping FunctionImportName="BaseProcedureParameterNames_GetByProcedureId" FunctionName="SimSaprNewModel.Store.BaseProcedureParameterNames_GetByProcedureId">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="SimSaprNewModel.ProcedureNames_GetAll_Result">
-                <ScalarProperty Name="ProcedureNameId" ColumnName="ProcedureNameId" />
+              <ComplexTypeMapping TypeName="SimSaprNewModel.BaseProcedureParameterNames_GetByProcedureId_Result">
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ProcedureNames_Update" FunctionName="SimSaprNewModel.Store.ProcedureNames_Update" />
+          <FunctionImportMapping FunctionImportName="BaseProcedureParameterNames_Update" FunctionName="SimSaprNewModel.Store.BaseProcedureParameterNames_Update" />
+          <FunctionImportMapping FunctionImportName="BaseProcedures_Create" FunctionName="SimSaprNewModel.Store.BaseProcedures_Create" />
+          <FunctionImportMapping FunctionImportName="BaseProcedures_Delete" FunctionName="SimSaprNewModel.Store.BaseProcedures_Delete" />
+          <FunctionImportMapping FunctionImportName="BaseProcedures_Get" FunctionName="SimSaprNewModel.Store.BaseProcedures_Get">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SimSaprNewModel.BaseProcedures_Get_Result">
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DefaultFunctionExpression" ColumnName="DefaultFunctionExpression" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BaseProcedures_GetAll" FunctionName="SimSaprNewModel.Store.BaseProcedures_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SimSaprNewModel.BaseProcedures_GetAll_Result">
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DefaultFunctionExpression" ColumnName="DefaultFunctionExpression" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BaseProcedures_Update" FunctionName="SimSaprNewModel.Store.BaseProcedures_Update" />
           <FunctionImportMapping FunctionImportName="ProcessNames_Create" FunctionName="SimSaprNewModel.Store.ProcessNames_Create" />
           <FunctionImportMapping FunctionImportName="ProcessNames_Delete" FunctionName="SimSaprNewModel.Store.ProcessNames_Delete" />
           <FunctionImportMapping FunctionImportName="ProcessNames_Get" FunctionName="SimSaprNewModel.Store.ProcessNames_Get">
@@ -1225,6 +1548,8 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="SimSaprNewModel.Procedures_Get_Result">
                 <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="FunctionExpression" ColumnName="FunctionExpression" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="Procedure" ColumnName="Procedure" />
@@ -1236,8 +1561,9 @@
               <ComplexTypeMapping TypeName="SimSaprNewModel.Procedures_GetAll_Result">
                 <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
                 <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
-                <ScalarProperty Name="ProcedureNameId" ColumnName="ProcedureNameId" />
+                <ScalarProperty Name="BaseProcedureId" ColumnName="BaseProcedureId" />
                 <ScalarProperty Name="FunctionExpression" ColumnName="FunctionExpression" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </ComplexTypeMapping>
@@ -1247,6 +1573,8 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="SimSaprNewModel.Procedures_GetByProcessId_Result">
                 <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="FunctionExpression" ColumnName="FunctionExpression" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="Procedure" ColumnName="Procedure" />
@@ -1254,6 +1582,41 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Procedures_Update" FunctionName="SimSaprNewModel.Store.Procedures_Update" />
+          <FunctionImportMapping FunctionImportName="ProceduresParameters_Create" FunctionName="SimSaprNewModel.Store.ProceduresParameters_Create" />
+          <FunctionImportMapping FunctionImportName="ProceduresParameters_Delete" FunctionName="SimSaprNewModel.Store.ProceduresParameters_Delete" />
+          <FunctionImportMapping FunctionImportName="ProceduresParameters_Get" FunctionName="SimSaprNewModel.Store.ProceduresParameters_Get">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SimSaprNewModel.ProceduresParameters_Get_Result">
+                <ScalarProperty Name="ProcedureParameterId" ColumnName="ProcedureParameterId" />
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Parameter" ColumnName="Parameter" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProceduresParameters_GetAll" FunctionName="SimSaprNewModel.Store.ProceduresParameters_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SimSaprNewModel.ProceduresParameters_GetAll_Result">
+                <ScalarProperty Name="ProcedureParameterId" ColumnName="ProcedureParameterId" />
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProceduresParameters_GetByProcessId" FunctionName="SimSaprNewModel.Store.ProceduresParameters_GetByProcessId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SimSaprNewModel.ProceduresParameters_GetByProcessId_Result">
+                <ScalarProperty Name="ProcedureParameterId" ColumnName="ProcedureParameterId" />
+                <ScalarProperty Name="BaseProcedureParameterNameId" ColumnName="BaseProcedureParameterNameId" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Parameter" ColumnName="Parameter" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProceduresParameters_Update" FunctionName="SimSaprNewModel.Store.ProceduresParameters_Update" />
           <FunctionImportMapping FunctionImportName="ProceduresResources_Create" FunctionName="SimSaprNewModel.Store.ProceduresResources_Create" />
           <FunctionImportMapping FunctionImportName="ProceduresResources_Delete" FunctionName="SimSaprNewModel.Store.ProceduresResources_Delete" />
           <FunctionImportMapping FunctionImportName="ProceduresResources_GetByProcedureId" FunctionName="SimSaprNewModel.Store.ProceduresResources_GetByProcedureId">

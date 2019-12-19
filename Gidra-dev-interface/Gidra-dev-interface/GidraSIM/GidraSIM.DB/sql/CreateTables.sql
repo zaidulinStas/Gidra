@@ -17,17 +17,18 @@ CREATE TABLE Dictionaries.ProcessNames
 );
 
 -- Словарь для имен процедур (по факту - некие базовые процедуры + можно добавить и свои)
-CREATE TABLE Dictionaries.ProcedureNames
+CREATE TABLE Dictionaries.BaseProcedures
 (
-    ProcedureNameId INT PRIMARY KEY IDENTITY(1,1),
-    Name NVARCHAR(MAX) NOT NULL CHECK(LEN(Name)>0)
+    BaseProcedureId INT PRIMARY KEY IDENTITY(1,1),
+    Name NVARCHAR(MAX) NOT NULL CHECK(LEN(Name)>0),
+	DefaultFunctionExpression NVARCHAR(max) NOT NULL CHECK(LEN(DefaultFunctionExpression)>0),
 );
 
 -- Словарь для типов ресурсов (при необходимости - можно и расширить)
 CREATE TABLE Dictionaries.ResourceTypes
 (
     ResourceTypeId INT PRIMARY KEY IDENTITY(1,1),
-    Name NVARCHAR(255) NOT NULL CHECK(Name in('Технический','Программный','Человеческий', 'Информационный'))
+    Name NVARCHAR(255) NOT NULL CHECK(LEN(Name)>0)
 );
 
 -- Словарь для общих имен ресурсов с привязкой к типу (например, Монитор, Принтер, Компас, Автокад и тд)
@@ -47,6 +48,14 @@ CREATE TABLE Dictionaries.ResourceParameterNames
 );
 GO
 
+CREATE TABLE Dictionaries.BaseProcedureParameterNames
+(
+    BaseProcedureParameterNameId INT PRIMARY KEY IDENTITY(1,1),
+	BaseProcedureId INT REFERENCES Dictionaries.BaseProcedures(BaseProcedureId) NOT NULL,
+    Name NVARCHAR(255) NOT NULL CHECK(LEN(Name)>0)
+);
+GO
+
 USE SimSaprNew
 GO
 
@@ -56,7 +65,7 @@ GO
 
 CREATE TABLE Processes.Processes
 (
-    ProcessId INT PRIMARY KEY CLUSTERED,
+    ProcessId INT PRIMARY KEY IDENTITY(1,1),
 	ProcessNameId INT REFERENCES Dictionaries.ProcessNames(ProcessNameId) NOT NULL,
     TotalTime DATETIME2(0) NOT NULL DEFAULT '01/01/0001 00:00:00',
     TotalPrice MONEY NOT NULL CHECK(TotalPrice>0)
@@ -65,14 +74,16 @@ CREATE TABLE Processes.Processes
 -- Таблица для сохранения конкретных процедур с уже реальными значениями ресурсов и их параметров
 CREATE TABLE Processes.Procedures
 (
-    ProcedureId INT PRIMARY KEY CLUSTERED,
+    ProcedureId INT PRIMARY KEY IDENTITY(1,1),
     ProcessId INT REFERENCES Processes.Processes(ProcessId) NULL DEFAULT NULL,
-	ProcedureNameId INT REFERENCES Dictionaries.ProcedureNames(ProcedureNameId) NOT NULL,
+	BaseProcedureId INT REFERENCES Dictionaries.BaseProcedures(BaseProcedureId) NOT NULL,
 	-- выражение функции для расчета времени
 	FunctionExpression NVARCHAR(max) NOT NULL CHECK(LEN(FunctionExpression)>0),
+	Name NVARCHAR(MAX) NOT NULL CHECK(LEN(Name)>0),
     TotalTime DATETIME2(0) NOT NULL DEFAULT '01/01/0001 00:00:00',
     TotalPrice MONEY NOT NULL CHECK(TotalPrice>0)
 );
+
 
 USE SimSaprNew
 GO
@@ -85,7 +96,7 @@ CREATE TABLE Resources.Resources
 (
     ResourceId INT PRIMARY KEY IDENTITY(1,1),
 	ResourceNameId INT REFERENCES Dictionaries.ResourceNames(ResourceNameId) NOT NULL,
-    Name NVARCHAR(255) NOT NULL CHECK(LEN(Name)>0),
+    Name NVARCHAR(MAX) NOT NULL CHECK(LEN(Name)>0),
 	Price MONEY NOT NULL CHECK(Price>0)
 );
 
@@ -106,3 +117,13 @@ CREATE TABLE Processes.ProceduresResources
     ProcedureId INT REFERENCES Processes.Procedures(ProcedureId) NOT NULL,
 );
 GO
+
+
+-- Таблица для хранения реальных значений параметров конкретной процедуры
+CREATE TABLE Processes.ProceduresParameters
+(
+    ProcedureParameterId INT PRIMARY KEY IDENTITY(1,1),
+	BaseProcedureParameterNameId INT REFERENCES Dictionaries.BaseProcedureParameterNames(BaseProcedureParameterNameId) NOT NULL,
+	ProcedureId INT REFERENCES Processes.Procedures(ProcedureId) NOT NULL,
+    Value float NULL
+);

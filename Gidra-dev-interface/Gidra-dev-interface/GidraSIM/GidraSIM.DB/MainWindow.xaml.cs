@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GidraSIM.DB.ResourceTypesWindows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,13 +28,25 @@ namespace GidraSIM.DB
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new ProcedureNamesWindow();
-            dialog.ShowDialog();
+            //var dialog = new ProcedureNamesWindow();
+            //dialog.ShowDialog();
         }
 
         private void res_btn_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ResourceNamesWindow();
+            dialog.ShowDialog();
+        }
+
+        private void res_param_btn_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ResourceParameterNamesWindow();
+            dialog.ShowDialog();
+        }
+
+        private void res_type_btn_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ResourceTypesWindow();
             dialog.ShowDialog();
         }
     }

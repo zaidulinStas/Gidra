@@ -11,14 +11,10 @@ namespace GidraSIM.DB
 {
     using System;
     
-    public partial class Procedures_GetAll_Result
+    public partial class BaseProcedureParameterNames_GetByProcedureId_Result
     {
-        public int ProcedureId { get; set; }
-        public Nullable<int> ProcessId { get; set; }
+        public int BaseProcedureParameterNameId { get; set; }
         public int BaseProcedureId { get; set; }
-        public string FunctionExpression { get; set; }
         public string Name { get; set; }
-        public System.DateTime TotalTime { get; set; }
-        public decimal TotalPrice { get; set; }
     }
 }

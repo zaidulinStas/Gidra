@@ -2,7 +2,7 @@ USE SimSaprNew
 GO
 
 CREATE PROCEDURE Dictionaries.ProcessNames_Create
-@Name NVARCHAR
+@Name NVARCHAR(MAX)
 AS
 BEGIN
     INSERT Dictionaries.ProcessNames([Name])
@@ -13,11 +13,11 @@ GO
 
 CREATE PROCEDURE Dictionaries.ProcessNames_Update
 @Id INT,
-@Name NVARCHAR
+@Name NVARCHAR(MAX) = NULL
 AS
 BEGIN
     UPDATE Dictionaries.ProcessNames
-    SET [Name]=@Name
+    SET [Name]=ISNULL(@Name, [Name])
     WHERE ProcessNameId=@Id
 END
 GO
@@ -52,56 +52,58 @@ GO
 
 
 
-CREATE PROCEDURE Dictionaries.ProcedureNames_Create
-@Name NVARCHAR
+CREATE PROCEDURE Dictionaries.BaseProcedures_Create
+@Name NVARCHAR(MAX),
+@DefaultFunctionExpression NVARCHAR(MAX)
 AS
 BEGIN
-    INSERT Dictionaries.ProcedureNames([Name])
-    VALUES(@Name)
+    INSERT Dictionaries.BaseProcedures([Name], [DefaultFunctionExpression])
+    VALUES(@Name, @DefaultFunctionExpression)
     SELECT scope_identity()
 END
 GO
 
-CREATE PROCEDURE Dictionaries.ProcedureNames_Update
+CREATE PROCEDURE Dictionaries.BaseProcedures_Update
 @Id INT,
-@Name NVARCHAR
+@Name NVARCHAR(MAX) = NULL,
+@DefaultFunctionExpression NVARCHAR(MAX) = NULL
 AS
 BEGIN
-    UPDATE Dictionaries.ProcedureNames
-    SET [Name]=@Name
-    WHERE ProcedureNameId=@Id
+    UPDATE Dictionaries.BaseProcedures
+    SET [Name]=ISNULL(@Name, [Name]), [DefaultFunctionExpression]=ISNULL(@DefaultFunctionExpression, [DefaultFunctionExpression])
+	WHERE BaseProcedureId=@Id
 END
 GO
 
-CREATE PROCEDURE Dictionaries.ProcedureNames_Delete
+CREATE PROCEDURE Dictionaries.BaseProcedures_Delete
 @Id INT
 AS
 BEGIN
-    DELETE Dictionaries.ProcedureNames WHERE ProcedureNameId=@Id
+    DELETE Dictionaries.BaseProcedures WHERE BaseProcedureId=@Id
 END
 GO
 
-CREATE PROCEDURE Dictionaries.ProcedureNames_GetAll
+CREATE PROCEDURE Dictionaries.BaseProcedures_GetAll
 AS
 BEGIN
-    SELECT * FROM Dictionaries.ProcedureNames
+    SELECT * FROM Dictionaries.BaseProcedures
 END
 GO
 
-CREATE PROCEDURE Dictionaries.ProcedureNames_Get
+CREATE PROCEDURE Dictionaries.BaseProcedures_Get
 @Id INT
 AS
 BEGIN
-    SELECT [ProcedureNameId], [Name]
-    FROM Dictionaries.ProcedureNames
-    WHERE ProcedureNameId=@Id
+    SELECT [BaseProcedureId], [Name], [DefaultFunctionExpression]
+    FROM Dictionaries.BaseProcedures
+    WHERE BaseProcedureId=@Id
 END
 GO
 
 
 
 CREATE PROCEDURE Dictionaries.ResourceTypes_Create
-@Name NVARCHAR
+@Name NVARCHAR(255)
 AS
 BEGIN
     INSERT Dictionaries.ResourceTypes([Name])
@@ -112,11 +114,11 @@ GO
 
 CREATE PROCEDURE Dictionaries.ResourceTypes_Update
 @Id INT,
-@Name NVARCHAR
+@Name NVARCHAR(255) = NULL
 AS
 BEGIN
     UPDATE Dictionaries.ResourceTypes
-    SET [Name]=@Name
+    SET [Name]=ISNULL(@Name, [Name])
     WHERE ResourceTypeId=@Id
 END
 GO
@@ -150,7 +152,7 @@ GO
 
 
 CREATE PROCEDURE Dictionaries.ResourceNames_Create
-@Name NVARCHAR,
+@Name NVARCHAR(255),
 @TypeId INT
 AS
 BEGIN
@@ -162,11 +164,11 @@ GO
 
 CREATE PROCEDURE Dictionaries.ResourceNames_Update
 @Id INT,
-@Name NVARCHAR
+@Name NVARCHAR(255) = NULL
 AS
 BEGIN
     UPDATE Dictionaries.ResourceNames
-    SET [Name]=@Name
+    SET [Name]=ISNULL(@Name, [Name])
     WHERE ResourceNameId=@Id
 END
 GO
@@ -213,23 +215,23 @@ GO
 
 
 CREATE PROCEDURE Dictionaries.ResourceParameterNames_Create
-@Name NVARCHAR,
-@ResourceId INT
+@Name NVARCHAR(255),
+@ResourceNameId INT
 AS
 BEGIN
-    INSERT Dictionaries.ResourceNames([Name], [ResourceTypeId])
-    VALUES(@Name, @ResourceId)
+    INSERT Dictionaries.ResourceParameterNames([Name], [ResourceNameId])
+    VALUES(@Name, @ResourceNameId)
     SELECT scope_identity()
 END
 GO
 
 CREATE PROCEDURE Dictionaries.ResourceParameterNames_Update
 @Id INT,
-@Name NVARCHAR
+@Name NVARCHAR(255) = NULL
 AS
 BEGIN
     UPDATE Dictionaries.ResourceParameterNames
-    SET [Name]=@Name
+     SET [Name]=ISNULL(@Name, [Name])
     WHERE ResourceParameterNameId=@Id
 END
 GO
@@ -266,5 +268,68 @@ BEGIN
     SELECT *
     FROM Dictionaries.ResourceParameterNames
     WHERE ResourceNameId=@Id
+END
+GO
+
+
+
+
+
+
+
+CREATE PROCEDURE Dictionaries.BaseProcedureParameterNames_Create
+@Name NVARCHAR(255),
+@BaseProcedureId INT
+AS
+BEGIN
+    INSERT Dictionaries.BaseProcedureParameterNames([Name], [BaseProcedureId])
+    VALUES(@Name, @BaseProcedureId)
+    SELECT scope_identity()
+END
+GO
+
+CREATE PROCEDURE Dictionaries.BaseProcedureParameterNames_Update
+@Id INT,
+@Name NVARCHAR(255) = NULL
+AS
+BEGIN
+    UPDATE Dictionaries.BaseProcedureParameterNames
+    SET [Name]=ISNULL(@Name, [Name])
+    WHERE BaseProcedureParameterNameId=@Id
+END
+GO
+
+CREATE PROCEDURE Dictionaries.BaseProcedureParameterNames_Delete
+@Id INT
+AS
+BEGIN
+    DELETE Dictionaries.BaseProcedureParameterNames WHERE BaseProcedureParameterNameId=@Id
+END
+GO
+
+CREATE PROCEDURE Dictionaries.BaseProcedureParameterNames_GetAll
+AS
+BEGIN
+    SELECT * FROM Dictionaries.BaseProcedureParameterNames
+END
+GO
+
+CREATE PROCEDURE Dictionaries.BaseProcedureParameterNames_Get
+@Id INT
+AS
+BEGIN
+    SELECT [BaseProcedureParameterNameId], bppn.[BaseProcedureId], bppn.[Name], bp.Name as 'Procedure'
+    FROM Dictionaries.BaseProcedureParameterNames bppn JOIN Dictionaries.BaseProcedures AS bp ON bp.BaseProcedureId=bppn.BaseProcedureId
+    WHERE BaseProcedureParameterNameId=@Id
+END
+GO
+
+CREATE PROCEDURE Dictionaries.BaseProcedureParameterNames_GetByProcedureId
+@Id INT
+AS
+BEGIN
+    SELECT *
+    FROM Dictionaries.BaseProcedureParameterNames
+    WHERE BaseProcedureId=@Id
 END
 GO

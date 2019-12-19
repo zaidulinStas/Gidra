@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GidraSIM.GUI"
         xmlns:cr="clr-namespace:GidraSIM.Core.Model;assembly=GidraSIM.Core.Model"
         mc:Ignorable="d" Height="268.908" Width="300" Title="Выберите тип процедуры" 
-        SizeToContent="WidthAndHeight">    
+        SizeToContent="WidthAndHeight">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="200"/>

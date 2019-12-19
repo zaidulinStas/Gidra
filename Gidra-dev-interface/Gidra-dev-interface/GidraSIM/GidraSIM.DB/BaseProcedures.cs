@@ -12,28 +12,22 @@ namespace GidraSIM.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Procedures
+    public partial class BaseProcedures
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Procedures()
+        public BaseProcedures()
         {
-            this.ProceduresResources = new HashSet<ProceduresResources>();
-            this.ProceduresParameters = new HashSet<ProceduresParameters>();
+            this.BaseProcedureParameterNames = new HashSet<BaseProcedureParameterNames>();
+            this.Procedures = new HashSet<Procedures>();
         }
     
-        public int ProcedureId { get; set; }
-        public Nullable<int> ProcessId { get; set; }
         public int BaseProcedureId { get; set; }
-        public string FunctionExpression { get; set; }
         public string Name { get; set; }
-        public System.DateTime TotalTime { get; set; }
-        public decimal TotalPrice { get; set; }
+        public string DefaultFunctionExpression { get; set; }
     
-        public virtual BaseProcedures BaseProcedures { get; set; }
-        public virtual Processes Processes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProceduresResources> ProceduresResources { get; set; }
+        public virtual ICollection<BaseProcedureParameterNames> BaseProcedureParameterNames { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProceduresParameters> ProceduresParameters { get; set; }
+        public virtual ICollection<Procedures> Procedures { get; set; }
     }
 }

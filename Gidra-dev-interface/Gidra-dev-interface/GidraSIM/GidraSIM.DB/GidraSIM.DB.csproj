@@ -13,6 +13,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -78,19 +78,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ProcedureNames.cs">
+    <Compile Include="BaseProcedureParameterNames.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProcedureNamesWindow.xaml.cs">
-      <DependentUpon>ProcedureNamesWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ProcedureNames_GetAll_Result.cs">
+    <Compile Include="BaseProcedureParameterNames_GetAll_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProcedureNames_Get_Result.cs">
+    <Compile Include="BaseProcedureParameterNames_GetByProcedureId_Result.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseProcedureParameterNames_Get_Result.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseProcedures.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseProcedures_GetAll_Result.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseProcedures_Get_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Procedures.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProceduresParameters.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProceduresParameters_GetAll_Result.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProceduresParameters_GetByProcessId_Result.cs">
+      <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProceduresParameters_Get_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ProceduresResources.cs">
@@ -126,13 +147,13 @@
     <Compile Include="ProcessNames_Get_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="ResourceNameEditWindow.xaml.cs">
-      <DependentUpon>ResourceNameEditWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ResourceNames.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="ResourceNamesWindow.xaml.cs">
+    <Compile Include="ResourceNamesWindows\ResourceNameEditWindow.xaml.cs">
+      <DependentUpon>ResourceNameEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceNamesWindows\ResourceNamesWindow.xaml.cs">
       <DependentUpon>ResourceNamesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceNames_GetAll_Result.cs">
@@ -159,6 +180,12 @@
     <Compile Include="ResourceParameters.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="ResourceParametersNamesWindows\ResourceParameterNameEditWindow.xaml.cs">
+      <DependentUpon>ResourceParameterNameEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceParametersNamesWindows\ResourceParameterNamesWindow.xaml.cs">
+      <DependentUpon>ResourceParameterNamesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResourceParameters_GetAll_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
@@ -182,6 +209,12 @@
     </Compile>
     <Compile Include="ResourceTypes.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceTypesWindows\ResourceTypeEditWindow.xaml.cs">
+      <DependentUpon>ResourceTypeEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceTypesWindows\ResourceTypesWindow.xaml.cs">
+      <DependentUpon>ResourceTypesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceTypes_GetAll_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
@@ -216,15 +249,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ProcedureNamesWindow.xaml">
+    <Page Include="ResourceNamesWindows\ResourceNameEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResourceNameEditWindow.xaml">
+    <Page Include="ResourceNamesWindows\ResourceNamesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ResourceNamesWindow.xaml">
+    <Page Include="ResourceParametersNamesWindows\ResourceParameterNameEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceParametersNamesWindows\ResourceParameterNamesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceTypesWindows\ResourceTypeEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceTypesWindows\ResourceTypesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -283,6 +328,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SimDB.edmx</DependentUpon>
       <LastGenOutput>SimDB.cs</LastGenOutput>
+    </Content>
+    <Content Include="SimSaprNew.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SimSaprNew_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>SimSaprNew.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

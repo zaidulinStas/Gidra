@@ -11,9 +11,10 @@ namespace GidraSIM.DB
 {
     using System;
     
-    public partial class ProcedureNames_GetAll_Result
+    public partial class BaseProcedureParameterNames_GetAll_Result
     {
-        public int ProcedureNameId { get; set; }
+        public int BaseProcedureParameterNameId { get; set; }
+        public int BaseProcedureId { get; set; }
         public string Name { get; set; }
     }
 }

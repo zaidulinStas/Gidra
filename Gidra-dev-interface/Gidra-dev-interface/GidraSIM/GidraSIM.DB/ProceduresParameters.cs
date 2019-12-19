@@ -10,10 +10,16 @@
 namespace GidraSIM.DB
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class ProcedureNames_Get_Result
+    public partial class ProceduresParameters
     {
-        public int ProcedureNameId { get; set; }
-        public string Name { get; set; }
+        public int ProcedureParameterId { get; set; }
+        public int BaseProcedureParameterNameId { get; set; }
+        public int ProcedureId { get; set; }
+        public Nullable<double> Value { get; set; }
+    
+        public virtual BaseProcedureParameterNames BaseProcedureParameterNames { get; set; }
+        public virtual Procedures Procedures { get; set; }
     }
 }

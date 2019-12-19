@@ -21,7 +21,6 @@ namespace GidraSIM.DB
     public partial class ResourceNamesWindow : Window
     {
         SimSaprNewEntities db;
-        //List<ResourceNames> ResourceNames;
 
         public ResourceNamesWindow()
         {
@@ -30,8 +29,6 @@ namespace GidraSIM.DB
             db = new SimSaprNewEntities();
             db.ResourceNames.Load();
             resourcesGrid.ItemsSource = db.ResourceNames.ToList();
-            //ResourceNames = db.ResourceNames.Local.ToBindingList();
-            //resourcesGrid.ItemsSource = ResourceNames;
 
             this.Closing += MainWindow_Closing;
         }
