@@ -22,15 +22,15 @@ namespace GidraSIM.DB
     public partial class ResourceParameterNamesWindow : Window
     {
         SimSaprNewEntities db;
-        List<ResourceNames> ResourceNames;
+        ResourceNames ResourceNames;
 
-        public ResourceParameterNamesWindow()
+        public ResourceParameterNamesWindow(ResourceNames resourceNames)
         {
             InitializeComponent();
+            ResourceNames = resourceNames;
 
             db = new SimSaprNewEntities();
             db.ResourceParameterNames.Load();
-            ResourceNames = db.ResourceNames.ToList();
             parametersGrid.ItemsSource = db.ResourceParameterNames.Include(rp => rp.ResourceNames).ToList();
 
             this.Closing += MainWindow_Closing;
@@ -44,25 +44,51 @@ namespace GidraSIM.DB
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             var resParamName = new ResourceParameterNames();
-            var dialog = new ResourceParameterNameEditWindow(resParamName, ResourceNames);
+            var dialog = new ResourceParameterNameEditWindow(resParamName);
 
             if (dialog.ShowDialog() == true)
             {
-                db.ResourceParameterNames_Create(resParamName.Name, resParamName.ResourceNameId);
+                db.ResourceParameterNames_Create(resParamName.Name, ResourceNames.ResourceNameId);
 
                 parametersGrid.ItemsSource = null;
-                parametersGrid.ItemsSource = db.ResourceNames.ToList();
+                parametersGrid.ItemsSource = db.ResourceParameterNames.Include(rp => rp.ResourceNames).ToList();
             }
         }
 
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
+            if (parametersGrid.SelectedItems.Count > 0)
+            {
+                var resParamName = parametersGrid.SelectedItems[0] as ResourceParameterNames;
 
+                if (resParamName == null)
+                    return;
+
+                var dialog = new ResourceParameterNameEditWindow(resParamName);
+
+                if (dialog.ShowDialog() == true)
+                {
+                    db.ResourceParameterNames_Update(resParamName.ResourceParameterNameId, resParamName.Name);
+
+                    parametersGrid.ItemsSource = null;
+                    parametersGrid.ItemsSource = db.ResourceParameterNames.Include(rp => rp.ResourceNames).ToList();
+                }
+            }
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
+            if (parametersGrid.SelectedItems.Count > 0)
+            {
+                var resParamName = parametersGrid.SelectedItems[0] as ResourceParameterNames;
 
+                if (resParamName == null)
+                    return;
+
+                db.ResourceParameterNames_Delete(resParamName.ResourceParameterNameId);
+                parametersGrid.ItemsSource = null;
+                parametersGrid.ItemsSource = db.ResourceParameterNames.Include(rp => rp.ResourceNames).ToList();
+            }
         }
     }
 }

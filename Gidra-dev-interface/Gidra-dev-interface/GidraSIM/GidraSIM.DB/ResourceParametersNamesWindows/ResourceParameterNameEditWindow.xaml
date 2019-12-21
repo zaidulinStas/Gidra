@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GidraSIM.DB.ResourceParametersNamesWindows"
         mc:Ignorable="d"
-        Title="ResourceParameterNameEditWindow"  Height="336.429" Width="397.143">
+        Title="ResourceParameterNameEditWindow"  Height="264.445" Width="291.82">
     <Grid>
-        <TextBox x:Name="tb_name" HorizontalAlignment="Left" Height="23" Margin="24,42,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="label1" Content="Имя параметра" HorizontalAlignment="Left" Margin="29,10,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btn_submit" Content="Сохранить" HorizontalAlignment="Left" Margin="40,86,0,0" VerticalAlignment="Top" Width="74" Click="btn_submit_Click"/>
-        <ListView x:Name="lv_resources" HorizontalAlignment="Left" Height="248" Margin="178,10,0,0" VerticalAlignment="Top" Width="176" SelectedIndex="0" SelectedItem="{Binding SelectedResourceName}" DisplayMemberPath="Name" ItemsSource="{Binding ResourceNames}" />
+        <TextBox x:Name="tb_name" HorizontalAlignment="Left" Height="23" Margin="80,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="label1" Content="Имя параметра" HorizontalAlignment="Left" Margin="90,43,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn_submit" Content="Сохранить" HorizontalAlignment="Left" Margin="103,121,0,0" VerticalAlignment="Top" Width="74" Click="btn_submit_Click"/>
 
     </Grid>
 </Window>

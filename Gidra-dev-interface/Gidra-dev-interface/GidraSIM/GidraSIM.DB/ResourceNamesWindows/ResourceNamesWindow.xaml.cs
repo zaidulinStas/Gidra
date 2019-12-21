@@ -30,7 +30,7 @@ namespace GidraSIM.DB
             db = new SimSaprNewEntities();
             db.ResourceNames.Load();
             db.ResourceTypes.Load();
-            ResourceTypes = db.ResourceTypes.ToList();
+            //ResourceTypes = db.ResourceTypes.ToList();
             resourcesGrid.ItemsSource = db.ResourceNames.ToList();
 
             this.Closing += MainWindow_Closing;
@@ -89,6 +89,23 @@ namespace GidraSIM.DB
                 resourcesGrid.ItemsSource = null;
                 resourcesGrid.ItemsSource = db.ResourceNames.ToList();
             }
+        }
+
+        private void btn_resNamePar_Click(object sender, RoutedEventArgs e)
+        {
+            var resName = new ResourceNames();
+
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    resName = row.Item as ResourceNames;
+
+                    break;
+                }
+
+            var dialog = new ResourceParameterNamesWindow(resName);
+            dialog.ShowDialog();
         }
     }
 }

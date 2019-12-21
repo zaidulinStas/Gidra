@@ -38,12 +38,6 @@ namespace GidraSIM.DB
             dialog.ShowDialog();
         }
 
-        private void res_param_btn_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ResourceParameterNamesWindow();
-            dialog.ShowDialog();
-        }
-
         private void res_type_btn_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ResourceTypesWindow();
