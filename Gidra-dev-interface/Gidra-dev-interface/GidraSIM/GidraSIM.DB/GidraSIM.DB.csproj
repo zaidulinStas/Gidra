@@ -198,6 +198,12 @@
     <Compile Include="Resources.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="ResourcesWindows\ResourceEditWindow.xaml.cs">
+      <DependentUpon>ResourceEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResourcesWindows\ResourcesWindow.xaml.cs">
+      <DependentUpon>ResourcesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources_GetAll_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
@@ -265,6 +271,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourcesWindows\ResourceEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourcesWindows\ResourcesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceTypesWindows\ResourceTypeEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -329,6 +343,9 @@
       <DependentUpon>SimDB.edmx</DependentUpon>
       <LastGenOutput>SimDB.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ResourceParametersWindows\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

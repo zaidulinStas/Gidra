@@ -30,7 +30,7 @@ namespace GidraSIM.DB
             db = new SimSaprNewEntities();
             db.ResourceNames.Load();
             db.ResourceTypes.Load();
-            //ResourceTypes = db.ResourceTypes.ToList();
+            ResourceTypes = db.ResourceTypes.ToList();
             resourcesGrid.ItemsSource = db.ResourceNames.ToList();
 
             this.Closing += MainWindow_Closing;

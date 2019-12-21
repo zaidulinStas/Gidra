@@ -48,6 +48,7 @@ namespace GidraSIM.DB
                 SelectedResourceType = lv_types.SelectedItem as ResourceTypes;
                 resName.ResourceTypeId = SelectedResourceType.ResourceTypeId;
             }
+
             resName.Name = tb_name.Text;
             DialogResult = true;
         }

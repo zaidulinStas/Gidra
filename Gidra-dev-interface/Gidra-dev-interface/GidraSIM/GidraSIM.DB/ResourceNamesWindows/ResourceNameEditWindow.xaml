@@ -11,6 +11,5 @@
         <Label x:Name="label1" Content="Имя ресурса" HorizontalAlignment="Left" Margin="122,38,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btn_submit" Content="Сохранить" HorizontalAlignment="Left" Margin="128,111,0,0" VerticalAlignment="Top" Width="74" Click="btn_submit_Click"/>
         <ListView x:Name="lv_types" Visibility="Hidden" HorizontalAlignment="Left" Height="116" Margin="20,177,0,0" VerticalAlignment="Top" Width="290" SelectedIndex="0" SelectedItem="{Binding SelectedResourceType}" DisplayMemberPath="Name" ItemsSource="{Binding ResourceTypes}" />
-
     </Grid>
 </Window>
