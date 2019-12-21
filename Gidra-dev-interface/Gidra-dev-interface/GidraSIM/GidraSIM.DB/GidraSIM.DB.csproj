@@ -186,6 +186,12 @@
     <Compile Include="ResourceParametersNamesWindows\ResourceParameterNamesWindow.xaml.cs">
       <DependentUpon>ResourceParameterNamesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ResourceParametersWindows\ResourceParameterEditWindow.xaml.cs">
+      <DependentUpon>ResourceParameterEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceParametersWindows\ResourceParametersWindows.xaml.cs">
+      <DependentUpon>ResourceParametersWindows.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResourceParameters_GetAll_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
@@ -271,6 +277,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceParametersWindows\ResourceParameterEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceParametersWindows\ResourceParametersWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourcesWindows\ResourceEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -344,8 +358,6 @@
       <LastGenOutput>SimDB.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ResourceParametersWindows\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GidraSIM.DB.ResourceParametersWindows;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace GidraSIM.DB.ResourcesWindows
     {
         SimSaprNewEntities db;
         List<ResourceNames> ResourceNames;
+        List<ResourceParameterNames> ResourceParameterNames;
 
         public ResourcesWindow()
         {
@@ -31,7 +33,8 @@ namespace GidraSIM.DB.ResourcesWindows
             db.ResourceNames.Load();
             db.Resources.Load();
             ResourceNames = db.ResourceNames.ToList();
-            resourcesGrid.ItemsSource = db.Resources.ToList();
+            ResourceParameterNames = db.ResourceParameterNames.ToList();
+            resourcesGrid.ItemsSource = db.Resources.Include(r => r.ResourceNames).ToList();
 
             this.Closing += MainWindow_Closing;
         }
@@ -51,7 +54,7 @@ namespace GidraSIM.DB.ResourcesWindows
                 db.Resources_Create(resource.ResourceNameId, resource.Name, resource.Price);
 
                 resourcesGrid.ItemsSource = null;
-                resourcesGrid.ItemsSource = db.Resources.ToList();
+                resourcesGrid.ItemsSource = db.Resources.Include(r => r.ResourceNames).ToList();
             }
         }
 
@@ -71,7 +74,7 @@ namespace GidraSIM.DB.ResourcesWindows
                     db.Resources_Update(resource.ResourceNameId, resource.Name, resource.Price);
 
                     resourcesGrid.ItemsSource = null;
-                    resourcesGrid.ItemsSource = db.Resources.ToList();
+                    resourcesGrid.ItemsSource = db.Resources.Include(r => r.ResourceNames).ToList();
                 }
             }
         }
@@ -87,13 +90,25 @@ namespace GidraSIM.DB.ResourcesWindows
 
                 db.Resources_Delete(resource.ResourceNameId);
                 resourcesGrid.ItemsSource = null;
-                resourcesGrid.ItemsSource = db.Resources.ToList();
+                resourcesGrid.ItemsSource = db.Resources.Include(r => r.ResourceNames).ToList();
             }
         }
 
         void btn_resPar_Click(object sender, RoutedEventArgs e)
         {
+            var resource = new Resources();
 
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    resource = row.Item as Resources;
+
+                    break;
+                }
+
+            var dialog = new ResourceParametersWindow(resource);
+            dialog.ShowDialog();
         }
     }
 }
