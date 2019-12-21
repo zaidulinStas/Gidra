@@ -21,6 +21,7 @@ namespace GidraSIM.DB
     public partial class ResourceNamesWindow : Window
     {
         SimSaprNewEntities db;
+        List<ResourceTypes> ResourceTypes;
 
         public ResourceNamesWindow()
         {
@@ -28,6 +29,8 @@ namespace GidraSIM.DB
 
             db = new SimSaprNewEntities();
             db.ResourceNames.Load();
+            db.ResourceTypes.Load();
+            ResourceTypes = db.ResourceTypes.ToList();
             resourcesGrid.ItemsSource = db.ResourceNames.ToList();
 
             this.Closing += MainWindow_Closing;
@@ -41,11 +44,11 @@ namespace GidraSIM.DB
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             var resName = new ResourceNames();
-            var dialog = new ResourceNameEditWindow(resName);
+            var dialog = new ResourceNameEditWindow(resName, ResourceTypes, true);
 
             if (dialog.ShowDialog() == true)
             {
-                db.ResourceNames_Create(resName.Name, 1);
+                db.ResourceNames_Create(resName.Name, resName.ResourceTypeId);
 
                 resourcesGrid.ItemsSource = null;
                 resourcesGrid.ItemsSource = db.ResourceNames.ToList();
@@ -61,7 +64,7 @@ namespace GidraSIM.DB
                 if (resName == null)
                     return;
 
-                var dialog = new ResourceNameEditWindow(resName);
+                var dialog = new ResourceNameEditWindow(resName, ResourceTypes, false);
 
                 if (dialog.ShowDialog() == true)
                 {

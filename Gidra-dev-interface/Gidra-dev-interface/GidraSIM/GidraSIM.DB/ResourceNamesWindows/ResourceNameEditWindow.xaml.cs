@@ -20,15 +20,34 @@ namespace GidraSIM.DB
     public partial class ResourceNameEditWindow : Window
     {
         ResourceNames resName;
-        public ResourceNameEditWindow(ResourceNames _resName)
+        List<ResourceTypes> ResourceTypes;
+        ResourceTypes SelectedResourceType;
+        bool IsNew;
+
+        public ResourceNameEditWindow(ResourceNames _resName, List<ResourceTypes> resourceTypes, bool isNew)
         {
             InitializeComponent();
+            ResourceTypes = resourceTypes;
+            IsNew = isNew;
             resName = _resName;
             tb_name.Text = resName.Name;
+
+            if (IsNew)
+            {
+                lv_types.ItemsSource = ResourceTypes;
+                lv_types.SelectedIndex = 0;
+                SelectedResourceType = lv_types.SelectedItem as ResourceTypes;
+                lv_types.Visibility = Visibility.Visible;
+            }
         }
 
         private void btn_submit_Click(object sender, RoutedEventArgs e)
         {
+            if (IsNew)
+            {
+                SelectedResourceType = lv_types.SelectedItem as ResourceTypes;
+                resName.ResourceTypeId = SelectedResourceType.ResourceTypeId;
+            }
             resName.Name = tb_name.Text;
             DialogResult = true;
         }

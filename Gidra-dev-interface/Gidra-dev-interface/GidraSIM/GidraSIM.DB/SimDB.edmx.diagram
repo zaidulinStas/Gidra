@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="caa8ea86a8104b17af9c0a3ec82e113d" Name="Diagram1">
+      <Diagram DiagramId="d78b16d9798f42a384021ebab9101ef3" Name="Diagram1">
         <EntityTypeShape EntityType="SimSaprNewModel.BaseProcedureParameterNames" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SimSaprNewModel.BaseProcedures" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SimSaprNewModel.ProcessNames" Width="1.5" PointX="1.5" PointY="8.625" IsExpanded="true" />
