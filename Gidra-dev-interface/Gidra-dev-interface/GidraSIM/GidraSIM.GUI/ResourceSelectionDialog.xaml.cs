@@ -14,6 +14,43 @@ namespace GidraSIM.GUI
             InitializeComponent();
             listView1.Items.Add(new Resource
             {
+                Name = "Процессор AMD MD2",
+                Type = "Процессор",
+                MaxUsageCount = 1,
+                Cost = 25000,
+                Parameters = new Dictionary<string, double>
+                {
+                    { "Частота работы процессора", 2500 },
+                    { "Количество ядер", 2 },
+                }
+            });
+
+            listView1.Items.Add(new Resource
+            {
+                Name = "Клавиатура «HP transi-tion MX23»",
+                Type = "Клавиатура",
+                MaxUsageCount = 1,
+                Cost = 2000,
+                Parameters = new Dictionary<string, double>
+                {
+                    { "Удобство пользования", 4 },
+                }
+            });
+
+            listView1.Items.Add(new Resource
+            {
+                Name = "Жесткий диск DEXP SP1",
+                Type = "Жесткий диск",
+                MaxUsageCount = 1,
+                Cost = 5000,
+                Parameters = new Dictionary<string, double>
+                {
+                    { "Скорость работы", 500 },
+                }
+            });
+
+            listView1.Items.Add(new Resource
+            {
                 Name = "Ноутбук MSIGL6QD",
                 Type = "Компьютер",
                 MaxUsageCount = 1,
@@ -83,7 +120,8 @@ namespace GidraSIM.GUI
                 Parameters = new Dictionary<string, double>
                         {
                             { "Объем знаний", 50 },
-                            { "Опыт работы", 50 },
+                            { "Уровень владения компьютером", 4},
+                            { "Скорость печати", 5},
                         }
             });
 
@@ -96,7 +134,8 @@ namespace GidraSIM.GUI
                 Parameters = new Dictionary<string, double>
                         {
                             { "Объем знаний", 80 },
-                            { "Опыт работы", 90 },
+                            { "Скорость печати", 7},
+                            { "Уровень владения компьютером", 7},
                         }
             });
 
@@ -109,7 +148,8 @@ namespace GidraSIM.GUI
                 Parameters = new Dictionary<string, double>
                         {
                             { "Объем знаний", 100 },
-                            { "Опыт работы", 100 },
+                            { "Уровень владения компьютером", 10},
+                            { "Скорость печати", 9},
                         }
             });
 
@@ -122,7 +162,7 @@ namespace GidraSIM.GUI
                 Parameters = new Dictionary<string, double>
                         {
                             { "Функционал", 50 },
-                            { "Документация", 30 },
+                            { "Эффективность работы", 5 },
                         }
             });
 
@@ -135,7 +175,7 @@ namespace GidraSIM.GUI
                 Parameters = new Dictionary<string, double>
                         {
                             { "Функционал", 100 },
-                            { "Документация", 70 },
+                            { "Эффективность работы", 10 },
                         }
             });
 
