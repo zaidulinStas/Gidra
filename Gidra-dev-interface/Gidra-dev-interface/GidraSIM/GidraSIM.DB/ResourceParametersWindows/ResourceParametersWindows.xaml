@@ -11,9 +11,6 @@
             <Setter Property="Margin" Value="20 8 20 8" />
             <Setter Property="Width" Value="100" />
             <Setter Property="Height" Value="30" />
-        </Style>
-        <Style TargetType="Button">
-
             <Setter Property="Background" Value="White"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
