@@ -12,6 +12,33 @@
             <Setter Property="Width" Value="100" />
             <Setter Property="Height" Value="30" />
         </Style>
+        <Style TargetType="Button">
+
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Chrome" BorderBrush="Black" BorderThickness="1" CornerRadius="1" Background="{TemplateBinding Property=Background}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#e6e6e6"></Setter>
+                    <Setter Property="Cursor" Value="Hand"></Setter>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="White"></Setter>
+        </Style>
     </Window.Resources>
     <Grid Margin="0,40,0,2">
         <Grid.ColumnDefinitions>
