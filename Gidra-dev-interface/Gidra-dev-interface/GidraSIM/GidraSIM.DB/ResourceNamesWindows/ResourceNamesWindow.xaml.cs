@@ -77,7 +77,7 @@ namespace GidraSIM.DB
                 {
                     try
                     {
-                        db.ResourceTypes_Update(resName.ResourceNameId, resName.Name);
+                        db.ResourceNames_Update(resName.ResourceNameId, resName.Name);
 
                         resourcesGrid.ItemsSource = null;
                         resourcesGrid.ItemsSource = db.ResourceNames.ToList();
