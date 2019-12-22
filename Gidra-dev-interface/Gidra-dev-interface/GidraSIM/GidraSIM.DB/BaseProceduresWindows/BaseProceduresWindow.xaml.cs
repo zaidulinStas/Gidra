@@ -97,7 +97,7 @@ namespace GidraSIM.DB.BaseProceduresWindows
                 if (procedure == null)
                     return;
 
-                db.ResourceTypes_Delete(procedure.BaseProcedureId);
+                db.BaseProcedures_Delete(procedure.BaseProcedureId);
                 proceduresGrid.ItemsSource = null;
                 proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
             }
