@@ -45,10 +45,17 @@ namespace GidraSIM.DB.ResourceTypesWindows
 
             if (dialog.ShowDialog() == true)
             {
-                db.ResourceTypes_Create(resType.Name);
+                try
+                {
+                    db.ResourceTypes_Create(resType.Name);
 
-                resTypesGrid.ItemsSource = null;
-                resTypesGrid.ItemsSource = db.ResourceTypes.ToList();
+                    resTypesGrid.ItemsSource = null;
+                    resTypesGrid.ItemsSource = db.ResourceTypes.ToList();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Проверьте введённые значения");
+                }
             }
         }
 
@@ -65,10 +72,17 @@ namespace GidraSIM.DB.ResourceTypesWindows
 
                 if (dialog.ShowDialog() == true)
                 {
-                    db.ResourceTypes_Update(resType.ResourceTypeId, resType.Name);
+                    try
+                    {
+                        db.ResourceTypes_Update(resType.ResourceTypeId, resType.Name);
 
-                    resTypesGrid.ItemsSource = null;
-                    resTypesGrid.ItemsSource = db.ResourceTypes.ToList();
+                        resTypesGrid.ItemsSource = null;
+                        resTypesGrid.ItemsSource = db.ResourceTypes.ToList();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Проверьте введённые значения");
+                    }
                 }
             }
         }

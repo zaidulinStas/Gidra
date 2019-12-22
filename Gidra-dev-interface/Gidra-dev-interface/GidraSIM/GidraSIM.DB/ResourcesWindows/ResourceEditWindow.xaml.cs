@@ -47,6 +47,11 @@ namespace GidraSIM.DB.ResourcesWindows
             if (IsNew)
             {
                 SelectedResourceName = lv_names.SelectedItem as ResourceNames;
+                if (SelectedResourceName == null)
+                {
+                    MessageBox.Show("Выберите имя ресурса");
+                    return;
+                }
                 resource.ResourceNameId = SelectedResourceName.ResourceNameId;
             }
 

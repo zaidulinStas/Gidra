@@ -46,10 +46,17 @@ namespace GidraSIM.DB.BaseProceduresWindows
 
             if (dialog.ShowDialog() == true)
             {
-                db.BaseProcedures_Create(procedure.Name, procedure.DefaultFunctionExpression);
+                try
+                {
+                    db.BaseProcedures_Create(procedure.Name, procedure.DefaultFunctionExpression);
 
-                proceduresGrid.ItemsSource = null;
-                proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                    proceduresGrid.ItemsSource = null;
+                    proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Проверьте введённые значения");
+                }
             }
         }
 
@@ -66,10 +73,17 @@ namespace GidraSIM.DB.BaseProceduresWindows
 
                 if (dialog.ShowDialog() == true)
                 {
-                    db.BaseProcedures_Update(procedure.BaseProcedureId, procedure.Name, procedure.DefaultFunctionExpression);
+                    try
+                    {
+                        db.BaseProcedures_Update(procedure.BaseProcedureId, procedure.Name, procedure.DefaultFunctionExpression);
 
-                    proceduresGrid.ItemsSource = null;
-                    proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                        proceduresGrid.ItemsSource = null;
+                        proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Проверьте введённые значения");
+                    }
                 }
             }
         }

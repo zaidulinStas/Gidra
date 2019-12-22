@@ -48,10 +48,17 @@ namespace GidraSIM.DB
 
             if (dialog.ShowDialog() == true)
             {
-                db.ResourceParameterNames_Create(resParamName.Name, ResourceNames.ResourceNameId);
+                try
+                {
+                    db.ResourceParameterNames_Create(resParamName.Name, ResourceNames.ResourceNameId);
 
-                parametersGrid.ItemsSource = null;
-                parametersGrid.ItemsSource = db.ResourceParameterNames.Where(rp => rp.ResourceNameId == ResourceNames.ResourceNameId).Include(rp => rp.ResourceNames).ToList();
+                    parametersGrid.ItemsSource = null;
+                    parametersGrid.ItemsSource = db.ResourceParameterNames.Where(rp => rp.ResourceNameId == ResourceNames.ResourceNameId).Include(rp => rp.ResourceNames).ToList();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Проверьте введённые значения");
+                }
             }
         }
 
@@ -68,10 +75,17 @@ namespace GidraSIM.DB
 
                 if (dialog.ShowDialog() == true)
                 {
-                    db.ResourceParameterNames_Update(resParamName.ResourceParameterNameId, resParamName.Name);
+                    try
+                    {
+                        db.ResourceParameterNames_Update(resParamName.ResourceParameterNameId, resParamName.Name);
 
-                    parametersGrid.ItemsSource = null;
-                    parametersGrid.ItemsSource = db.ResourceParameterNames.Where(rp => rp.ResourceNameId == ResourceNames.ResourceNameId).Include(rp => rp.ResourceNames).ToList();
+                        parametersGrid.ItemsSource = null;
+                        parametersGrid.ItemsSource = db.ResourceParameterNames.Where(rp => rp.ResourceNameId == ResourceNames.ResourceNameId).Include(rp => rp.ResourceNames).ToList();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Проверьте введённые значения");
+                    }
                 }
             }
         }

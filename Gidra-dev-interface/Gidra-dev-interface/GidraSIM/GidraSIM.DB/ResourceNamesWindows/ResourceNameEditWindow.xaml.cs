@@ -46,6 +46,11 @@ namespace GidraSIM.DB
             if (IsNew)
             {
                 SelectedResourceType = lv_types.SelectedItem as ResourceTypes;
+                if (SelectedResourceType == null)
+                {
+                    MessageBox.Show("Выберите тип ресурса");
+                    return;
+                }
                 resName.ResourceTypeId = SelectedResourceType.ResourceTypeId;
             }
 

@@ -47,10 +47,17 @@ namespace GidraSIM.DB.BaseProcedureParametersNamesWindows
 
             if (dialog.ShowDialog() == true)
             {
-                db.BaseProcedureParameterNames_Create(procParamName.Name, BaseProcedure.BaseProcedureId);
+                try
+                {
+                    db.BaseProcedureParameterNames_Create(procParamName.Name, BaseProcedure.BaseProcedureId);
 
-                parametersGrid.ItemsSource = null;
-                parametersGrid.ItemsSource = db.BaseProcedureParameterNames.Where(p => p.BaseProcedureId == BaseProcedure.BaseProcedureId).ToList();
+                    parametersGrid.ItemsSource = null;
+                    parametersGrid.ItemsSource = db.BaseProcedureParameterNames.Where(p => p.BaseProcedureId == BaseProcedure.BaseProcedureId).ToList();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Проверьте введённые значения");
+                }
             }
         }
 
@@ -67,10 +74,17 @@ namespace GidraSIM.DB.BaseProcedureParametersNamesWindows
 
                 if (dialog.ShowDialog() == true)
                 {
-                    db.BaseProcedureParameterNames_Update(procParamName.BaseProcedureParameterNameId, procParamName.Name);
+                    try
+                    {
+                        db.BaseProcedureParameterNames_Update(procParamName.BaseProcedureParameterNameId, procParamName.Name);
 
-                    parametersGrid.ItemsSource = null;
-                    parametersGrid.ItemsSource = db.BaseProcedureParameterNames.Where(p => p.BaseProcedureId == BaseProcedure.BaseProcedureId).ToList();
+                        parametersGrid.ItemsSource = null;
+                        parametersGrid.ItemsSource = db.BaseProcedureParameterNames.Where(p => p.BaseProcedureId == BaseProcedure.BaseProcedureId).ToList();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Проверьте введённые значения");
+                    }
                 }
             }
         }

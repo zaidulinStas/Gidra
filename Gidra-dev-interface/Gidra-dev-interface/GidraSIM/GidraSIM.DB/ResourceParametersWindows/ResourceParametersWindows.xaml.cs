@@ -65,10 +65,17 @@ namespace GidraSIM.DB.ResourceParametersWindows
 
                 if (dialog.ShowDialog() == true)
                 {
-                    db.ResourceParameters_Update(resParam.ResourceParameterId, resParam.Value);
+                    try
+                    {
+                        db.ResourceParameters_Update(resParam.ResourceParameterId, resParam.Value);
 
-                    parametersGrid.ItemsSource = null;
-                    parametersGrid.ItemsSource = db.ResourceParameters.Where(rp => rp.ResourceId == Resource.ResourceId).Include(rp => rp.Resources).Include(rp => rp.ResourceParameterNames).ToList();
+                        parametersGrid.ItemsSource = null;
+                        parametersGrid.ItemsSource = db.ResourceParameters.Where(rp => rp.ResourceId == Resource.ResourceId).Include(rp => rp.Resources).Include(rp => rp.ResourceParameterNames).ToList();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Проверьте введённые значения");
+                    }
                 }
             }
         }
