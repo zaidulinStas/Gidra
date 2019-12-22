@@ -55,7 +55,7 @@ namespace GidraSIM.GUI
                 {
                     Name = "functionBox",
                     Text = "1",
-                    Width = 200,
+                    Width = 400,
                     Margin = new Thickness(5, 0, 0, 4)
                 };
 
@@ -63,12 +63,12 @@ namespace GidraSIM.GUI
                 inputsCount.Text = "1";
                 inputsCount.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
                 inputsCount.IsReadOnly = true;
-                inputsCount.Width = 200;
+                inputsCount.Width = 400;
                 inputsCount.Margin = new Thickness(5, 0, 0, 4);
 
                 var inputsLabel = new Label();
                 inputsLabel.Content = "Число входов";
-                inputsLabel.Width = 200;
+                inputsLabel.Width = 400;
                 inputsLabel.Margin = new Thickness(0, 0, 0, 2);
                 inputsLabel.FontWeight = FontWeights.Bold;
 
@@ -78,7 +78,7 @@ namespace GidraSIM.GUI
                 var outputsCount = new TextBox();
                 outputsCount.Text = 1.ToString();
                 outputsCount.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
-                outputsCount.Width = 200;
+                outputsCount.Width = 400;
                 outputsCount.Margin = new Thickness(5, 0, 0, 4);
                 outputsCount.TextChanged += (s, e) =>
                 {
@@ -88,7 +88,7 @@ namespace GidraSIM.GUI
 
                 var outputsLabel = new Label();
                 outputsLabel.Content = "Число выходов";
-                outputsLabel.Width = 200;
+                outputsLabel.Width = 400;
                 outputsLabel.Margin = new Thickness(0, 0, 0, 2);
                 outputsLabel.FontWeight = FontWeights.Bold;
 
@@ -101,14 +101,14 @@ namespace GidraSIM.GUI
                 {
                     Name = "functionBox",
                     Text = "1",
-                    Width = 200,
+                    Width = 400,
                     Margin = new Thickness(5, 0, 0, 4)
                 };
 
                 var inputsCount = new TextBox();
                 inputsCount.Text = "1";
                 inputsCount.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
-                inputsCount.Width = 200;
+                inputsCount.Width = 400;
                 inputsCount.Margin = new Thickness(5, 0, 0, 4);
                 inputsCount.TextChanged += (s, e) =>
                 {
@@ -118,7 +118,7 @@ namespace GidraSIM.GUI
 
                 var inputsLabel = new Label();
                 inputsLabel.Content = "Число входов";
-                inputsLabel.Width = 200;
+                inputsLabel.Width = 400;
                 inputsLabel.Margin = new Thickness(0, 0, 0, 2);
                 inputsLabel.FontWeight = FontWeights.Bold;
 
@@ -128,13 +128,13 @@ namespace GidraSIM.GUI
                 var outputsCount = new TextBox();
                 outputsCount.Text = 1.ToString();
                 outputsCount.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
-                outputsCount.Width = 200;
+                outputsCount.Width = 400;
                 outputsCount.IsReadOnly = true;
                 outputsCount.Margin = new Thickness(5, 0, 0, 4);
 
                 var outputsLabel = new Label();
                 outputsLabel.Content = "Число выходов";
-                outputsLabel.Width = 200;
+                outputsLabel.Width = 400;
                 outputsLabel.Margin = new Thickness(0, 0, 0, 2);
                 outputsLabel.FontWeight = FontWeights.Bold;
 
@@ -147,7 +147,10 @@ namespace GidraSIM.GUI
                 {
                     Name = "functionBox",
                     Text = _progressFunction,
-                    Width = 200,
+                    Width = 400,
+                    Height = 150,
+                    TextWrapping = TextWrapping.Wrap,
+                    AcceptsReturn = true,
                     Margin = new Thickness(5, 0, 0, 4)
                 };
 
@@ -155,8 +158,8 @@ namespace GidraSIM.GUI
                 {
                     wrapPanel.Children.Add(new Label
                     {
-                        Content = "Функция",
-                        Width = 200,
+                        Content = "Формула зависимости времени от параметров",
+                        Width = 400,
                         Margin = new Thickness(0, 0, 0, 2),
                         FontWeight = FontWeights.Bold
                     });
@@ -167,13 +170,13 @@ namespace GidraSIM.GUI
                 {
                     var textBox = new TextBox();
                     textBox.Text = string.IsNullOrEmpty(paramsPair.Value.ToString()) ? "0" : paramsPair.Value.ToString();
-                    textBox.Width = 200;
+                    textBox.Width = 400;
                     textBox.Margin = new Thickness(5, 0, 0, 4);
                     textBoxes.Add(paramsPair.Key, textBox);
 
                     var label = new Label();
                     label.Content = paramsPair.Key;
-                    label.Width = 200;
+                    label.Width = 400;
                     label.Margin = new Thickness(0, 0, 0, 2);
                     label.FontWeight = FontWeights.Bold;
 
@@ -190,13 +193,13 @@ namespace GidraSIM.GUI
                 var minQualityTextBox = new TextBox();
                 minQualityTextBox.Text = _minQuality.ToString();
                 minQualityTextBox.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
-                minQualityTextBox.Width = 200;
+                minQualityTextBox.Width = 400;
                 minQualityTextBox.Margin = new Thickness(5, 0, 0, 4);
                 this.minQualityTextBox = minQualityTextBox;
 
                 var minQualityLabel = new Label();
                 minQualityLabel.Content = "Минимальное качество";
-                minQualityLabel.Width = 200;
+                minQualityLabel.Width = 400;
                 minQualityLabel.Margin = new Thickness(0, 0, 0, 2);
                 minQualityLabel.FontWeight = FontWeights.Bold;
 
@@ -205,14 +208,14 @@ namespace GidraSIM.GUI
 
                 var maxQualityTextBox = new TextBox();
                 maxQualityTextBox.Text = _maxQuality.ToString();
-                maxQualityTextBox.Width = 200;
+                maxQualityTextBox.Width = 400;
                 maxQualityTextBox.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
                 maxQualityTextBox.Margin = new Thickness(5, 0, 0, 4);
                 this.maxQualityTextBox = maxQualityTextBox;
 
                 var maxQualityLabel = new Label();
                 maxQualityLabel.Content = "Максимальное качество";
-                maxQualityLabel.Width = 200;
+                maxQualityLabel.Width = 400;
                 maxQualityLabel.Margin = new Thickness(0, 0, 0, 2);
                 maxQualityLabel.FontWeight = FontWeights.Bold;
 

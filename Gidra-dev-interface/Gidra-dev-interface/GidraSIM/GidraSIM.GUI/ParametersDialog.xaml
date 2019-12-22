@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GidraSIM.GUI"
         mc:Ignorable="d"
-        Title="Редактирование параметров" Height="450" Width="340.644">
+        Title="Редактирование параметров" Height="450" Width="500">
     <Grid x:Name="mainGrid">
-        <Button x:Name="save" Content="Сохранить" HorizontalAlignment="Left" Margin="130,380,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
-        <WrapPanel x:Name="wrapPanel" HorizontalAlignment="Left" Height="322" Margin="10,38,0,0" VerticalAlignment="Top" Width="313"/>
-        <TextBlock x:Name="titleBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="303"/>
+        <Button x:Name="save" Content="Сохранить" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="Save_Click"/>
+        <WrapPanel x:Name="wrapPanel" HorizontalAlignment="Center" Margin="10,38,0,0" VerticalAlignment="Stretch"/>
+        <TextBlock x:Name="titleBlock" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="20" Text="TextBlock" VerticalAlignment="Top"/>
     </Grid>
 </Window>
