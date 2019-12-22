@@ -20,7 +20,7 @@ namespace GidraSIM.GUI
                 Cost = 25000,
                 Parameters = new Dictionary<string, double>
                 {
-                    { "Частота работы процессора", 2500 },
+                    { "Частота ЦПУ", 2500 },
                     { "Количество ядер", 2 },
                 }
             });

@@ -481,37 +481,48 @@ namespace GidraSIM.GUI
 
                 var simulator = new Simulator();
 
-                var results = simulator.Simulate(options);
-
-                var successString = results.IsSuccess ? "успешно" : "неудачно";
-                string resultMsg = $"Моделирование завершено {successString}";
-
-                if (results.IsSuccess)
+                try
                 {
-                    resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
+                    var results = simulator.Simulate(options);
 
-                    foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
+                    var successString = results.IsSuccess ? "успешно" : "неудачно";
+                    string resultMsg = $"Моделирование завершено {successString}";
+
+                    if (results.IsSuccess)
                     {
-                        resultMsg += $"{Environment.NewLine}===" +
-                            $"{Environment.NewLine}Процедура: {log.Procedure?.Name}" +
-                            $"{Environment.NewLine}Начало: {log.SimulationResult.StartTime}" +
-                            $"{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}" +
-                            $"{Environment.NewLine}Конец: {log.SimulationResult.EndTime}" +
-                            $"{Environment.NewLine}Входное качество: {(int)(log.SimulationResult.StartQuality * 100.0)}" +
-                            $"{Environment.NewLine}Выходное качество: {(int)(log.SimulationResult.ResultQuality * 100.0)}";
+                        resultMsg += $"{Environment.NewLine}Время моделирования: {results.ModelingTime}";
+
+                        foreach (var log in results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)))
+                        {
+                            resultMsg += $"{Environment.NewLine}===" +
+                                $"{Environment.NewLine}Процедура: {log.Procedure?.Name}" +
+                                $"{Environment.NewLine}Начало: {log.SimulationResult.StartTime}" +
+                                $"{Environment.NewLine}Продолжительность: {log.SimulationResult.Duration}" +
+                                $"{Environment.NewLine}Конец: {log.SimulationResult.EndTime}" +
+                                $"{Environment.NewLine}Входное качество: {(int)(log.SimulationResult.StartQuality * 100.0)}" +
+                                $"{Environment.NewLine}Выходное качество: {(int)(log.SimulationResult.ResultQuality * 100.0)}";
+                        }
+
+                        var resultsWindow = new ResultWindow(
+                            results.ModelingTime.Value,
+                            resources.Select(x => x.ResourceModel.Cost).Sum(),
+                            results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)).ToArray()
+                        );
+                        resultsWindow.Show();
+                    }
+                    else
+                    {
+                        throw new Exception("Моделирование завершено неудачно");
                     }
 
-                    var resultsWindow = new ResultWindow(
-                        results.ModelingTime.Value,
-                        resources.Select(x => x.ResourceModel.Cost).Sum(),
-                        results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)).ToArray()
-                    );
-                    resultsWindow.Show();
+                    listBox1.Items.Clear();
                 }
-
-                listBox1.Items.Clear();
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message);
+                }
             }
-            catch (NotImplementedException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

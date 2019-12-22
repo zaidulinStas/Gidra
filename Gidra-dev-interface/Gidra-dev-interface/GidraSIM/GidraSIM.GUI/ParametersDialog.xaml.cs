@@ -195,6 +195,7 @@ namespace GidraSIM.GUI
                 minQualityTextBox.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
                 minQualityTextBox.Width = 400;
                 minQualityTextBox.Margin = new Thickness(5, 0, 0, 4);
+                minQualityTextBox.Visibility = procedure.BlockName == "Логическое слияние" ? Visibility.Hidden : Visibility.Visible;
                 this.minQualityTextBox = minQualityTextBox;
 
                 var minQualityLabel = new Label();
@@ -202,6 +203,7 @@ namespace GidraSIM.GUI
                 minQualityLabel.Width = 400;
                 minQualityLabel.Margin = new Thickness(0, 0, 0, 2);
                 minQualityLabel.FontWeight = FontWeights.Bold;
+                minQualityLabel.Visibility = procedure.BlockName == "Логическое слияние" ? Visibility.Hidden : Visibility.Visible;
 
                 wrapPanel.Children.Add(minQualityLabel);
                 wrapPanel.Children.Add(minQualityTextBox);
@@ -211,6 +213,7 @@ namespace GidraSIM.GUI
                 maxQualityTextBox.Width = 400;
                 maxQualityTextBox.PreviewTextInput += MinQualityTextBox_PreviewTextInput;
                 maxQualityTextBox.Margin = new Thickness(5, 0, 0, 4);
+                maxQualityTextBox.Visibility = procedure.BlockName == "Логическое разветвление" ? Visibility.Hidden : Visibility.Visible;
                 this.maxQualityTextBox = maxQualityTextBox;
 
                 var maxQualityLabel = new Label();
@@ -218,10 +221,16 @@ namespace GidraSIM.GUI
                 maxQualityLabel.Width = 400;
                 maxQualityLabel.Margin = new Thickness(0, 0, 0, 2);
                 maxQualityLabel.FontWeight = FontWeights.Bold;
+                maxQualityLabel.Visibility = procedure.BlockName == "Логическое разветвление" ? Visibility.Hidden : Visibility.Visible;
 
                 wrapPanel.Children.Add(maxQualityLabel);
                 wrapPanel.Children.Add(maxQualityTextBox);
             }
+
+            /*
+             * У разветвления только Qвх
+             * У слияния только Qвых
+             */
         }
 
         private void MinQualityTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -239,8 +248,8 @@ namespace GidraSIM.GUI
             progressFunction = functionBox.Text;
             if (minQuality.HasValue && maxQuality.HasValue)
             {
-                minQuality = Double.Parse(minQualityTextBox.Text);
-                maxQuality = Double.Parse(maxQualityTextBox.Text);
+                minQuality = Double.Parse(minQualityTextBox.Text.Length > 0 ? minQualityTextBox.Text : "0");
+                maxQuality = Double.Parse(maxQualityTextBox.Text.Length > 0 ? maxQualityTextBox.Text : "0");
             }
             this.DialogResult = true;
         }

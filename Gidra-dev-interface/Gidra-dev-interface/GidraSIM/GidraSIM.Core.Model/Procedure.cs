@@ -84,6 +84,11 @@ namespace GidraSIM.Core.Model
                 }
             }
 
+            if (expression.Contains('[') || expression.Contains(']'))
+            {
+                throw new Exception($"Процедуре {Name} требуется подключение дополнительных ресурсов");
+            }
+
             var qualityIncrement = Convert.ToDouble(new Expression(expression).calculate(), null);
 
             return qualityIncrement >= (_targetQuality - _interQuality);
