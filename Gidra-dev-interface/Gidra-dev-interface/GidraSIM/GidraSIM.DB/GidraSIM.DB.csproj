@@ -385,6 +385,13 @@
       <DependentUpon>SimDB.edmx</DependentUpon>
       <LastGenOutput>SimDB.cs</LastGenOutput>
     </Content>
+    <Content Include="SimSaprNew.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SimSaprNew_log.ldf">
+      <DependentUpon>SimSaprNew.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
