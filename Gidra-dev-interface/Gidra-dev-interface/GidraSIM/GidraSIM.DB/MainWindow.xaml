@@ -5,18 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GidraSIM.DB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="445" Width="416">
+    <Window.Resources>
+        <Style TargetType="Button">
+
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Chrome" BorderBrush="Black" BorderThickness="1" CornerRadius="1" Background="{TemplateBinding Property=Background}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#e6e6e6"></Setter>
+                    <Setter Property="Cursor" Value="Hand"></Setter>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="White"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <GroupBox x:Name="groupBox" Header="Ресурсы" HorizontalAlignment="Left" Height="312" Margin="411,26,0,0" VerticalAlignment="Top" Width="351">
+        <GroupBox x:Name="groupBox" Header="Ресурсы" HorizontalAlignment="Left" Height="154" Margin="29,206,0,0" VerticalAlignment="Top" Width="351">
             <Grid>
-                <Button x:Name="res_names_btn" Content="Имена ресурсов" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="183" Click="res_names_btn_Click"/>
-                <Button x:Name="res_type_btn" Content="Типы ресурсов" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="183" Click="res_type_btn_Click"/>
-                <Button x:Name="res_btn" Content="Ресурсы" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="183" Click="res_btn_Click"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="100*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="res_names_btn" Content="Имена ресурсов" HorizontalAlignment="Left" Margin="32,37,0,0" VerticalAlignment="Top" Width="183" Click="res_names_btn_Click" Grid.Column="1"/>
+                <Button x:Name="res_type_btn" Content="Типы ресурсов" HorizontalAlignment="Left" Margin="32,11,0,0" VerticalAlignment="Top" Width="183" Click="res_type_btn_Click" Grid.Column="1"/>
+                <Button x:Name="res_btn" Content="Ресурсы" HorizontalAlignment="Left" Margin="32,62,0,0" VerticalAlignment="Top" Width="183" Click="res_btn_Click" Grid.Column="1"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBox_Copy" Header="Процедуры" HorizontalAlignment="Left" Height="312" Margin="29,26,0,0" VerticalAlignment="Top" Width="351">
+        <GroupBox x:Name="groupBox_Copy" Header="Процедуры" HorizontalAlignment="Left" Height="154" Margin="29,26,0,0" VerticalAlignment="Top" Width="351">
             <Grid>
-                <Button x:Name="proc_btn" Content="Базовые процедуры" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="183" Click="proc_btn_Click"/>
+                <Button x:Name="proc_btn" Content="Базовые процедуры" HorizontalAlignment="Left" Margin="69,10,0,0" VerticalAlignment="Top" Width="183" Click="proc_btn_Click"/>
             </Grid>
         </GroupBox>
 
