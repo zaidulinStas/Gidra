@@ -90,8 +90,20 @@
     <Compile Include="BaseProcedureParameterNames_Get_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="BaseProcedureParametersNamesWindows\BaseProcedureParameterNameEditWindow.xaml.cs">
+      <DependentUpon>BaseProcedureParameterNameEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseProcedureParametersNamesWindows\BaseProcedureParametersNamesWindow.xaml.cs">
+      <DependentUpon>BaseProcedureParametersNamesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BaseProcedures.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BaseProceduresWindows\BaseProcedureEditWindow.xaml.cs">
+      <DependentUpon>BaseProcedureEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseProceduresWindows\BaseProceduresWindow.xaml.cs">
+      <DependentUpon>BaseProceduresWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseProcedures_GetAll_Result.cs">
       <DependentUpon>SimDB.tt</DependentUpon>
@@ -249,6 +261,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SimDB.edmx</DependentUpon>
     </Compile>
+    <Page Include="BaseProcedureParametersNamesWindows\BaseProcedureParameterNameEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseProcedureParametersNamesWindows\BaseProcedureParametersNamesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseProceduresWindows\BaseProcedureEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseProceduresWindows\BaseProceduresWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

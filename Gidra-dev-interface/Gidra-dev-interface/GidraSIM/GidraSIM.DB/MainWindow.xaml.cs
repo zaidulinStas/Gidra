@@ -1,4 +1,5 @@
-﻿using GidraSIM.DB.ResourcesWindows;
+﻿using GidraSIM.DB.BaseProceduresWindows;
+using GidraSIM.DB.ResourcesWindows;
 using GidraSIM.DB.ResourceTypesWindows;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,12 @@ namespace GidraSIM.DB
         private void res_btn_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ResourcesWindow();
+            dialog.ShowDialog();
+        }
+
+        private void proc_btn_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new BaseProceduresWindow();
             dialog.ShowDialog();
         }
     }

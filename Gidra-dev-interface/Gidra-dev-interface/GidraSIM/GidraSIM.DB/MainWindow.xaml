@@ -7,12 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="button" Content="Имена процедур" HorizontalAlignment="Left" Margin="29,26,0,0" VerticalAlignment="Top" Width="119" Click="button_Click"/>
-        <GroupBox x:Name="groupBox" Header="Ресурсы" HorizontalAlignment="Left" Height="312" Margin="356,26,0,0" VerticalAlignment="Top" Width="406">
+        <GroupBox x:Name="groupBox" Header="Ресурсы" HorizontalAlignment="Left" Height="312" Margin="411,26,0,0" VerticalAlignment="Top" Width="351">
             <Grid>
                 <Button x:Name="res_names_btn" Content="Имена ресурсов" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="183" Click="res_names_btn_Click"/>
                 <Button x:Name="res_type_btn" Content="Типы ресурсов" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="183" Click="res_type_btn_Click"/>
                 <Button x:Name="res_btn" Content="Ресурсы" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Width="183" Click="res_btn_Click"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox_Copy" Header="Процедуры" HorizontalAlignment="Left" Height="312" Margin="29,26,0,0" VerticalAlignment="Top" Width="351">
+            <Grid>
+                <Button x:Name="proc_btn" Content="Базовые процедуры" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="183" Click="proc_btn_Click"/>
             </Grid>
         </GroupBox>
 

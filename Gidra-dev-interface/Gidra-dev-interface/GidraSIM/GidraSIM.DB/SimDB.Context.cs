@@ -14,19 +14,19 @@ namespace GidraSIM.DB
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
-    
+
     public partial class SimSaprNewEntities : DbContext
     {
         public SimSaprNewEntities()
             : base("name=SimSaprNewEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<BaseProcedureParameterNames> BaseProcedureParameterNames { get; set; }
         public virtual DbSet<BaseProcedures> BaseProcedures { get; set; }
         public virtual DbSet<ProcessNames> ProcessNames { get; set; }
@@ -39,681 +39,681 @@ namespace GidraSIM.DB
         public virtual DbSet<Processes> Processes { get; set; }
         public virtual DbSet<ResourceParameters> ResourceParameters { get; set; }
         public virtual DbSet<Resources> Resources { get; set; }
-    
+
         public virtual ObjectResult<Nullable<decimal>> BaseProcedureParameterNames_Create(string name, Nullable<int> baseProcedureId)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var baseProcedureIdParameter = baseProcedureId.HasValue ?
                 new ObjectParameter("BaseProcedureId", baseProcedureId) :
                 new ObjectParameter("BaseProcedureId", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("BaseProcedureParameterNames_Create", nameParameter, baseProcedureIdParameter);
         }
-    
+
         public virtual int BaseProcedureParameterNames_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseProcedureParameterNames_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<BaseProcedureParameterNames_Get_Result> BaseProcedureParameterNames_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BaseProcedureParameterNames_Get_Result>("BaseProcedureParameterNames_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<BaseProcedureParameterNames_GetAll_Result> BaseProcedureParameterNames_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BaseProcedureParameterNames_GetAll_Result>("BaseProcedureParameterNames_GetAll");
         }
-    
+
         public virtual ObjectResult<BaseProcedureParameterNames_GetByProcedureId_Result> BaseProcedureParameterNames_GetByProcedureId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BaseProcedureParameterNames_GetByProcedureId_Result>("BaseProcedureParameterNames_GetByProcedureId", idParameter);
         }
-    
+
         public virtual int BaseProcedureParameterNames_Update(Nullable<int> id, string name)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseProcedureParameterNames_Update", idParameter, nameParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> BaseProcedures_Create(string name, string defaultFunctionExpression)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var defaultFunctionExpressionParameter = defaultFunctionExpression != null ?
                 new ObjectParameter("DefaultFunctionExpression", defaultFunctionExpression) :
                 new ObjectParameter("DefaultFunctionExpression", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("BaseProcedures_Create", nameParameter, defaultFunctionExpressionParameter);
         }
-    
+
         public virtual int BaseProcedures_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseProcedures_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<BaseProcedures_Get_Result> BaseProcedures_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BaseProcedures_Get_Result>("BaseProcedures_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<BaseProcedures_GetAll_Result> BaseProcedures_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BaseProcedures_GetAll_Result>("BaseProcedures_GetAll");
         }
-    
+
         public virtual int BaseProcedures_Update(Nullable<int> id, string name, string defaultFunctionExpression)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var defaultFunctionExpressionParameter = defaultFunctionExpression != null ?
                 new ObjectParameter("DefaultFunctionExpression", defaultFunctionExpression) :
                 new ObjectParameter("DefaultFunctionExpression", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaseProcedures_Update", idParameter, nameParameter, defaultFunctionExpressionParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> ProcessNames_Create(string name)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ProcessNames_Create", nameParameter);
         }
-    
+
         public virtual int ProcessNames_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ProcessNames_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<ProcessNames_Get_Result> ProcessNames_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProcessNames_Get_Result>("ProcessNames_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<ProcessNames_GetAll_Result> ProcessNames_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProcessNames_GetAll_Result>("ProcessNames_GetAll");
         }
-    
+
         public virtual int ProcessNames_Update(Nullable<int> id, string name)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ProcessNames_Update", idParameter, nameParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> ResourceNames_Create(string name, Nullable<int> typeId)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var typeIdParameter = typeId.HasValue ?
                 new ObjectParameter("TypeId", typeId) :
                 new ObjectParameter("TypeId", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ResourceNames_Create", nameParameter, typeIdParameter);
         }
-    
+
         public virtual int ResourceNames_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceNames_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceNames_Get_Result> ResourceNames_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceNames_Get_Result>("ResourceNames_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceNames_GetAll_Result> ResourceNames_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceNames_GetAll_Result>("ResourceNames_GetAll");
         }
-    
+
         public virtual ObjectResult<ResourceNames_GetByResourceTypeId_Result> ResourceNames_GetByResourceTypeId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceNames_GetByResourceTypeId_Result>("ResourceNames_GetByResourceTypeId", idParameter);
         }
-    
+
         public virtual int ResourceNames_Update(Nullable<int> id, string name)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceNames_Update", idParameter, nameParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> ResourceParameterNames_Create(string name, Nullable<int> resourceNameId)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var resourceNameIdParameter = resourceNameId.HasValue ?
                 new ObjectParameter("ResourceNameId", resourceNameId) :
                 new ObjectParameter("ResourceNameId", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ResourceParameterNames_Create", nameParameter, resourceNameIdParameter);
         }
-    
+
         public virtual int ResourceParameterNames_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceParameterNames_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceParameterNames_Get_Result> ResourceParameterNames_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceParameterNames_Get_Result>("ResourceParameterNames_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceParameterNames_GetAll_Result> ResourceParameterNames_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceParameterNames_GetAll_Result>("ResourceParameterNames_GetAll");
         }
-    
+
         public virtual ObjectResult<ResourceParameterNames_GetByResourceId_Result> ResourceParameterNames_GetByResourceId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceParameterNames_GetByResourceId_Result>("ResourceParameterNames_GetByResourceId", idParameter);
         }
-    
+
         public virtual int ResourceParameterNames_Update(Nullable<int> id, string name)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceParameterNames_Update", idParameter, nameParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> ResourceTypes_Create(string name)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ResourceTypes_Create", nameParameter);
         }
-    
+
         public virtual int ResourceTypes_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceTypes_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceTypes_Get_Result> ResourceTypes_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceTypes_Get_Result>("ResourceTypes_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceTypes_GetAll_Result> ResourceTypes_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceTypes_GetAll_Result>("ResourceTypes_GetAll");
         }
-    
+
         public virtual int ResourceTypes_Update(Nullable<int> id, string name)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceTypes_Update", idParameter, nameParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> Procedures_Create(Nullable<int> baseProcedureId, string functionExpression, string name, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
         {
             var baseProcedureIdParameter = baseProcedureId.HasValue ?
                 new ObjectParameter("BaseProcedureId", baseProcedureId) :
                 new ObjectParameter("BaseProcedureId", typeof(int));
-    
+
             var functionExpressionParameter = functionExpression != null ?
                 new ObjectParameter("FunctionExpression", functionExpression) :
                 new ObjectParameter("FunctionExpression", typeof(string));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var totalTimeParameter = totalTime.HasValue ?
                 new ObjectParameter("TotalTime", totalTime) :
                 new ObjectParameter("TotalTime", typeof(System.DateTime));
-    
+
             var totalPriceParameter = totalPrice.HasValue ?
                 new ObjectParameter("TotalPrice", totalPrice) :
                 new ObjectParameter("TotalPrice", typeof(decimal));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Procedures_Create", baseProcedureIdParameter, functionExpressionParameter, nameParameter, totalTimeParameter, totalPriceParameter);
         }
-    
+
         public virtual int Procedures_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Procedures_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<Procedures_Get_Result> Procedures_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_Get_Result>("Procedures_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<Procedures_GetAll_Result> Procedures_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_GetAll_Result>("Procedures_GetAll");
         }
-    
+
         public virtual ObjectResult<Procedures_GetByProcessId_Result> Procedures_GetByProcessId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Procedures_GetByProcessId_Result>("Procedures_GetByProcessId", idParameter);
         }
-    
+
         public virtual int Procedures_Update(Nullable<int> id, string functionExpression, string name, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var functionExpressionParameter = functionExpression != null ?
                 new ObjectParameter("FunctionExpression", functionExpression) :
                 new ObjectParameter("FunctionExpression", typeof(string));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var totalTimeParameter = totalTime.HasValue ?
                 new ObjectParameter("TotalTime", totalTime) :
                 new ObjectParameter("TotalTime", typeof(System.DateTime));
-    
+
             var totalPriceParameter = totalPrice.HasValue ?
                 new ObjectParameter("TotalPrice", totalPrice) :
                 new ObjectParameter("TotalPrice", typeof(decimal));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Procedures_Update", idParameter, functionExpressionParameter, nameParameter, totalTimeParameter, totalPriceParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> ProceduresParameters_Create(Nullable<int> baseProcedureParameterNameId, Nullable<int> procedureId, Nullable<double> value)
         {
             var baseProcedureParameterNameIdParameter = baseProcedureParameterNameId.HasValue ?
                 new ObjectParameter("BaseProcedureParameterNameId", baseProcedureParameterNameId) :
                 new ObjectParameter("BaseProcedureParameterNameId", typeof(int));
-    
+
             var procedureIdParameter = procedureId.HasValue ?
                 new ObjectParameter("ProcedureId", procedureId) :
                 new ObjectParameter("ProcedureId", typeof(int));
-    
+
             var valueParameter = value.HasValue ?
                 new ObjectParameter("Value", value) :
                 new ObjectParameter("Value", typeof(double));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ProceduresParameters_Create", baseProcedureParameterNameIdParameter, procedureIdParameter, valueParameter);
         }
-    
+
         public virtual int ProceduresParameters_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ProceduresParameters_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<ProceduresParameters_Get_Result> ProceduresParameters_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProceduresParameters_Get_Result>("ProceduresParameters_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<ProceduresParameters_GetAll_Result> ProceduresParameters_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProceduresParameters_GetAll_Result>("ProceduresParameters_GetAll");
         }
-    
+
         public virtual ObjectResult<ProceduresParameters_GetByProcessId_Result> ProceduresParameters_GetByProcessId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProceduresParameters_GetByProcessId_Result>("ProceduresParameters_GetByProcessId", idParameter);
         }
-    
+
         public virtual int ProceduresParameters_Update(Nullable<int> id, Nullable<double> value)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var valueParameter = value.HasValue ?
                 new ObjectParameter("Value", value) :
                 new ObjectParameter("Value", typeof(double));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ProceduresParameters_Update", idParameter, valueParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> ProceduresResources_Create(Nullable<int> resourceId, Nullable<int> procedureId)
         {
             var resourceIdParameter = resourceId.HasValue ?
                 new ObjectParameter("ResourceId", resourceId) :
                 new ObjectParameter("ResourceId", typeof(int));
-    
+
             var procedureIdParameter = procedureId.HasValue ?
                 new ObjectParameter("ProcedureId", procedureId) :
                 new ObjectParameter("ProcedureId", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ProceduresResources_Create", resourceIdParameter, procedureIdParameter);
         }
-    
+
         public virtual int ProceduresResources_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ProceduresResources_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<ProceduresResources_GetByProcedureId_Result> ProceduresResources_GetByProcedureId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProceduresResources_GetByProcedureId_Result>("ProceduresResources_GetByProcedureId", idParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> Processes_Create(Nullable<int> processNameId, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
         {
             var processNameIdParameter = processNameId.HasValue ?
                 new ObjectParameter("ProcessNameId", processNameId) :
                 new ObjectParameter("ProcessNameId", typeof(int));
-    
+
             var totalTimeParameter = totalTime.HasValue ?
                 new ObjectParameter("TotalTime", totalTime) :
                 new ObjectParameter("TotalTime", typeof(System.DateTime));
-    
+
             var totalPriceParameter = totalPrice.HasValue ?
                 new ObjectParameter("TotalPrice", totalPrice) :
                 new ObjectParameter("TotalPrice", typeof(decimal));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Processes_Create", processNameIdParameter, totalTimeParameter, totalPriceParameter);
         }
-    
+
         public virtual int Processes_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Processes_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<Processes_Get_Result> Processes_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Processes_Get_Result>("Processes_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<Processes_GetAll_Result> Processes_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Processes_GetAll_Result>("Processes_GetAll");
         }
-    
+
         public virtual int Processes_Update(Nullable<int> id, Nullable<System.DateTime> totalTime, Nullable<decimal> totalPrice)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var totalTimeParameter = totalTime.HasValue ?
                 new ObjectParameter("TotalTime", totalTime) :
                 new ObjectParameter("TotalTime", typeof(System.DateTime));
-    
+
             var totalPriceParameter = totalPrice.HasValue ?
                 new ObjectParameter("TotalPrice", totalPrice) :
                 new ObjectParameter("TotalPrice", typeof(decimal));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Processes_Update", idParameter, totalTimeParameter, totalPriceParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> ResourceParameters_Create(Nullable<int> resourceParameterNameId, Nullable<int> resourceId, Nullable<double> value)
         {
             var resourceParameterNameIdParameter = resourceParameterNameId.HasValue ?
                 new ObjectParameter("ResourceParameterNameId", resourceParameterNameId) :
                 new ObjectParameter("ResourceParameterNameId", typeof(int));
-    
+
             var resourceIdParameter = resourceId.HasValue ?
                 new ObjectParameter("ResourceId", resourceId) :
                 new ObjectParameter("ResourceId", typeof(int));
-    
+
             var valueParameter = value.HasValue ?
                 new ObjectParameter("Value", value) :
                 new ObjectParameter("Value", typeof(double));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("ResourceParameters_Create", resourceParameterNameIdParameter, resourceIdParameter, valueParameter);
         }
-    
+
         public virtual int ResourceParameters_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceParameters_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceParameters_Get_Result> ResourceParameters_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceParameters_Get_Result>("ResourceParameters_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<ResourceParameters_GetAll_Result> ResourceParameters_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceParameters_GetAll_Result>("ResourceParameters_GetAll");
         }
-    
+
         public virtual ObjectResult<ResourceParameters_GetByResourceId_Result> ResourceParameters_GetByResourceId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ResourceParameters_GetByResourceId_Result>("ResourceParameters_GetByResourceId", idParameter);
         }
-    
+
         public virtual int ResourceParameters_Update(Nullable<int> id, Nullable<double> value)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var valueParameter = value.HasValue ?
                 new ObjectParameter("Value", value) :
                 new ObjectParameter("Value", typeof(double));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResourceParameters_Update", idParameter, valueParameter);
         }
-    
+
         public virtual ObjectResult<Nullable<decimal>> Resources_Create(Nullable<int> resourceNameId, string name, Nullable<decimal> price)
         {
             var resourceNameIdParameter = resourceNameId.HasValue ?
                 new ObjectParameter("ResourceNameId", resourceNameId) :
                 new ObjectParameter("ResourceNameId", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var priceParameter = price.HasValue ?
                 new ObjectParameter("Price", price) :
                 new ObjectParameter("Price", typeof(decimal));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Resources_Create", resourceNameIdParameter, nameParameter, priceParameter);
         }
-    
+
         public virtual int Resources_Delete(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Resources_Delete", idParameter);
         }
-    
+
         public virtual ObjectResult<Resources_Get_Result> Resources_Get(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Resources_Get_Result>("Resources_Get", idParameter);
         }
-    
+
         public virtual ObjectResult<Resources_GetAll_Result> Resources_GetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Resources_GetAll_Result>("Resources_GetAll");
         }
-    
+
         public virtual ObjectResult<Resources_GetByProcedureId_Result> Resources_GetByProcedureId(Nullable<int> id)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Resources_GetByProcedureId_Result>("Resources_GetByProcedureId", idParameter);
         }
-    
+
         public virtual int Resources_Update(Nullable<int> id, string name, Nullable<decimal> price)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
                 new ObjectParameter("Id", typeof(int));
-    
+
             var nameParameter = name != null ?
                 new ObjectParameter("Name", name) :
                 new ObjectParameter("Name", typeof(string));
-    
+
             var priceParameter = price.HasValue ?
                 new ObjectParameter("Price", price) :
                 new ObjectParameter("Price", typeof(decimal));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Resources_Update", idParameter, nameParameter, priceParameter);
         }
     }
