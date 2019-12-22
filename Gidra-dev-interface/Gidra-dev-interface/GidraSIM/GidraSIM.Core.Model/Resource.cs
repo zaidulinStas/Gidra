@@ -51,10 +51,10 @@ namespace GidraSIM.Core.Model
         /// </summary>
         public void Use()
         {
-            if (!IsFree)
-            {
-                throw new InvalidOperationException("Ресурс занят");
-            }
+            //if (!IsFree)
+            //{
+            //    throw new InvalidOperationException("Ресурс занят");
+            //}
 
             CurUsageCount++;
         }
@@ -64,10 +64,10 @@ namespace GidraSIM.Core.Model
         /// </summary>
         public void Release()
         {
-            if (CurUsageCount <= 0)
-            {
-                throw new InvalidOperationException("Ресурс свободен");
-            }
+            //if (CurUsageCount <= 0)
+            //{
+            //    throw new InvalidOperationException("Ресурс свободен");
+            //}
 
             CurUsageCount--;
         }

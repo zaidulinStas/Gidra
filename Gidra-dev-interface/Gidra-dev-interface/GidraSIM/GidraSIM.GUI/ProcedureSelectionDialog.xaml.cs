@@ -24,7 +24,7 @@ namespace GidraSIM.GUI
                     {
                         { "Объем данных", 10 },
                     },
-                    ProgressFunction = "[x]/([Объем данных]*100)",
+                    ProgressFunction = "[x]/([Объем данных]*100-[Проектировщик.Объем знаний]/10)",
                 },
                 new Procedure()
                 {
@@ -41,8 +41,38 @@ namespace GidraSIM.GUI
                     Parameters = new Dictionary<string, double>
                     {
                         { "Число элементов", 30 },
+                        { "Число связей", 30 },
                     },
-                    ProgressFunction = "[x]/([Число элементов]*200-[Компьютер.Частота процессора]/2000*10-[Компьютер.RAM]*10)"
+                    ProgressFunction = "[x]/([Число элементов]*200-[Компьютер.Частота процессора]/200-[Компьютер.RAM]*10)"
+                },
+                new Procedure()
+                {
+                    Name = "Трассировка",
+                    Parameters = new Dictionary<string, double>
+                    {
+                        { "Число элементов", 30 },
+                        { "Число связей", 30 },
+                    },
+                    ProgressFunction = "[x]/(([Число элементов] + [Число связей])*200-[Компьютер.Частота процессора]/200-[Компьютер.RAM]*10-[Проектировщик.Опыт работы]/10)"
+                },
+                new Procedure()
+                {
+                    Name = "Размещение",
+                    Parameters = new Dictionary<string, double>
+                    {
+                        { "Число элементов", 30 },
+                        { "Число связей", 30 },
+                    },
+                    ProgressFunction = "[x]/(([Число элементов] + [Число связей])*200-[Компьютер.Частота процессора]/200-[Компьютер.RAM]*10-[Проектировщик.Опыт работы]/10)"
+                },
+                new Procedure()
+                {
+                    Name = "Подготовка документации",
+                    Parameters = new Dictionary<string, double>
+                    {
+                        { "Объем докуменации", 100 },
+                    },
+                    ProgressFunction = "[x]/([Объем докуменации]*100-[Принтер.Скорость печати])"
                 },
                 new OneToManyProcedure()
                 {
