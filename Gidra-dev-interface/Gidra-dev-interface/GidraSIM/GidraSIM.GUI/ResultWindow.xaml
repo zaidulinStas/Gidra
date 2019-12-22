@@ -3,59 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GidraSIM.GUI"
         mc:Ignorable="d"
-        Title="Результаты моделирования"  SizeToContent="WidthAndHeight" Width="481.132" >
-
-    <Grid >
-        <Grid.RowDefinitions >
-            <RowDefinition Height="auto"/>
+        Title="Результаты моделирования"  SizeToContent="WidthAndHeight" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto" MinHeight="51" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel  Orientation="Vertical" Margin="10,10,10,10" Grid.Row="0">
-            <TextBlock>
-            Сложность
-            </TextBlock>
-            <TextBlock Name="Complexity"></TextBlock>
-            <Separator></Separator>
+        <StackPanel  Orientation="Vertical" Margin="10" Grid.Row="0">
             <TextBlock>
             Общее время
             </TextBlock>
-            <TextBlock Name="SummaryTime"></TextBlock>
+            <TextBlock Text="{Binding TotalTime}"/>
             <Separator></Separator>
             <TextBlock>
-            Задержки в ходе выполнения
+            Общая стоимость ресурсов
             </TextBlock>
-            <TextBlock Name="WastedTime"></TextBlock>
+            <TextBlock Text="{Binding TotalCost}"></TextBlock>
             <Separator></Separator>
-            <TextBlock>
-            Общее время без задержек
-            </TextBlock>
-            <TextBlock Name="EffectiveTime"></TextBlock>
-            <Separator></Separator>
-            <TextBlock>
-            Задачи
-            </TextBlock>
-
         </StackPanel>
-        <StackPanel  Grid.Row="1" Orientation="Horizontal">
-            <DataGrid Name="Tokens" Margin="5,5,5,5">
-                <DataGrid.Columns>
-                    <!--<DataGridTextColumn Header="Название" Binding="{Binding Path=ProcessedByBlock.Description}"/>
-                    <DataGridTextColumn Header="Создан" Binding="{Binding Path=BornTime}"/>
-                    <DataGridTextColumn Header="Из" Binding="{Binding Path=Parent.Description}"/>
-                    <DataGridTextColumn Header="Начало" Binding="{Binding Path=ProcessStartTime}"/>
-                    <DataGridTextColumn Header="Конец" Binding="{Binding Path=ProcessEndTime}"/>-->
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <DataGrid Name="Accidents" Margin="5,5,5,5">
-                <DataGrid.Columns>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
-        <Button x:Name="button1" Click="Button_Click"  Margin="5,5,5,5" Grid.Row="2">OK</Button>
+        <DataGrid Name="Accidents" Margin="10" Grid.Row="1" ItemsSource="{Binding Logs}"  AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Процедура" Binding="{Binding Procedure.Name}"/>
+                <DataGridTextColumn Header="Начало" Binding="{Binding SimulationResult.StartTime}"/>
+                <DataGridTextColumn Header="Конец" Binding="{Binding SimulationResult.EndTime}"/>
+                <DataGridTextColumn Header="Продолжительность" Binding="{Binding SimulationResult.Duration}"/>
+                <DataGridTextColumn Header="Входное качество" Binding="{Binding SimulationResult.StartQuality}"/>
+                <DataGridTextColumn Header="Выходное качество" Binding="{Binding SimulationResult.ResultQuality}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="button1" Click="Button_Click"  Margin="10" Grid.Row="2">OK</Button>
     </Grid>
 </Window>

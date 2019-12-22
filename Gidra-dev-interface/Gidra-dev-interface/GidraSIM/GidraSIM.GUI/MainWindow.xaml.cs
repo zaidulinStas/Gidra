@@ -500,9 +500,14 @@ namespace GidraSIM.GUI
                             $"{Environment.NewLine}Входное качество: {(int)(log.SimulationResult.StartQuality * 100.0)}" +
                             $"{Environment.NewLine}Выходное качество: {(int)(log.SimulationResult.ResultQuality * 100.0)}";
                     }
-                }
 
-                MessageBox.Show(resultMsg);
+                    var resultsWindow = new ResultWindow(
+                        results.ModelingTime.Value,
+                        resources.Select(x => x.ResourceModel.Cost).Sum(),
+                        results.Logs.Where(log => !string.IsNullOrEmpty(log.Procedure.Name)).ToArray()
+                    );
+                    resultsWindow.Show();
+                }
 
                 listBox1.Items.Clear();
             }
