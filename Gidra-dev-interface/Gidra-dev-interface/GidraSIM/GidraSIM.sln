@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GidraSIM.Core.Model", "GidraSIM.Core.Model\GidraSIM.Core.Model.csproj", "{49F3EF53-5534-4D59-ACF3-D2C50D83CCE8}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GidraSIM.ServiceLayer", "GidraSIM.ServiceLayer\GidraSIM.ServiceLayer.csproj", "{69B2F717-CAF5-4DEE-9A5B-36DB80AFC24E}"
 EndProject
 Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "SetupProject", "SetupProject\SetupProject.aiproj", "{A207E3AF-3835-4E1F-ACFB-E129FEFA1AA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GidraSIM.DB", "GidraSIM.DB\GidraSIM.DB.csproj", "{9E9557DF-205C-45BD-AF8F-71E58356AC0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +135,18 @@ Global
 		{A207E3AF-3835-4E1F-ACFB-E129FEFA1AA3}.Release|Any CPU.Build.0 = DefaultBuild
 		{A207E3AF-3835-4E1F-ACFB-E129FEFA1AA3}.Release|x86.ActiveCfg = DefaultBuild
 		{A207E3AF-3835-4E1F-ACFB-E129FEFA1AA3}.Release|x86.Build.0 = DefaultBuild
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.All|Any CPU.Build.0 = Release|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.All|x86.ActiveCfg = Release|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.All|x86.Build.0 = Release|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Debug|x86.Build.0 = Debug|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Release|x86.ActiveCfg = Release|Any CPU
+		{9E9557DF-205C-45BD-AF8F-71E58356AC0F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
