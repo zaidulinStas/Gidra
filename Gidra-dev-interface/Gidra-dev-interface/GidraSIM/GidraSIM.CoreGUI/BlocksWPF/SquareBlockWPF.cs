@@ -13,9 +13,9 @@ namespace GidraSIM.GUI.Core.BlocksWPF
     public abstract class SquareBlockWPF : BlockWPF
     {
         // Константные параметры блока
-        public const int DEFAULT_HEIGHT = 60;
-        public const int DEFAULT_WIDTH = 100;
-        public const int RADIUS = 10;
+        public const int DEFAULT_HEIGHT = 70;
+        public const int DEFAULT_WIDTH = 150;
+        public const int RADIUS = 5;
 
         protected const int TEXT_WIDTH = 90;
         protected const int TEXT_LEFT = 5;
@@ -68,16 +68,29 @@ namespace GidraSIM.GUI.Core.BlocksWPF
 
         protected virtual void MakeTitle(string processName)
         {
+            Border container = new Border();
+            container.Width = DEFAULT_WIDTH;
+            container.Height = DEFAULT_HEIGHT;
+            container.Padding = new Thickness(4);
+            container.BorderBrush = Brushes.Transparent;
+
             // подпись
             TextBlock processNameLabel = new TextBlock();
             processNameLabel.Text = processName;
             processNameLabel.TextWrapping = TextWrapping.Wrap;
-            processNameLabel.Width = TEXT_WIDTH;
+            // processNameLabel.Width = DEFAULT_WIDTH;
+            // processNameLabel.Height = DEFAULT_HEIGHT;
+            processNameLabel.TextAlignment = TextAlignment.Center;
+            processNameLabel.VerticalAlignment = VerticalAlignment.Center;
+            processNameLabel.HorizontalAlignment = HorizontalAlignment.Stretch;
+            processNameLabel.FontSize = 14;
+
+            container.Child = processNameLabel;
             // позиция
-            Canvas.SetTop(processNameLabel, TEXT_TOP);
-            Canvas.SetLeft(processNameLabel, TEXT_LEFT);
+            // Canvas.SetTop(processNameLabel, TEXT_TOP);
+            // Canvas.SetLeft(processNameLabel, TEXT_LEFT);
             // добавление
-            this.Children.Add(processNameLabel);
+            this.Children.Add(container);
         }
 
         /// <summary>

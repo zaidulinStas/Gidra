@@ -10,7 +10,7 @@ namespace GidraSIM.GUI.Core.BlocksWPF
     [DataContract]
     public class ProcedureWPF : SquareBlockWPF
     {
-        public const int POINT_MARGIN = 7;
+        public const int POINT_MARGIN = 10;
 
         //public int InputCount { get; set; } = 1;
         //public int OutputCount { get; set; } = 1;

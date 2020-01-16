@@ -8,7 +8,7 @@ namespace GidraSIM.GUI.Core.BlocksWPF
 {
     public class ResourceWPF : SquareBlockWPF
     {
-        private const int IMG_SIZE = 30;
+        private const int IMG_SIZE = 25;
         private const int IMG_LEFT = 3;
         private const int IMG_TOP = 27;
         private const string IMG_SOURCE = "pack://application:,,,//Image//Resourse.png";
@@ -59,13 +59,13 @@ namespace GidraSIM.GUI.Core.BlocksWPF
             icon.Text = "⚙";
             icon.TextWrapping = TextWrapping.Wrap;
             icon.Foreground = Foreground;
-            icon.FontSize = IMG_SIZE * 2 / 3;
+            icon.FontSize = IMG_SIZE * 1.5 / 3;
             icon.Width = IMG_SIZE;
             icon.Height = IMG_SIZE;
             icon.HorizontalAlignment = HorizontalAlignment.Center;
             icon.VerticalAlignment = VerticalAlignment.Center;
-            Canvas.SetTop(icon, IMG_TOP);
-            Canvas.SetLeft(icon, IMG_LEFT);
+            Canvas.SetTop(icon, 4);
+            Canvas.SetLeft(icon, 4);
             this.Children.Add(icon);
         }
 
