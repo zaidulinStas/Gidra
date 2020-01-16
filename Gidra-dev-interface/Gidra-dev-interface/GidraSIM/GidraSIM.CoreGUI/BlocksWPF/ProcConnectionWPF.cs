@@ -115,12 +115,28 @@ namespace GidraSIM.GUI.Core.BlocksWPF
 
             if (startPoint.X <= endPoint.X)
             {
+                var deltaX = endPoint.X - startPoint.X;
+                var deltaY = endPoint.Y - startPoint.Y;
+
                 result.Add(
-                    new BezierSegment(
-                        new Point(endPoint.X, startPoint.Y),
-                        new Point(startPoint.X, endPoint.Y),
-                        new Point(endPoint.X, endPoint.Y),
+                    new LineSegment(
+                        new Point(startPoint.X + dX - R, startPoint.Y),
                         true));
+
+                result.Add(
+                    new LineSegment(
+                        new Point(startPoint.X + deltaX / 2.0, startPoint.Y),
+                        true));
+
+                result.Add(
+                    new LineSegment(
+                        new Point(endPoint.X - deltaX / 2.0, endPoint.Y),
+                        true));
+
+                result.Add(
+                     new LineSegment(
+                         new Point(endPoint.X - dX + R, endPoint.Y),
+                         true));
             }
             else
             {
@@ -131,48 +147,17 @@ namespace GidraSIM.GUI.Core.BlocksWPF
                         new Point(startPoint.X + dX - R, startPoint.Y), 
                         true));
                 result.Add(
-                    new ArcSegment(
-                        new Point(startPoint.X + dX, startPoint.Y - R),
-                        new Size(R, R),
-                        0,
-                        false,
-                        SweepDirection.Counterclockwise,
-                        true));
-                result.Add(
                     new LineSegment(
-                        new Point(startPoint.X + dX , minY - dY + R),
-                        true));
-                result.Add(
-                    new ArcSegment(
                         new Point(startPoint.X + dX - R, minY - dY),
-                        new Size(R, R),
-                        0,
-                        false,
-                        SweepDirection.Counterclockwise,
                         true));
                 result.Add(
                     new LineSegment(
-                        new Point(endPoint.X - dX + R, minY - dY),
+                        new Point(endPoint.X - dX - R, minY - dY),
                         true));
-                result.Add(
-                    new ArcSegment(
-                        new Point(endPoint.X - dX, minY - dY + R),
-                        new Size(R, R),
-                        0,
-                        false,
-                        SweepDirection.Counterclockwise,
-                        true));
+
                 result.Add(
                     new LineSegment(
-                        new Point(endPoint.X - dX, endPoint.Y - R),
-                        true));
-                result.Add(
-                    new ArcSegment(
-                        new Point(endPoint.X - dX + R, endPoint.Y),
-                        new Size(R, R),
-                        0,
-                        false,
-                        SweepDirection.Counterclockwise,
+                        new Point(endPoint.X - dX - R, endPoint.Y),
                         true));
                 result.Add(
                     new LineSegment(
