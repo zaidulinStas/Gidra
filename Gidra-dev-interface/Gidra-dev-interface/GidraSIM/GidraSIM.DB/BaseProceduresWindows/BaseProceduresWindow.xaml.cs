@@ -48,10 +48,13 @@ namespace GidraSIM.DB.BaseProceduresWindows
             {
                 try
                 {
-                    db.BaseProcedures_Create(procedure.Name, procedure.DefaultFunctionExpression);
+                    using (db = new SimSaprNewEntities())
+                    {
+                        db.BaseProcedures_Create(procedure.Name, procedure.DefaultFunctionExpression);
 
-                    proceduresGrid.ItemsSource = null;
-                    proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                        proceduresGrid.ItemsSource = null;
+                        proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                    }
                 }
                 catch (Exception)
                 {
@@ -75,10 +78,14 @@ namespace GidraSIM.DB.BaseProceduresWindows
                 {
                     try
                     {
-                        db.BaseProcedures_Update(procedure.BaseProcedureId, procedure.Name, procedure.DefaultFunctionExpression);
+                        using (db = new SimSaprNewEntities())
+                        {
+                            db.BaseProcedures_Update(procedure.BaseProcedureId, procedure.Name,
+                                procedure.DefaultFunctionExpression);
 
-                        proceduresGrid.ItemsSource = null;
-                        proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                            proceduresGrid.ItemsSource = null;
+                            proceduresGrid.ItemsSource = db.BaseProcedures.ToList();
+                        }
                     }
                     catch (Exception)
                     {
@@ -96,6 +103,17 @@ namespace GidraSIM.DB.BaseProceduresWindows
 
                 if (procedure == null)
                     return;
+
+                var paramNames =
+                    db.BaseProcedureParameterNames.Where(p => p.BaseProcedureId == procedure.BaseProcedureId).ToList();
+
+                if (paramNames.Count > 0)
+                {
+                    MessageBox.Show("Нельзя удалить процедуру, т.к. у неё есть параметры!");
+                    return;
+                }
+
+                db.BaseProcedureParameterNames.RemoveRange(paramNames);
 
                 db.BaseProcedures_Delete(procedure.BaseProcedureId);
                 proceduresGrid.ItemsSource = null;

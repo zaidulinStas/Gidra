@@ -99,6 +99,15 @@ namespace GidraSIM.DB
                 if (resName == null)
                     return;
 
+                var resources =
+                    db.Resources.Where(p => p.ResourceNameId == resName.ResourceNameId).ToList();
+
+                if (resources.Count > 0)
+                {
+                    MessageBox.Show("Нельзя удалить имя ресурса, т.к. существуют ресурсы, ссылающиеся на него!");
+                    return;
+                }
+
                 db.ResourceNames_Delete(resName.ResourceNameId);
                 resourcesGrid.ItemsSource = null;
                 resourcesGrid.ItemsSource = db.ResourceNames.ToList();
