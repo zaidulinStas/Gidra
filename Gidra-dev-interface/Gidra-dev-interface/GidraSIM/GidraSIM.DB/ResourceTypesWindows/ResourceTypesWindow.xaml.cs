@@ -96,6 +96,15 @@ namespace GidraSIM.DB.ResourceTypesWindows
                 if (resType == null)
                     return;
 
+                var resourceNames =
+                    db.ResourceNames.Where(p => p.ResourceTypeId == resType.ResourceTypeId).ToList();
+
+                if (resourceNames.Count > 0)
+                {
+                    MessageBox.Show("Нельзя удалить тип ресурса, т.к. существуют имена ресурсов, ссылающиеся на него!");
+                    return;
+                }
+
                 db.ResourceTypes_Delete(resType.ResourceTypeId);
                 resTypesGrid.ItemsSource = null;
                 resTypesGrid.ItemsSource = db.ResourceTypes.ToList();

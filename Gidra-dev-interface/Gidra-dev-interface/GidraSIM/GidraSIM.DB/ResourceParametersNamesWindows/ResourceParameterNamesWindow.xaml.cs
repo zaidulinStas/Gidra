@@ -99,6 +99,15 @@ namespace GidraSIM.DB
                 if (resParamName == null)
                     return;
 
+                var resourceParams =
+                    db.ResourceParameters.Where(p => p.ResourceParameterNameId == resParamName.ResourceParameterNameId).ToList();
+
+                if (resourceParams.Count > 0)
+                {
+                    MessageBox.Show("Нельзя удалить имя параметра, т.к. существует ресурс с параметром, ссылающимся на него!");
+                    return;
+                }
+
                 db.ResourceParameterNames_Delete(resParamName.ResourceParameterNameId);
                 parametersGrid.ItemsSource = null;
                 parametersGrid.ItemsSource = db.ResourceParameterNames.Where(rp => rp.ResourceNameId == ResourceNames.ResourceNameId).Include(rp => rp.ResourceNames).ToList();
