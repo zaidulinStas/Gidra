@@ -102,6 +102,11 @@ namespace GidraSIM.DB.ResourcesWindows
                 if (resource == null)
                     return;
 
+                var resourceParams =
+                    db.ResourceParameters.Where(p => p.ResourceId == resource.ResourceId).ToList();
+
+                db.ResourceParameters.RemoveRange(resourceParams);
+
                 db.Resources_Delete(resource.ResourceNameId);
                 resourcesGrid.ItemsSource = null;
                 resourcesGrid.ItemsSource = db.Resources.Include(r => r.ResourceNames).ToList();
